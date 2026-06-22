@@ -77,8 +77,13 @@ deploy_k8s() {
         kubectl create namespace "$ns" --dry-run=client -o yaml | kubectl apply -f -
     done
 
+    # Install OpenTelemetry CRDs before applying operator resources
+    if [ -f k8s/crds/opentelemetrycollector-crd.yaml ]; then
+        kubectl apply -f k8s/crds/opentelemetrycollector-crd.yaml
+    fi
+
     # Deploy infrastructure
-    kubectl apply -f k8s/infrastructure-namespace -R
+    kubectl apply -k k8s/infrastructure-namespace
 
     # Deploy security
     kubectl apply -f k8s/security-namespace -R

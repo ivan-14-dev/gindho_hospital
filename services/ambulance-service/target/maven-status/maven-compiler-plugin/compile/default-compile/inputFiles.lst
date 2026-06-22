@@ -1,0 +1,8 @@
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ambulance-service/src/main/java/com/gindho/AmbulanceServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ambulance-service/src/main/java/com/gindho/ambulance/controller/AmbulanceController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ambulance-service/src/main/java/com/gindho/ambulance/controller/AmbulancePositionController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ambulance-service/src/main/java/com/gindho/ambulance/model/Ambulance.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ambulance-service/src/main/java/com/gindho/ambulance/model/MissionAmbulance.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ambulance-service/src/main/java/com/gindho/ambulance/repository/AmbulanceRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ambulance-service/src/main/java/com/gindho/ambulance/repository/MissionAmbulanceRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ambulance-service/src/main/java/com/gindho/ambulance/service/AmbulanceService.java

@@ -1,0 +1,26 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.gindho:admission-service >--------------------
+[INFO] Building GinDHO AdmissionService 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.2.0:run (default-cli) > test-compile @ admission-service >>>
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ admission-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.12.1:compile (default-compile) @ admission-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ admission-service ---
+[INFO] skip non existing resourceDirectory /media/ivan/Ultimate/Ivan/script/common/GinDHO/services/admission-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.12.1:testCompile (default-testCompile) @ admission-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.2.0:run (default-cli) < test-compile @ admission-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.2.0:run (default-cli) @ admission-service ---
+[INFO] Attaching agents: []

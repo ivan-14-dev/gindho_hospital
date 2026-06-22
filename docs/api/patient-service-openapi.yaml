@@ -1,0 +1,413 @@
+openapi: 3.1.0
+info:
+  title: GinDHO Patient Service API
+  description: |
+    Gestion des patients — microservice cible.
+    Strangler Fig: migre progressivement depuis /api/patients (monolith) vers /api/v1/patients.
+  version: 1.0.0
+  contact:
+    name: GinDHO Architecture Team
+  license:
+    name: Proprietary
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development via Kong
+  - url: https://api.gindho.com/api/v1
+    description: Production
+
+security:
+  - oidc: [patient:read, patient:write]
+  - cookieAuth: []
+
+paths:
+  /patients:
+    get:
+      summary: Liste paginée des patients
+      operationId: listPatients
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Recherche par nom, prénom, NIP
+      responses:
+        '200':
+          description: Liste paginée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PatientSummary'
+                  page:
+                    $ref: '#/components/schemas/PaginationInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-kong-plugin-rate-limiting:
+        minute: 60
+
+    post:
+      summary: Créer un nouveau patient
+      operationId: createPatient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePatientRequest'
+      responses:
+        '201':
+          description: Patient créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDTO'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /patients/{id}:
+    get:
+      summary: Détail d'un patient
+      operationId: getPatient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Détail patient
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDTO'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-kong-plugin-rate-limiting:
+        minute: 120
+
+    put:
+      summary: Mettre à jour un patient
+      operationId: updatePatient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePatientRequest'
+      responses:
+        '200':
+          description: Patient mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDTO'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Supprimer un patient (soft-delete)
+      operationId: deletePatient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Patient supprimé
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-kong-plugin-authentication: false  # SUPER_ADMIN only
+
+  /patients/{id}/dossier-complet:
+    get:
+      summary: Dossier médical complet d'un patient
+      operationId: getDossierComplet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dossier médical
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DossierMedicalDTO'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      x-kong-plugin-rate-limiting:
+        minute: 30
+
+  /patients/me:
+    get:
+      summary: Récupérer son propre profil (patient connecté)
+      operationId: getMyProfile
+      responses:
+        '200':
+          description: Profil patient
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDTO'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    oidc:
+      type: openIdConnect
+      openIdConnectUrl: http://localhost:8080/realms/gindho/.well-known/openid-configuration
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: gindho_token
+
+  schemas:
+    PatientSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        numeroPatient:
+          type: string
+        nom:
+          type: string
+        prenom:
+          type: string
+        sexe:
+          type: string
+          enum: [MASCULIN, FEMININ]
+        telephone:
+          type: string
+        email:
+          type: string
+          format: email
+
+    PatientDTO:
+      allOf:
+        - $ref: '#/components/schemas/PatientSummary'
+        - type: object
+          properties:
+            dateNaissance:
+              type: string
+              format: date
+            groupeSanguin:
+              type: string
+            adresse:
+              type: string
+            profession:
+              type: string
+            personneAContact:
+              type: string
+            telephoneContact:
+              type: string
+            assurances:
+              type: array
+              items:
+                $ref: '#/components/schemas/AssuranceResume'
+            actif:
+              type: boolean
+            dateCreation:
+              type: string
+              format: date-time
+
+    CreatePatientRequest:
+      type: object
+      required: [nom, prenom, sexe, dateNaissance, telephone]
+      properties:
+        nom:
+          type: string
+          minLength: 1
+          maxLength: 100
+        prenom:
+          type: string
+          minLength: 1
+          maxLength: 100
+        sexe:
+          type: string
+          enum: [MASCULIN, FEMININ]
+        dateNaissance:
+          type: string
+          format: date
+        telephone:
+          type: string
+        email:
+          type: string
+          format: email
+        adresse:
+          type: string
+        groupeSanguin:
+          type: string
+        profession:
+          type: string
+        personneAContact:
+          type: string
+        telephoneContact:
+          type: string
+
+    UpdatePatientRequest:
+      type: object
+      properties:
+        telephone:
+          type: string
+        email:
+          type: string
+          format: email
+        adresse:
+          type: string
+        groupeSanguin:
+          type: string
+        profession:
+          type: string
+        personneAContact:
+          type: string
+        telephoneContact:
+          type: string
+
+    DossierMedicalDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        prenom:
+          type: string
+        consultations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsultationResume'
+
+    ConsultationResume:
+      type: object
+      properties:
+        id:
+          type: integer
+        dateHeureDebut:
+          type: string
+          format: date-time
+        motif:
+          type: string
+        diagnostic:
+          type: string
+        statut:
+          type: string
+        medecinNom:
+          type: string
+
+    AssuranceResume:
+      type: object
+      properties:
+        compagnie:
+          type: string
+        numeroPolice:
+          type: string
+        valide:
+          type: boolean
+
+    PaginationInfo:
+      type: object
+      properties:
+        number:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+          nullable: true
+
+  responses:
+    Unauthorized:
+      description: Non authentifié
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Unauthenticated
+              message:
+                type: string
+                example: Token manquant ou invalide
+    Forbidden:
+      description: Accès refusé
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Permissions insuffisantes
+    NotFound:
+      description: Ressource introuvable
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Not Found
+              message:
+                type: string
+                example: Patient non trouvé
+    ValidationError:
+      description: Erreur de validation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Validation Error
+              violations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                    message:
+                      type: string

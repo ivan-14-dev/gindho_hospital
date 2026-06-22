@@ -1,0 +1,14 @@
+{{- if .Values.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "patient-service.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "patient-service.labels" . | nindent 4 }}
+spec:
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "patient-service.selectorLabels" . | nindent 6 }}
+{{- end }}

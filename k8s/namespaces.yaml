@@ -1,0 +1,131 @@
+# =============================================================================
+# Namespace definitions for GinDHO
+# =============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: infrastructure
+  labels:
+    name: infrastructure
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: patient
+  labels:
+    name: patient
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: appointment
+  labels:
+    name: appointment
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: emr
+  labels:
+    name: emr
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: billing
+  labels:
+    name: billing
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pharmacy
+  labels:
+    name: pharmacy
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: laboratory
+  labels:
+    name: laboratory
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hr
+  labels:
+    name: hr
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: inventory
+  labels:
+    name: inventory
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: security
+  labels:
+    name: security
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: reporting
+  labels:
+    name: reporting
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+  labels:
+    name: monitoring
+    app.kubernetes.io/part-of: gindho
+    istio.io/rev: default
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+  labels:
+    name: argocd
+    app.kubernetes.io/part-of: gindho-gitops

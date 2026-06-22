@@ -1,0 +1,4 @@
+com/gindho/AuditServiceApplication.class
+com/gindho/audit/model/AuditLog.class
+com/gindho/audit/repository/AuditLogRepository.class
+com/gindho/audit/controller/AuditController.class

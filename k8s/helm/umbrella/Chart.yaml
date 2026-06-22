@@ -1,0 +1,56 @@
+apiVersion: v2
+name: gindho-umbrella
+version: 1.0.0
+description: Umbrella Helm chart for GinDHO Hospital System
+type: application
+keywords:
+  - gindho
+  - hospital
+  - microservices
+  - istio
+home: https://github.com/gindho/gindho
+maintainers:
+  - name: GinDHO Team
+    email: team@gindho.com
+appVersion: "1.0.0"
+
+dependencies:
+  - name: patient-service
+    version: "1.0.0"
+    repository: "file://../patient"
+  - name: appointment-service
+    version: "1.0.0"
+    repository: "file://../appointment"
+  - name: medical-record-service
+    version: "1.0.0"
+    repository: "file://../medical-record"
+  - name: billing-service
+    version: "1.0.0"
+    repository: "file://../billing"
+  - name: pharmacy-service
+    version: "1.0.0"
+    repository: "file://../pharmacy"
+  - name: prescription-service
+    version: "1.0.0"
+    repository: "file://../prescription"
+  - name: laboratory-service
+    version: "1.0.0"
+    repository: "file://../laboratory"
+  - name: emergency-service
+    version: "1.0.0"
+    repository: "file://../emergency"
+  - name: ward-service
+    version: "1.0.0"
+    repository: "file://../ward"
+  - name: bed-service
+    version: "1.0.0"
+    repository: "file://../bed"
+  - name: hr-service
+    version: "1.0.0"
+    repository: "file://../hr"
+  - name: inventory-service
+    version: "1.0.0"
+    repository: "file://../inventory"
+
+# Empty values file - each subchart has its own values.yaml
+# Override values with: helm install --set patient-service.replicaCount=3

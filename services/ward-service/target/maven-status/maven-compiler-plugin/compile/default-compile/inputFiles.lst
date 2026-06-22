@@ -1,0 +1,5 @@
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ward-service/src/main/java/com/gindho/WardServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ward-service/src/main/java/com/gindho/ward/controller/WardController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ward-service/src/main/java/com/gindho/ward/dto/WardDto.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ward-service/src/main/java/com/gindho/ward/model/Ward.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/ward-service/src/main/java/com/gindho/ward/repository/WardRepository.java

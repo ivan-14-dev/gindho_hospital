@@ -1,0 +1,11 @@
+com/gindho/asset/repository/EquipementRepository.class
+com/gindho/asset/model/Equipement.class
+com/gindho/asset/repository/MaintenanceRepository.class
+com/gindho/asset/model/Equipement$StatutEquipement.class
+com/gindho/AssetServiceApplication.class
+com/gindho/asset/model/Maintenance.class
+com/gindho/asset/model/StatutEquipement.class
+com/gindho/asset/service/AssetService.class
+com/gindho/asset/controller/AssetController.class
+com/gindho/asset/model/TypeMaintenance.class
+com/gindho/asset/controller/EquipementAliasController.class

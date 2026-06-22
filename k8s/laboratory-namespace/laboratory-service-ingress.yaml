@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: laboratory-service-ingress
+  namespace: laboratory
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /laboratory
+        pathType: Prefix
+        backend:
+          service:
+            name: laboratory-service
+            port:
+              number: 8092

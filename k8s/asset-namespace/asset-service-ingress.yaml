@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: asset-service-ingress
+  namespace: asset
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /asset
+        pathType: Prefix
+        backend:
+          service:
+            name: asset-service
+            port:
+              number: 8099

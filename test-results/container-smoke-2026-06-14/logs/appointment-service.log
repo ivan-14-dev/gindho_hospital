@@ -1,0 +1,126 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-06-14T04:09:41.570Z  INFO 1 --- [appointment-service] [           main] c.gindho.AppointmentServiceApplication   : Starting AppointmentServiceApplication using Java 21.0.11 with PID 1 (/app/app.jar started by root in /app)
+2026-06-14T04:09:41.573Z DEBUG 1 --- [appointment-service] [           main] c.gindho.AppointmentServiceApplication   : Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-06-14T04:09:41.575Z  INFO 1 --- [appointment-service] [           main] c.gindho.AppointmentServiceApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-06-14T04:09:45.596Z  INFO 1 --- [appointment-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-14T04:09:45.754Z  INFO 1 --- [appointment-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 141 ms. Found 3 JPA repository interfaces.
+2026-06-14T04:09:49.245Z  INFO 1 --- [appointment-service] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-14T04:09:49.280Z  INFO 1 --- [appointment-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-14T04:09:49.280Z  INFO 1 --- [appointment-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-06-14T04:09:49.427Z  INFO 1 --- [appointment-service] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-14T04:09:49.428Z  INFO 1 --- [appointment-service] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7668 ms
+2026-06-14T04:09:50.104Z DEBUG 1 --- [appointment-service] [           main] com.gindho.security.JwtAuthFilter        : Filter 'jwtAuthFilter' configured for use
+2026-06-14T04:09:50.805Z  INFO 1 --- [appointment-service] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-14T04:09:51.230Z  INFO 1 --- [appointment-service] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-06-14T04:09:51.377Z  INFO 1 --- [appointment-service] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-14T04:09:52.167Z  INFO 1 --- [appointment-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-14T04:09:52.251Z  INFO 1 --- [appointment-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-14T04:09:52.854Z  INFO 1 --- [appointment-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@23954300
+2026-06-14T04:09:52.860Z  INFO 1 --- [appointment-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-14T04:09:52.959Z  WARN 1 --- [appointment-service] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-14T04:09:55.501Z  INFO 1 --- [appointment-service] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-14T04:09:55.631Z  INFO 1 --- [appointment-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-14T04:09:57.406Z  INFO 1 --- [appointment-service] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-14T04:09:59.880Z  WARN 1 --- [appointment-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-14T04:10:00.250Z  WARN 1 --- [appointment-service] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: b067b113-27c4-4aa1-af1f-d7612166231e
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-14T04:10:02.043Z  INFO 1 --- [appointment-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoint(s) beneath base path '/actuator'
+2026-06-14T04:10:02.243Z  INFO 1 --- [appointment-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@127e838b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7c7caff1, org.springframework.security.web.context.SecurityContextHolderFilter@3c2e7a83, org.springframework.security.web.header.HeaderWriterFilter@12a9889e, org.springframework.web.filter.CorsFilter@460818c1, org.springframework.security.web.authentication.logout.LogoutFilter@6ca6a1a6, com.gindho.security.JwtAuthFilter@1b475663, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@10009505, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@54610a47, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3669d7ac, org.springframework.security.web.session.SessionManagementFilter@4c00c8ce, org.springframework.security.web.access.ExceptionTranslationFilter@55f2e76a, org.springframework.security.web.access.intercept.AuthorizationFilter@1741afaf]
+2026-06-14T04:10:04.615Z  INFO 1 --- [appointment-service] [           main] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+	auto.include.jmx.reporter = true
+	bootstrap.servers = [kafka:29092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = 
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+2026-06-14T04:10:05.009Z  INFO 1 --- [appointment-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.0
+2026-06-14T04:10:05.009Z  INFO 1 --- [appointment-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 60e845626d8a465a
+2026-06-14T04:10:05.009Z  INFO 1 --- [appointment-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1781410205006
+2026-06-14T04:10:05.647Z  INFO 1 --- [appointment-service] [| adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
+2026-06-14T04:10:05.655Z  INFO 1 --- [appointment-service] [| adminclient-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-06-14T04:10:05.656Z  INFO 1 --- [appointment-service] [| adminclient-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-06-14T04:10:05.656Z  INFO 1 --- [appointment-service] [| adminclient-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-06-14T04:10:05.686Z  INFO 1 --- [appointment-service] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-06-14T04:10:05.715Z  INFO 1 --- [appointment-service] [           main] c.gindho.AppointmentServiceApplication   : Started AppointmentServiceApplication in 25.641 seconds (process running for 26.928)
+2026-06-14T04:10:09.281Z  INFO 1 --- [appointment-service] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-14T04:10:09.281Z  INFO 1 --- [appointment-service] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-14T04:10:09.284Z  INFO 1 --- [appointment-service] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-06-14T04:10:09.329Z  WARN 1 --- [appointment-service] [nio-8080-exec-1] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/actuator/health' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-06-14T04:10:09.351Z  WARN 1 --- [appointment-service] [nio-8080-exec-1] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/actuator/health' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-06-14T04:10:09.359Z DEBUG 1 --- [appointment-service] [nio-8080-exec-1] c.gindho.security.SecureLoggingFilter    : [GET] /actuator/health — IP: 172.21.0.1

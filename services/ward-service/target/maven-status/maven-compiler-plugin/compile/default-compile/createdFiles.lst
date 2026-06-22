@@ -1,0 +1,6 @@
+com/gindho/ward/controller/WardController.class
+com/gindho/ward/dto/WardDto.class
+com/gindho/ward/model/Ward.class
+com/gindho/WardServiceApplication.class
+com/gindho/ward/repository/WardRepository.class
+com/gindho/ward/dto/WardDto$WardDtoBuilder.class

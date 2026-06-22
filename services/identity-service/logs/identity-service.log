@@ -1,0 +1,5 @@
+2026-06-10T13:12:33.405+01:00  INFO 148089 --- [identity-service] [main] com.gindho.IdentityServiceApplication    : Starting IdentityServiceApplication using Java 25.0.2 with PID 148089 (/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/identity-service/target/classes started by ivan in /media/ivan/Ultimate/Ivan/script/common/GinDHO/services/identity-service)
+2026-06-10T13:12:33.433+01:00 DEBUG 148089 --- [identity-service] [main] com.gindho.IdentityServiceApplication    : Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-06-10T13:12:33.438+01:00  INFO 148089 --- [identity-service] [main] com.gindho.IdentityServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-06-10T13:13:02.622+01:00  INFO 148089 --- [identity-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-10T13:13:03.368+01:00  INFO 148089 --- [identity-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 508 ms. Found 0 JPA repository interfaces.

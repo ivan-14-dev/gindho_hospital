@@ -1,0 +1,240 @@
+2026-06-05 07:46:41 - Starting GinDhoApplication v1.0.0 using Java 25.0.2 with PID 108619 (/media/ivan/Ultimate/Ivan/script/common/GinDHO/backend/target/gindho-backend-1.0.0.jar started by ivan in /media/ivan/Ultimate/Ivan/script/common/GinDHO)
+2026-06-05 07:46:41 - Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-06-05 07:46:41 - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 07:46:44 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 07:46:44 - Finished Spring Data repository scanning in 245 ms. Found 22 JPA repository interfaces.
+2026-06-05 07:46:47 - Tomcat initialized with port 8080 (http)
+2026-06-05 07:46:47 - Starting service [Tomcat]
+2026-06-05 07:46:47 - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-06-05 07:46:47 - Initializing Spring embedded WebApplicationContext
+2026-06-05 07:46:47 - Root WebApplicationContext: initialization completed in 5426 ms
+2026-06-05 07:46:47 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-05 07:46:48 - HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-06-05 07:46:48 - HHH000026: Second-level cache disabled
+2026-06-05 07:46:49 - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 07:46:49 - HikariPool-1 - Starting...
+2026-06-05 07:46:50 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7a117dc2
+2026-06-05 07:46:50 - HikariPool-1 - Start completed.
+2026-06-05 07:46:50 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 07:46:54 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 07:46:55 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 07:46:55 - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 07:46:57 - Filter 'jwtAuthenticationFilter' configured for use
+2026-06-05 07:46:57 - Filter 'dynamicPermissionFilter' configured for use
+2026-06-05 07:46:58 - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2026-06-05 07:46:59 - Patterns [/ws/**] in 'stompWebSocketHandlerMapping'
+2026-06-05 07:46:59 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 07:46:59 - 
+	c.g.c.AdminRoleTemplatesController:
+	
+2026-06-05 07:46:59 - 
+	c.g.c.AdminUserController:
+	
+2026-06-05 07:46:59 - 
+	c.g.c.WebSocketController:
+	{[MESSAGE],[/rdv]}: sendRendezVous(RendezVousDto)
+2026-06-05 07:46:59 - 
+	c.g.c.AdminPermissionsController:
+	
+2026-06-05 07:46:59 - 
+	c.g.c.AuditLogController:
+	
+2026-06-05 07:46:59 - 
+	c.g.c.AuthAuthoritiesController:
+	
+2026-06-05 07:46:59 - 
+	c.g.c.ApiController:
+	
+2026-06-05 07:46:59 - 
+	o.s.b.a.w.s.e.BasicErrorController:
+	
+2026-06-05 07:47:00 - 99 mappings in 'requestMappingHandlerMapping'
+2026-06-05 07:47:00 - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-06-05 07:47:00 - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7d3bf73f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@19940123, org.springframework.security.web.context.SecurityContextHolderFilter@61d4171d, org.springframework.security.web.header.HeaderWriterFilter@548528e1, org.springframework.web.filter.CorsFilter@1bd5577e, org.springframework.security.web.authentication.logout.LogoutFilter@320aecd3, com.gindho.security.JwtAuthenticationFilter@44556fbd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@63888c14, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@688d3e2a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@78679286, org.springframework.security.web.session.SessionManagementFilter@74cc8c55, org.springframework.security.web.access.ExceptionTranslationFilter@1124fd8, org.springframework.security.web.access.intercept.AuthorizationFilter@4242a0e7]
+2026-06-05 07:47:00 - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-06-05 07:47:00 - ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-06-05 07:47:01 - Tomcat started on port 8080 (http) with context path ''
+2026-06-05 07:47:01 - clientOutboundChannel added SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2026-06-05 07:47:01 - clientInboundChannel added WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2026-06-05 07:47:01 - Starting...
+2026-06-05 07:47:01 - clientInboundChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4f1179e7]
+2026-06-05 07:47:01 - brokerChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4f1179e7]
+2026-06-05 07:47:01 - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4f1179e7]]
+2026-06-05 07:47:01 - Started.
+2026-06-05 07:47:01 - clientInboundChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-06-05 07:47:01 - brokerChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-06-05 07:47:01 - Started GinDhoApplication in 20.417 seconds (process running for 21.21)
+2026-06-05 07:48:01 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2026-06-05 07:48:29 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 07:48:29 - Initializing Servlet 'dispatcherServlet'
+2026-06-05 07:48:29 - Detected StandardServletMultipartResolver
+2026-06-05 07:48:29 - Detected AcceptHeaderLocaleResolver
+2026-06-05 07:48:29 - Detected FixedThemeResolver
+2026-06-05 07:48:29 - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5973e4ec
+2026-06-05 07:48:29 - Detected org.springframework.web.servlet.support.SessionFlashMapManager@1c8ab147
+2026-06-05 07:48:29 - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-06-05 07:48:29 - Completed initialization in 4 ms
+2026-06-05 07:48:29 - Securing POST /api/auth/login
+2026-06-05 07:48:29 - Set SecurityContextHolder to anonymous SecurityContext
+2026-06-05 07:48:29 - Cache miss for REQUEST dispatch to '/api/auth/login' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-06-05 07:48:29 - Secured POST /api/auth/login
+2026-06-05 07:48:29 - POST "/api/auth/login", parameters={}
+2026-06-05 07:48:29 - Mapped to com.gindho.controller.ApiController#authenticate(AuthenticationRequest)
+2026-06-05 07:48:29 - Read "application/json;charset=UTF-8" to [AuthenticationRequest(email=admin@gindho.com, password=admin123, role=null, nom=null, prenom=null)]
+2026-06-05 07:48:30 - Authenticated user
+2026-06-05 07:48:30 - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-06-05 07:48:30 - Writing [AuthenticationResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnaW5kaG8uY2 (truncated)...]
+2026-06-05 07:48:30 - Completed 200 OK
+2026-06-05 07:50:21 - Securing GET /api/analyses
+2026-06-05 07:50:21 - Set SecurityContextHolder to anonymous SecurityContext
+2026-06-05 07:50:21 - Pre-authenticated entry point called. Rejecting access
+2026-06-05 07:50:21 - Securing GET /error
+2026-06-05 07:50:21 - Secured GET /error
+2026-06-05 07:50:21 - "ERROR" dispatch for GET "/error", parameters={}
+2026-06-05 07:50:21 - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2026-06-05 07:50:21 - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-06-05 07:50:21 - Writing [{timestamp=Fri Jun 05 07:50:21 WAT 2026, status=403, error=Forbidden, path=/api/analyses}]
+2026-06-05 07:50:21 - Exiting from "ERROR" dispatch, status 403
+2026-06-05 07:50:21 - Set SecurityContextHolder to anonymous SecurityContext
+2026-06-05 07:50:53 - clientOutboundChannel removed SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2026-06-05 07:50:53 - clientInboundChannel removed WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2026-06-05 07:50:53 - Stopping...
+2026-06-05 07:50:53 - BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4f1179e7]]
+2026-06-05 07:50:53 - clientInboundChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4f1179e7]
+2026-06-05 07:50:53 - brokerChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4f1179e7]
+2026-06-05 07:50:53 - Stopped.
+2026-06-05 07:50:53 - clientInboundChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-06-05 07:50:53 - brokerChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-06-05 07:50:53 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 07:50:53 - HikariPool-1 - Shutdown initiated...
+2026-06-05 07:50:53 - HikariPool-1 - Shutdown completed.
+2026-06-05 07:50:57 - Starting GinDhoApplication v1.0.0 using Java 25.0.2 with PID 111599 (/media/ivan/Ultimate/Ivan/script/common/GinDHO/backend/target/gindho-backend-1.0.0.jar started by ivan in /media/ivan/Ultimate/Ivan/script/common/GinDHO)
+2026-06-05 07:50:57 - Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-06-05 07:50:57 - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 07:51:00 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 07:51:01 - Finished Spring Data repository scanning in 470 ms. Found 22 JPA repository interfaces.
+2026-06-05 07:51:03 - Tomcat initialized with port 8080 (http)
+2026-06-05 07:51:03 - Starting service [Tomcat]
+2026-06-05 07:51:03 - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-06-05 07:51:03 - Initializing Spring embedded WebApplicationContext
+2026-06-05 07:51:03 - Root WebApplicationContext: initialization completed in 5982 ms
+2026-06-05 07:51:03 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-05 07:51:04 - HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-06-05 07:51:04 - HHH000026: Second-level cache disabled
+2026-06-05 07:51:04 - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 07:51:04 - HikariPool-1 - Starting...
+2026-06-05 07:51:05 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@33430fc
+2026-06-05 07:51:05 - HikariPool-1 - Start completed.
+2026-06-05 07:51:05 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 07:51:08 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 07:51:08 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 07:51:09 - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 07:51:11 - Filter 'jwtAuthenticationFilter' configured for use
+2026-06-05 07:51:11 - Filter 'dynamicPermissionFilter' configured for use
+2026-06-05 07:51:11 - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2026-06-05 07:51:13 - Patterns [/ws/**] in 'stompWebSocketHandlerMapping'
+2026-06-05 07:51:13 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 07:51:13 - 
+	c.g.c.AdminRoleTemplatesController:
+	
+2026-06-05 07:51:13 - 
+	c.g.c.AdminUserController:
+	
+2026-06-05 07:51:13 - 
+	c.g.c.WebSocketController:
+	{[MESSAGE],[/rdv]}: sendRendezVous(RendezVousDto)
+2026-06-05 07:51:13 - 
+	c.g.c.AdminPermissionsController:
+	
+2026-06-05 07:51:13 - 
+	c.g.c.AuditLogController:
+	
+2026-06-05 07:51:13 - 
+	c.g.c.AuthAuthoritiesController:
+	
+2026-06-05 07:51:13 - 
+	c.g.c.ApiController:
+	
+2026-06-05 07:51:13 - 
+	o.s.b.a.w.s.e.BasicErrorController:
+	
+2026-06-05 07:51:13 - 99 mappings in 'requestMappingHandlerMapping'
+2026-06-05 07:51:13 - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-06-05 07:51:13 - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2a673ee8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3177221b, org.springframework.security.web.context.SecurityContextHolderFilter@45e4dc42, org.springframework.security.web.header.HeaderWriterFilter@c0c9d4a, org.springframework.web.filter.CorsFilter@ec7c39b, org.springframework.security.web.authentication.logout.LogoutFilter@4ca3923, com.gindho.security.JwtAuthenticationFilter@4305b87e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@39c65cb4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1386f8bb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@21890674, org.springframework.security.web.session.SessionManagementFilter@2d549bf1, org.springframework.security.web.access.ExceptionTranslationFilter@2d8f32a, org.springframework.security.web.access.intercept.AuthorizationFilter@36df566]
+2026-06-05 07:51:13 - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-06-05 07:51:13 - ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-06-05 07:51:14 - Tomcat started on port 8080 (http) with context path ''
+2026-06-05 07:51:14 - clientOutboundChannel added SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2026-06-05 07:51:14 - clientInboundChannel added WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2026-06-05 07:51:14 - Starting...
+2026-06-05 07:51:14 - clientInboundChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@37b98741]
+2026-06-05 07:51:14 - brokerChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@37b98741]
+2026-06-05 07:51:14 - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@37b98741]]
+2026-06-05 07:51:14 - Started.
+2026-06-05 07:51:14 - clientInboundChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-06-05 07:51:14 - brokerChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-06-05 07:51:14 - Started GinDhoApplication in 18.328 seconds (process running for 19.118)
+2026-06-05 07:51:15 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 07:51:15 - Initializing Servlet 'dispatcherServlet'
+2026-06-05 07:51:15 - Detected StandardServletMultipartResolver
+2026-06-05 07:51:15 - Detected AcceptHeaderLocaleResolver
+2026-06-05 07:51:15 - Detected FixedThemeResolver
+2026-06-05 07:51:15 - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@43201fd1
+2026-06-05 07:51:15 - Detected org.springframework.web.servlet.support.SessionFlashMapManager@2f930be7
+2026-06-05 07:51:15 - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-06-05 07:51:15 - Completed initialization in 10 ms
+2026-06-05 07:51:15 - Securing POST /api/auth/login
+2026-06-05 07:51:15 - Set SecurityContextHolder to anonymous SecurityContext
+2026-06-05 07:51:15 - Cache miss for REQUEST dispatch to '/api/auth/login' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-06-05 07:51:15 - Secured POST /api/auth/login
+2026-06-05 07:51:15 - POST "/api/auth/login", parameters={}
+2026-06-05 07:51:15 - Mapped to com.gindho.controller.ApiController#authenticate(AuthenticationRequest)
+2026-06-05 07:51:15 - Read "application/json;charset=UTF-8" to [AuthenticationRequest(email=admin@gindho.com, password=admin123, role=null, nom=null, prenom=null)]
+2026-06-05 07:51:15 - Authenticated user
+2026-06-05 07:51:15 - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-06-05 07:51:15 - Writing [AuthenticationResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnaW5kaG8uY2 (truncated)...]
+2026-06-05 07:51:15 - Completed 200 OK
+2026-06-05 07:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2026-06-05 08:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 2, active threads = 1, queued tasks = 0, completed tasks = 1]
+2026-06-05 08:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 3, active threads = 1, queued tasks = 0, completed tasks = 2]
+2026-06-05 09:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 3]
+2026-06-05 09:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 4]
+2026-06-05 10:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 5]
+2026-06-05 10:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 6]
+2026-06-05 11:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 7]
+2026-06-05 11:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 8]
+2026-06-05 12:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 9]
+2026-06-05 12:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 10]
+2026-06-05 13:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 11]
+2026-06-05 13:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 12]
+2026-06-05 14:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 13]
+2026-06-05 14:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 14]
+2026-06-05 15:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 15]
+2026-06-05 15:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 16]
+2026-06-05 16:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 17]
+2026-06-05 16:52:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 18]
+2026-06-05 17:22:14 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 19]
+2026-06-05 17:52:16 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 20]
+2026-06-05 18:22:16 - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 4, active threads = 1, queued tasks = 0, completed tasks = 21]
+2026-06-05 18:26:14 - Securing POST /api/auth/login
+2026-06-05 18:26:14 - Set SecurityContextHolder to anonymous SecurityContext
+2026-06-05 18:26:14 - Secured POST /api/auth/login
+2026-06-05 18:26:14 - POST "/api/auth/login", parameters={}
+2026-06-05 18:26:14 - Mapped to com.gindho.controller.ApiController#authenticate(AuthenticationRequest)
+2026-06-05 18:26:14 - Read "application/json;charset=UTF-8" to [AuthenticationRequest(email=admin@gindho.com, password=admin123, role=null, nom=null, prenom=null)]
+2026-06-05 18:26:14 - Authenticated user
+2026-06-05 18:26:14 - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-06-05 18:26:14 - Writing [AuthenticationResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnaW5kaG8uY2 (truncated)...]
+2026-06-05 18:26:14 - Completed 200 OK
+2026-06-05 18:27:30 - clientOutboundChannel removed SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2026-06-05 18:27:30 - clientInboundChannel removed WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2026-06-05 18:27:30 - Stopping...
+2026-06-05 18:27:30 - BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@37b98741]]
+2026-06-05 18:27:30 - clientInboundChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@37b98741]
+2026-06-05 18:27:30 - brokerChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@37b98741]
+2026-06-05 18:27:30 - Stopped.
+2026-06-05 18:27:30 - clientInboundChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-06-05 18:27:30 - brokerChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-06-05 18:27:30 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 18:27:30 - HikariPool-1 - Shutdown initiated...
+2026-06-05 18:27:30 - HikariPool-1 - Shutdown completed.

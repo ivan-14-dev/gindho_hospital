@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: appointment-service-ingress
+  namespace: appointment
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /appointment
+        pathType: Prefix
+        backend:
+          service:
+            name: appointment-service
+            port:
+              number: 8082

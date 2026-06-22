@@ -1,0 +1,9 @@
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/PrescriptionServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/prescription/controller/PrescriptionController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/prescription/dto/PrescriptionDto.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/prescription/model/MedicamentPrescrit.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/prescription/model/Ordonnance.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/prescription/model/StatutOrdonnance.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/prescription/repository/MedicamentPrescritRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/prescription/repository/OrdonnanceRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/prescription-service/src/main/java/com/gindho/prescription/service/PrescriptionService.java

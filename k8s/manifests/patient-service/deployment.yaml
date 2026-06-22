@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patient-service
+  namespace: patient
+  labels:
+    app: patient-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patient-service
+  template:
+    metadata:
+      labels:
+        app: patient-service
+    spec:
+      containers:
+        - name: patient-service
+          image: gindho/patient-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres.infrastructure.svc.cluster.local:5432/patient_service
+            - name: SPRING_DATASOURCE_USERNAME
+              value: gindho
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: patient-service-secret
+                  key: db_password
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: kafka.infrastructure.svc.cluster.local:9092
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: patient-service-secret
+                  key: jwt_secret
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: patient-service-node
+  namespace: patient
+spec:
+  type: NodePort
+  selector:
+    app: patient-service
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 31319
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: patient-service-sa
+  namespace: patient

@@ -1,0 +1,100 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: patient-api
+  namespace: patient
+spec:
+  hosts:
+  - api.gindho.com
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - match:
+    - uri:
+        prefix: /patient
+    route:
+    - destination:
+        host: patient-service.patient.svc.cluster.local
+        port:
+          number: 8081
+        subset: v1
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+    timeout: 10s
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: appointment-api
+  namespace: appointment
+spec:
+  hosts:
+  - api.gindho.com
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - match:
+    - uri:
+        prefix: /appointment
+    route:
+    - destination:
+        host: appointment-service.appointment.svc.cluster.local
+        port:
+          number: 8082
+        subset: v1
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+    timeout: 10s
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: emr-api
+  namespace: emr
+spec:
+  hosts:
+  - api.gindho.com
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - match:
+    - uri:
+        prefix: /emr
+    route:
+    - destination:
+        host: emr-service.emr.svc.cluster.local
+        port:
+          number: 8083
+        subset: v1
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+    timeout: 10s
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: gindho-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "api.gindho.com"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/gateway-certs/tls.crt
+      privateKey: /etc/istio/gateway-certs/tls.key
+    hosts:
+    - "api.gindho.com"

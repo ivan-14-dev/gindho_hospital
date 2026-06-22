@@ -1,0 +1,64 @@
+{
+  "realm": "gindho",
+  "displayName": "GinDHO Hospital System",
+  "enabled": true,
+  "sslRequired": "external",
+  "accessTokenLifespan": 3600,
+  "refreshTokenLifespan": 86400,
+  "clients": [
+    {
+      "clientId": "gindho-backend",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "gindho-backend-secret",
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "redirectUris": ["http://localhost:*"],
+      "webOrigins": ["http://localhost:*"]
+    },
+    {
+      "clientId": "gindho-frontend",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "redirectUris": ["http://localhost:*"],
+      "webOrigins": ["http://localhost:*"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "SUPER_ADMIN" },
+      { "name": "ADMIN" },
+      { "name": "MEDECIN" },
+      { "name": "NURSE" },
+      { "name": "PATIENT" },
+      { "name": "PHARMACIST" },
+      { "name": "LABORATORY" },
+      { "name": "ACCOUNTING" },
+      { "name": "RECEPTION" },
+      { "name": "HOSPITALIZATION_SERVICE" },
+      { "name": "URGENCY" }
+    ]
+  },
+  "users": [
+    {
+      "username": "admin",
+      "email": "admin@gindho.com",
+      "firstName": "Admin",
+      "lastName": "System",
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "admin123" }],
+      "realmRoles": ["SUPER_ADMIN"]
+    },
+    {
+      "username": "medecin1",
+      "email": "medecin@gindho.com",
+      "firstName": "Jean",
+      "lastName": "Dupont",
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "medecin123" }],
+      "realmRoles": ["MEDECIN"]
+    }
+  ]
+}

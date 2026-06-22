@@ -1,0 +1,7 @@
+com/gindho/notification/repository/NotificationRepository.class
+com/gindho/notification/model/Notification.class
+com/gindho/NotificationServiceApplication.class
+com/gindho/notification/model/Notification$StatutNotification.class
+com/gindho/notification/model/Notification$CanalNotification.class
+com/gindho/pharmacy/config/KafkaConsumer.class
+com/gindho/notification/controller/NotificationController.class

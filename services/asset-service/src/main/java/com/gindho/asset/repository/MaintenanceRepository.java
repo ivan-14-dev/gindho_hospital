@@ -1,0 +1,6 @@
+package com.gindho.asset.repository;
+import com.gindho.asset.model.Maintenance; import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+public interface MaintenanceRepository extends JpaRepository<Maintenance, Long> {
+    List<Maintenance> findByEquipementIdOrderByDateDebutDesc(Long equipementId);
+}

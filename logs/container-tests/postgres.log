@@ -1,0 +1,4 @@
+b3776ddfed68b6c1efbb5de318a6a87679ed56acd6746fdeae38fc11cdda0f3d
+docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint postgres-test (45ebce3858c959ebc32a23b4e24f235c29b7ff92f916037e8eab2cf5af161311): failed to bind host port 0.0.0.0:5432/tcp: address already in use
+
+Run 'docker run --help' for more information

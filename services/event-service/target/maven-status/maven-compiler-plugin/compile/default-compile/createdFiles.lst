@@ -1,0 +1,8 @@
+com/gindho/event/dto/EvenementDto.class
+com/gindho/event/model/Evenement.class
+com/gindho/event/service/EvenementService.class
+com/gindho/EventServiceApplication.class
+com/gindho/event/repository/EvenementRepository.class
+com/gindho/event/controller/EvenementController.class
+com/gindho/event/dto/EvenementDto$EvenementDtoBuilder.class
+com/gindho/event/model/Evenement$EvenementBuilder.class

@@ -1,0 +1,17 @@
+com/gindho/appointment/model/Disponibilite.class
+com/gindho/AppointmentServiceApplication.class
+com/gindho/appointment/controller/WaitingListController.class
+com/gindho/appointment/repository/DisponibiliteRepository.class
+com/gindho/appointment/dto/WaitingListDto.class
+com/gindho/appointment/model/WaitingListEntry.class
+com/gindho/appointment/repository/RendezVousRepository.class
+com/gindho/appointment/service/WaitingListService.class
+com/gindho/appointment/model/StatutRDV.class
+com/gindho/appointment/repository/WaitingListRepository.class
+com/gindho/appointment/model/RendezVous.class
+com/gindho/appointment/service/RendezVousService.class
+com/gindho/appointment/controller/AvailabilityController.class
+com/gindho/appointment/model/WaitingStatus.class
+com/gindho/appointment/dto/RendezVousDto.class
+com/gindho/appointment/service/DisponibiliteService.class
+com/gindho/appointment/dto/DisponibiliteDto.class

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bed-service-ingress
+  namespace: bed
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /bed
+        pathType: Prefix
+        backend:
+          service:
+            name: bed-service
+            port:
+              number: 8087

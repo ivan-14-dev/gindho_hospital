@@ -1,0 +1,302 @@
+{
+  "appName": "admin",
+  "version": "1.0",
+  "theme": "dark",
+  "menus": [
+    {
+      "id": "users",
+      "label": "Utilisateurs",
+      "icon": "users",
+      "path": "/admin/users",
+      "sectionId": "admin-users",
+      "roles": [
+        "SUPER_ADMIN"
+      ],
+      "permissions": [
+        "ADMIN:USER"
+      ]
+    },
+    {
+      "id": "roles",
+      "label": "Rôles & Permissions",
+      "icon": "shield",
+      "path": "/admin/roles",
+      "sectionId": "admin-roles",
+      "roles": [
+        "SUPER_ADMIN"
+      ],
+      "permissions": [
+        "ADMIN:ROLE"
+      ]
+    },
+    {
+      "id": "audit",
+      "label": "Journal d'audit",
+      "icon": "history",
+      "path": "/admin/audit",
+      "sectionId": "admin-audit",
+      "roles": [
+        "ADMIN",
+        "SUPER_ADMIN"
+      ],
+      "permissions": [
+        "ADMIN:AUDIT"
+      ]
+    },
+    {
+      "id": "config",
+      "label": "Configuration",
+      "icon": "cog",
+      "path": "/admin/config",
+      "sectionId": "admin-config",
+      "roles": [
+        "SUPER_ADMIN"
+      ],
+      "permissions": [
+        "ADMIN:CONFIG"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "admin-users",
+      "label": "Utilisateurs",
+      "icon": "users",
+      "order": 0,
+      "roles": [
+        "SUPER_ADMIN"
+      ],
+      "permissions": [
+        "ADMIN:USER"
+      ],
+      "children": [],
+      "widgets": [
+        {
+          "id": "user-list",
+          "type": "datatable",
+          "title": "Gestion des utilisateurs",
+          "api": "/api/users",
+          "apiMethod": "GET",
+          "columns": [
+            {
+              "field": "username",
+              "label": "Identifiant",
+              "type": "text",
+              "width": 150
+            },
+            {
+              "field": "firstName",
+              "label": "Prénom",
+              "type": "text",
+              "width": 150
+            },
+            {
+              "field": "lastName",
+              "label": "Nom",
+              "type": "text",
+              "width": 150
+            },
+            {
+              "field": "email",
+              "label": "Email",
+              "type": "text",
+              "width": 200
+            },
+            {
+              "field": "enabled",
+              "label": "Actif",
+              "type": "boolean",
+              "width": 80
+            }
+          ],
+          "fields": [],
+          "actions": [
+            {
+              "label": "Créer",
+              "icon": "plus",
+              "action": "create",
+              "style": "primary",
+              "api": "/api/users",
+              "apiMethod": "POST",
+              "permission": "ADMIN:USER:WRITE",
+              "openIn": "modal"
+            },
+            {
+              "label": "Rôles",
+              "icon": "shield",
+              "action": "custom",
+              "style": "outline",
+              "api": "/api/users/{id}/roles",
+              "apiMethod": "GET",
+              "permission": "ADMIN:ROLE",
+              "openIn": "dialog"
+            }
+          ],
+          "children": [],
+          "refreshInterval": 0
+        }
+      ]
+    },
+    {
+      "id": "admin-roles",
+      "label": "Rôles & Permissions",
+      "icon": "shield",
+      "order": 1,
+      "roles": [
+        "SUPER_ADMIN"
+      ],
+      "permissions": [
+        "ADMIN:ROLE"
+      ],
+      "children": [],
+      "widgets": [
+        {
+          "id": "role-list",
+          "type": "datatable",
+          "title": "Rôles",
+          "api": "/api/authorization/roles",
+          "apiMethod": "GET",
+          "columns": [
+            {
+              "field": "code",
+              "label": "Code",
+              "type": "text",
+              "width": 150
+            },
+            {
+              "field": "libelle",
+              "label": "Libellé",
+              "type": "text",
+              "width": 200
+            },
+            {
+              "field": "description",
+              "label": "Description",
+              "type": "text",
+              "width": 300
+            }
+          ],
+          "fields": [],
+          "actions": [
+            {
+              "label": "Nouveau rôle",
+              "icon": "plus",
+              "action": "create",
+              "style": "primary",
+              "api": "/api/authorization/roles",
+              "apiMethod": "POST",
+              "permission": "ADMIN:ROLE:WRITE",
+              "openIn": "modal"
+            }
+          ],
+          "children": [],
+          "refreshInterval": 0
+        },
+        {
+          "id": "permission-list",
+          "type": "datatable",
+          "title": "Permissions",
+          "api": "/api/authorization/permissions/all",
+          "apiMethod": "GET",
+          "columns": [
+            {
+              "field": "code",
+              "label": "Code",
+              "type": "text",
+              "width": 150
+            },
+            {
+              "field": "libelle",
+              "label": "Libellé",
+              "type": "text",
+              "width": 200
+            },
+            {
+              "field": "module",
+              "label": "Module",
+              "type": "badge",
+              "width": 100
+            },
+            {
+              "field": "action",
+              "label": "Action",
+              "type": "badge",
+              "width": 80
+            }
+          ],
+          "fields": [],
+          "actions": [],
+          "children": [],
+          "refreshInterval": 0
+        }
+      ]
+    },
+    {
+      "id": "admin-audit",
+      "label": "Journal d'audit",
+      "icon": "history",
+      "order": 2,
+      "roles": [
+        "ADMIN",
+        "SUPER_ADMIN"
+      ],
+      "permissions": [
+        "ADMIN:AUDIT"
+      ],
+      "children": [],
+      "widgets": [
+        {
+          "id": "audit-log",
+          "type": "datatable",
+          "title": "Traçabilité",
+          "api": "/api/audit",
+          "apiMethod": "GET",
+          "columns": [
+            {
+              "field": "dateAction",
+              "label": "Date",
+              "type": "datetime",
+              "width": 150
+            },
+            {
+              "field": "userId",
+              "label": "Utilisateur",
+              "type": "text",
+              "width": 120
+            },
+            {
+              "field": "action",
+              "label": "Action",
+              "type": "text",
+              "width": 150
+            },
+            {
+              "field": "module",
+              "label": "Module",
+              "type": "text",
+              "width": 100
+            },
+            {
+              "field": "details",
+              "label": "Détails",
+              "type": "text",
+              "width": 300
+            }
+          ],
+          "fields": [],
+          "actions": [
+            {
+              "label": "Exporter",
+              "icon": "download",
+              "action": "custom",
+              "style": "outline",
+              "permission": "ADMIN:AUDIT"
+            }
+          ],
+          "children": [],
+          "refreshInterval": 0
+        }
+      ]
+    }
+  ]
+}

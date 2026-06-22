@@ -1,0 +1,13 @@
+com/gindho/authorization/model/UserRole.class
+com/gindho/AuthorizationServiceApplication.class
+com/gindho/authorization/repository/RoleRepository.class
+com/gindho/authorization/config/SecurityConfig.class
+com/gindho/authorization/model/Permission.class
+com/gindho/authorization/model/AuthorizeRequest.class
+com/gindho/authorization/model/Role.class
+com/gindho/authorization/service/PermissionCacheService.class
+com/gindho/authorization/model/RolePermission.class
+com/gindho/authorization/security/KeycloakJwtAuthConverter.class
+com/gindho/authorization/config/RedisConfig.class
+com/gindho/authorization/repository/PermissionRepository.class
+com/gindho/authorization/model/AuthorizeResponse.class

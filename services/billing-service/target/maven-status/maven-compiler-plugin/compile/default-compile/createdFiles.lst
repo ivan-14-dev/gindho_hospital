@@ -1,5 +1,6 @@
 com/gindho/BillingServiceApplication.class
 com/gindho/billing/controller/BillingController.class
+com/gindho/billing/service/RevenuService.class
 com/gindho/billing/service/FactureService.class
 com/gindho/billing/model/Facture.class
 com/gindho/billing/dto/PaiementDto.class
@@ -13,6 +14,8 @@ com/gindho/billing/repository/FactureRepository.class
 com/gindho/billing/model/StatutFacture.class
 com/gindho/billing/dto/FactureDto.class
 com/gindho/billing/controller/FactureController.class
+com/gindho/billing/service/BillingService.class
+com/gindho/billing/repository/BillingRepository.class
 com/gindho/billing/dto/RevenuDto.class
 com/gindho/billing/service/PaiementService.class
 com/gindho/billing/model/Revenu.class

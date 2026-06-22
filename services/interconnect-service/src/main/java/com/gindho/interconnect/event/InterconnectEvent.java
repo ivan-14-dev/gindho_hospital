@@ -3,14 +3,12 @@ package com.gindho.interconnect.event;
 import com.gindho.kafka.BaseEvent;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
-@Builder
 public class InterconnectEvent extends BaseEvent {
     public static final String TRANSFER_INITIATED = "InterHospitalTransferInitiated";
     public static final String TRANSFER_COMPLETED = "InterHospitalTransferCompleted";

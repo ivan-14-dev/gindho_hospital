@@ -10,4 +10,6 @@
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/MaladieRepository.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/MedicamentRepository.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/PatientMaladieRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/PharmacyRepository.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/PrescriptionRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/service/PharmacyService.java

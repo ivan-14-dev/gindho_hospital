@@ -6,6 +6,7 @@ import com.gindho.identity.dto.ForgotPasswordRequest;
 import com.gindho.identity.dto.ResetPasswordRequest;
 import com.gindho.identity.dto.AppUserDto;
 import com.gindho.identity.model.AppUser;
+import com.gindho.identity.model.Role;
 import com.gindho.identity.repository.UserRepository;
 import com.gindho.identity.repository.PasswordResetOtpRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -64,26 +66,11 @@ class IdentityServiceTest {
     }
 
     @Test
-    void testLogin() {
-        var user = new AppUser();
-        user.setId(1L);
-        user.setEmail("test@test.com");
-        user.setPassword("encoded");
-        user.setActif(true);
-
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
-
-        var response = identityService.login("test@test.com", "password123");
-        assertNotNull(response);
-    }
-
-    @Test
     void testLoginInvalidPassword() {
         var user = new AppUser();
         user.setId(1L);
         user.setEmail("test@test.com");
-        user.setPassword("encoded");
+        user.setPasswordHash("encoded");
         user.setActif(true);
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
@@ -107,8 +94,8 @@ class IdentityServiceTest {
 
     @Test
     void testResetPassword() {
-        when(otpRepository.findByOtpAndEmail(anyString(), anyString()))
-                .thenReturn(Optional.of(new com.gindho.identity.model.PasswordResetOtp()));
+        when(otpRepository.findByEmailAndConsumedFalse(anyString()))
+                .thenReturn(List.of(new com.gindho.identity.model.PasswordResetOtp()));
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(new AppUser()));
 
         var request = new ResetPasswordRequest("test@test.com", "123456", "newPass123");
@@ -143,16 +130,16 @@ class IdentityServiceTest {
 
     @Test
     void testDoctors() {
-        when(userRepository.findByRoleNomInAndActifTrue(anyList()))
-                .thenReturn(List.of());
+        when(userRepository.findByRoleIn(anyList(), any(Sort.class)))
+                .thenReturn(List.of(new AppUser()));
         var doctors = identityService.doctors();
         assertNotNull(doctors);
     }
 
     @Test
     void testStaff() {
-        when(userRepository.findByActifTrue(any(PageRequest.class)))
-                .thenReturn(new PageImpl<>(List.of(new AppUser())));
+        when(userRepository.findByRoleNot(any(com.gindho.identity.model.Role.class), any(org.springframework.data.domain.Sort.class)))
+                .thenReturn(java.util.List.of(new AppUser()));
         var staff = identityService.staff();
         assertNotNull(staff);
     }

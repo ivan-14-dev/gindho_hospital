@@ -1,7 +1,7 @@
 package com.gindho.laboratory.service;
 
-import com.gindho.laboratory.repository.LaboratoryRepository;
-import com.gindho.kafka.EventProducer;
+import com.gindho.laboratory.model.Analyse;
+import com.gindho.laboratory.repository.AnalyseRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,9 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class LaboratoryServiceTest {
-    @Mock private LaboratoryRepository repository;
-    @Mock private EventProducer eventProducer;
-    @InjectMocks private LaboratoryService service;
+    @Mock private AnalyseRepository repository;
+    @InjectMocks private AnalyseService service;
 
     @Test void contextLoads() { assertNotNull(service); }
 }

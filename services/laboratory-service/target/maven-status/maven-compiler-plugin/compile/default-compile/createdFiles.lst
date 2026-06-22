@@ -1,8 +1,10 @@
 com/gindho/laboratory/model/Analyse$StatutAnalyse.class
 com/gindho/LaboratoryServiceApplication.class
+com/gindho/laboratory/repository/LaboratoryRepository.class
 com/gindho/laboratory/service/AnalyseService.class
 com/gindho/laboratory/controller/LaboratoryController.class
 com/gindho/laboratory/repository/AnalyseRepository.class
 com/gindho/laboratory/dto/AnalyseDto$AnalyseDtoBuilder.class
 com/gindho/laboratory/dto/AnalyseDto.class
+com/gindho/laboratory/service/LaboratoryService.class
 com/gindho/laboratory/model/Analyse.class

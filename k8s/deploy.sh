@@ -49,12 +49,7 @@ kubectl apply -f k8s/security/networkpolicies.yaml
 # Build & Load Docker Images into local cluster (Minikube)
 # -------------------------------------------------------------------------
 log_info "Building Docker images..."
-# Build all services (skip tests)
-for svc_dir in services/*/; do
-    if [ -f "$svc_dir/pom.xml" ]; then
-        (cd "$svc_dir" && mvn -B package -DskipTests) || true
-    fi
-done
+mvn -B -f pom.xml package -DskipTests
 
 log_info "Loading images into Minikube..."
 eval $(minikube docker-env)

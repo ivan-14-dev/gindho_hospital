@@ -1,8 +1,17 @@
 com/gindho/reporting/repository/RapportRepository.class
+com/gindho/reporting/dto/PatientDashboardDto$PatientDashboardDtoBuilder.class
+com/gindho/reporting/dto/StatsSeriesDto.class
+com/gindho/reporting/dto/PatientDashboardDto.class
+com/gindho/reporting/dto/MedecinDashboardDto.class
 com/gindho/reporting/repository/RapportPlanifieRepository.class
+com/gindho/reporting/dto/DashboardStatsDto$DashboardStatsDtoBuilder.class
+com/gindho/reporting/dto/StatsSeriesDto$StatsSeriesDtoBuilder.class
 com/gindho/ReportingServiceApplication.class
+com/gindho/reporting/dto/StatsQueryDto.class
+com/gindho/reporting/dto/DashboardStatsDto.class
 com/gindho/reporting/model/RapportPlanifie.class
 com/gindho/reporting/controller/ReportingController.class
 com/gindho/reporting/model/StatutRapport.class
 com/gindho/reporting/service/ReportingService.class
+com/gindho/reporting/dto/MedecinDashboardDto$MedecinDashboardDtoBuilder.class
 com/gindho/reporting/model/Rapport.class

@@ -82,7 +82,7 @@ services:
     ports:
       - "${KEYCLOAK_PORT:-8080}:8080"
     volumes:
-      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+      - ../infrastructure/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     depends_on:
       keycloak-db:
         condition: service_healthy
@@ -118,7 +118,7 @@ services:
       - "${KONG_PROXY_PORT:-8000}:8000"
       - "${KONG_ADMIN_PORT:-8001}:8001"
     volumes:
-      - ./kong/kong.yml:/etc/kong/kong.yml:ro
+      - ../infrastructure/kong/kong.yml:/etc/kong/kong.yml:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -161,48 +161,59 @@ services:
     ports:
       - "${LOKI_PORT:-3100}:3100"
 
+  minio:
+    image: minio/minio:latest
+    container_name: gindho-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+
   # ============================================================================
   # ALL 31 MICROSERVICES
   # ============================================================================
 
-  # Core Auth
-  identity-service:
-    build:
-      context: ../services/identity-service
-      dockerfile: Dockerfile
-    container_name: gindho-identity-service
-    profiles: [services, all]
-    ports: ["8080:8080"]
-    environment:
-      - PORT=8080
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/identity_service
-      - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - KEYCLOAK_URL=http://keycloak:8080
-      - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080
-      - KEYCLOAK_CLIENT_ID=gindho-client
-      - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET:-test-secret}
-    depends_on:
-      postgres: { condition: service_healthy }
-      kafka: { condition: service_started }
-      keycloak: { condition: service_healthy }
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+# Core Auth
+   identity-service:
+     build:
+       context: ../services/identity-service
+       dockerfile: Dockerfile
+     container_name: gindho-identity-service
+     profiles: [services, all]
+     ports: ["8111:8080"]
+     environment:
+       - PORT=8080
+       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/identity_service
+       - DB_USERNAME=${DB_USERNAME:-gindho}
+       - DB_PASSWORD=${DB_PASSWORD}
+       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+       - JWT_SECRET=${JWT_SECRET}
+       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+       - KEYCLOAK_URL=http://keycloak:8080
+       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080
+       - KEYCLOAK_CLIENT_ID=gindho-client
+       - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET:-test-secret}
+     depends_on:
+       postgres: { condition: service_healthy }
+       kafka: { condition: service_started }
+       keycloak: { condition: service_healthy }
+     healthcheck:
+       test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+       interval: 30s
+       timeout: 10s
+       retries: 3
+       start_period: 40s
 
-  authorization-service:
-    build:
-      context: ../services/authorization-service
-      dockerfile: Dockerfile
-    container_name: gindho-authorization-service
-    profiles: [services, all]
-    ports: ["8089:8089"]
+   authorization-service:
+     build:
+       context: ../services/authorization-service
+       dockerfile: Dockerfile
+     container_name: gindho-authorization-service
+     profiles: [services, all]
+     ports: ["8110:8089"]
     environment:
       - PORT=8089
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/authorization_service
@@ -424,14 +435,14 @@ services:
       retries: 3
       start_period: 40s
 
-  # Surgery & Rounds
-  surgery-service:
-    build:
-      context: ../services/surgery-service
-      dockerfile: Dockerfile
-    container_name: gindho-surgery-service
-    profiles: [services, all]
-    ports: ["8089:8089"]
+# Surgery & Rounds
+   surgery-service:
+     build:
+       context: ../services/surgery-service
+       dockerfile: Dockerfile
+     container_name: gindho-surgery-service
+     profiles: [services, all]
+     ports: ["8112:8089"]
     environment:
       - PORT=8089
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/surgery_service

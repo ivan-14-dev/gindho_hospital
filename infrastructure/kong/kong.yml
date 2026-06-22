@@ -40,7 +40,7 @@ services:
   # 1️⃣ IDENTITY & AUTHORIZATION
   # ================================================================
   - name: identity-service
-    url: http://identity-service:8081
+    url: http://identity-service:8080
     routes:
       - name: identity-auth-route
         paths:

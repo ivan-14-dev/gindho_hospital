@@ -86,15 +86,15 @@ deploy_k8s() {
     kubectl apply -k k8s/infrastructure-namespace
 
     # Deploy security
-    kubectl apply -f k8s/security-namespace -R
+    kubectl apply -f k8s/security -R
 
     # Deploy monitoring
-    kubectl apply -f k8s/monitoring-namespace -R
+    kubectl apply -f k8s/monitoring -R
 
     # Deploy business services
     kubectl apply -f k8s/patient-namespace -R
     kubectl apply -f k8s/appointment-namespace -R
-    kubectl apply -f k8s/emr-namespace -R
+    kubectl apply -f k8s/medicalrecord-namespace -R
     kubectl apply -f k8s/laboratory-namespace -R
     kubectl apply -f k8s/pharmacy-namespace -R
     kubectl apply -f k8s/billing-namespace -R

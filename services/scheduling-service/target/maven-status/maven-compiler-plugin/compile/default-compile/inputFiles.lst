@@ -1,0 +1,13 @@
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/SchedulingServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/controller/GardeAliasController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/controller/SchedulingController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/model/Absence.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/model/Garde.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/model/Planning.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/model/StatutGarde.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/model/TypeAbsence.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/model/TypeGarde.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/repository/AbsenceRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/repository/GardeRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/repository/PlanningRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/scheduling-service/src/main/java/com/gindho/scheduling/service/SchedulingService.java

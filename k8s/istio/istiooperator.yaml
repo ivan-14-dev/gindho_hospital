@@ -1,0 +1,67 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: gindho-istio
+  namespace: istio-system
+spec:
+  profile: production
+  values:
+    global:
+      meshID: gindho-mesh
+      multiCluster:
+        clusterName: gindho-cluster
+      network: gindho-network
+    cni:
+      cniBinDir: /usr/local/bin
+      enableInstallGatewayNamespaceIsolation: false
+    components:
+      ingressGateways:
+        - name: istio-ingressgateway
+          enabled: true
+          label:
+            istio: ingressgateway
+          k8s:
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "100m"
+              limits:
+                memory: "512Mi"
+                cpu: "250m"
+            service:
+              type: LoadBalancer
+    meshConfig:
+      accessLogFile: /dev/stdout
+      accessLogFormat: |
+        {
+          "timestamp": "%REQ(X-ENVOY-ORIGINAL-PATH%@TIME_DATE%-%REQ(X-ENVOY-ORIGINAL-PATH%@TIMESTAMP%",
+          "connection": {
+            "id": "%CONN_ID%",
+            "remote_address": "%DOWNSTREAM_REMOTE_ADDRESS%",
+            "requested_server_name": "%REQUESTED_SERVER_NAME%"
+          },
+          "request": {
+            "method": "%REQ(:METHOD%",
+            "path": "%REQ(X-ENVOY-ORIGINAL-PATH%",
+            "host": "%REQ(:AUTHORITY%",
+            "protocol": "%PROTOCOL%",
+            "user_agent": "%REQ(USER-AGENT%"
+          },
+          "response": {
+            "status": "%RESP(:STATUS:BYTE_LENGTH%",
+            "bytes_sent": "%RESP(body):BYTE_LENGTH%",
+            "headers": "%RESP(header)%",
+            "latency": "%DURATION%"
+          }
+        }
+  components:
+    pilot:
+      enabled: true
+      k8s:
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"

@@ -1,0 +1,7 @@
+com/gindho/patient/dto/MedecinDto.class
+com/gindho/patient/controller/MedecinController.class
+com/gindho/patient/service/MedecinService.class
+com/gindho/patient/repository/MedecinRepository.class
+com/gindho/patient/dto/MedecinDto$MedecinDtoBuilder.class
+com/gindho/patient/model/Medecin$MedecinBuilder.class
+com/gindho/patient/model/Medecin.class

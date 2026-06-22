@@ -1,0 +1,40 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../infrastructure
+  - ../../istio
+  - ../../monitoring
+  - ../../argocd
+configMapGenerator:
+  - name: environment-config
+    literals:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=WARN
+      - SPRING_PROFILES_ACTIVE=prod
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 3
+    target:
+      kind: Deployment
+  - patch: |-
+      - op: replace
+        path: /spec/resources/requests/memory
+        value: "512Mi"
+    target:
+      kind: Deployment
+  - patch: |-
+      - op: replace
+        path: /spec/resources/requests/cpu
+        value: "250m"
+    target:
+      kind: Deployment
+secretGenerator:
+  - name: tls-certificates
+    files:
+      - tls.crt=certs/prod.crt
+      - tls.key=certs/prod.key
+  - name: production-secrets
+    files:
+      - prod-secrets.env=secrets/prod.env

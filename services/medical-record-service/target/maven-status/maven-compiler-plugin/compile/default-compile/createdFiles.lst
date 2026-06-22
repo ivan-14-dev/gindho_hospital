@@ -1,0 +1,10 @@
+com/gindho/emr/model/Consultation$ConsultationBuilder.class
+com/gindho/emr/model/Diagnostic$DiagnosticBuilder.class
+com/gindho/emr/model/Observation$ObservationBuilder.class
+com/gindho/MedicalRecordServiceApplication.class
+com/gindho/emr/model/Consultation.class
+com/gindho/emr/dto/DiagnosticDto.class
+com/gindho/emr/dto/ConsultationDto$ConsultationDtoBuilder.class
+com/gindho/emr/model/Diagnostic.class
+com/gindho/emr/dto/ConsultationDto.class
+com/gindho/emr/model/Observation.class

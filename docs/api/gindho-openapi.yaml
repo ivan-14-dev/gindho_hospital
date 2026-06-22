@@ -1,0 +1,620 @@
+openapi: 3.1.0
+info:
+  title: GinDHO Hospital Management System API
+  description: |
+    API complète du système de gestion hospitalière GinDHO.
+    Architecture microservices avec Kong API Gateway.
+    Migration Strangler Fig en cours depuis le monolithe.
+  version: 2.0.0
+  contact:
+    name: GinDHO Architecture Team
+  license:
+    name: Proprietary
+
+servers:
+  - url: http://localhost:8000
+    description: Développement local via Kong
+  - url: https://api.gindho.com
+    description: Production
+
+security:
+  - jwtAuth: []
+
+components:
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token from Keycloak or identity-service
+
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data: { type: object }
+        timestamp: { type: string, format: date-time }
+
+    Patient:
+      type: object
+      properties:
+        id: { type: integer }
+        numeroPatient: { type: string }
+        nom: { type: string }
+        prenom: { type: string }
+        email: { type: string }
+        dateNaissance: { type: string, format: date }
+        sexe: { type: string, enum: [HOMME, FEMME, AUTRE] }
+        telephone: { type: string }
+        adresse: { type: string }
+        ville: { type: string }
+        groupeSanguin: { type: string }
+        allergies: { type: string }
+        antecedents: { type: string }
+        actif: { type: boolean }
+
+    RendezVous:
+      type: object
+      properties:
+        id: { type: integer }
+        patientId: { type: integer }
+        medecinId: { type: integer }
+        dateHeure: { type: string, format: date-time }
+        statut: { type: string, enum: [PLANIFIE, CONFIRME, EN_COURS, TERMINE, ANNULE] }
+        motif: { type: string }
+        notes: { type: string }
+
+    Facture:
+      type: object
+      properties:
+        id: { type: integer }
+        patientId: { type: integer }
+        montant: { type: number }
+        statut: { type: string, enum: [EN_ATTENTE, PAYEE, ANNULEE] }
+        dateEmission: { type: string, format: date }
+        datePaiement: { type: string, format: date }
+
+    Analyse:
+      type: object
+      properties:
+        id: { type: integer }
+        patientId: { type: integer }
+        medecinId: { type: integer }
+        typeAnalyse: { type: string }
+        description: { type: string }
+        datePrescription: { type: string, format: date-time }
+        resultat: { type: string }
+        statut: { type: string, enum: [EN_ATTENTE, EN_COURS, TERMINE, VALIDE] }
+        urgent: { type: boolean }
+
+    Notification:
+      type: object
+      properties:
+        id: { type: integer }
+        userId: { type: integer }
+        titre: { type: string }
+        message: { type: string }
+        canal: { type: string, enum: [EMAIL, SMS, PUSH] }
+        lu: { type: boolean }
+        dateEnvoi: { type: string, format: date-time }
+
+paths:
+  # ==================== AUTH ====================
+  /api/auth/register:
+    post:
+      tags: [Authentication]
+      summary: Inscription utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+                nom: { type: string }
+                prenom: { type: string }
+      responses:
+        '200':
+          description: Utilisateur créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /api/auth/login:
+    post:
+      tags: [Authentication]
+      summary: Connexion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        '200':
+          description: Token JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /api/auth/forgot-password:
+    post:
+      tags: [Authentication]
+      summary: Demande de réinitialisation de mot de passe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+      responses:
+        '200':
+          description: Email envoyé si le compte existe
+
+  /api/auth/reset-password:
+    post:
+      tags: [Authentication]
+      summary: Réinitialisation du mot de passe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                code: { type: string }
+                newPassword: { type: string }
+      responses:
+        '200':
+          description: Mot de passe réinitialisé
+
+  # ==================== PATIENTS ====================
+  /api/patients:
+    get:
+      tags: [Patients]
+      summary: Liste paginée des patients
+      parameters:
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: page
+          in: query
+          schema: { type: integer, default: 0 }
+        - name: size
+          in: query
+          schema: { type: integer, default: 20 }
+      responses:
+        '200':
+          description: Liste des patients
+    post:
+      tags: [Patients]
+      summary: Créer un patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '201':
+          description: Patient créé
+
+  /api/patients/{id}:
+    get:
+      tags: [Patients]
+      summary: Détail d'un patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Patient trouvé
+    put:
+      tags: [Patients]
+      summary: Mettre à jour un patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '200':
+          description: Patient mis à jour
+    delete:
+      tags: [Patients]
+      summary: Supprimer un patient (soft-delete)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Patient supprimé
+
+  /api/patients/me:
+    get:
+      tags: [Patients]
+      summary: Profil du patient connecté
+      responses:
+        '200':
+          description: Profil patient
+
+  /api/patients/{id}/dossier:
+    get:
+      tags: [Patients]
+      summary: Dossier médical du patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Dossier médical
+
+  /api/patients/{id}/dossier-complet:
+    get:
+      tags: [Patients]
+      summary: Dossier médical complet (agrégé)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Dossier complet
+
+  /api/patients/{id}/dashboard:
+    get:
+      tags: [Patients]
+      summary: Dashboard patient (statistiques)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Dashboard patient
+
+  /api/patients/stats:
+    get:
+      tags: [Patients]
+      summary: Statistiques globales des patients
+      responses:
+        '200':
+          description: Statistiques
+
+  # ==================== RENDEZ-VOUS ====================
+  /api/appointments:
+    get:
+      tags: [Rendez-vous]
+      summary: Liste des rendez-vous
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer }
+        - name: size
+          in: query
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Liste des rendez-vous
+    post:
+      tags: [Rendez-vous]
+      summary: Créer un rendez-vous
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RendezVous'
+      responses:
+        '201':
+          description: Rendez-vous créé
+
+  /api/appointments/upcoming:
+    get:
+      tags: [Rendez-vous]
+      summary: Rendez-vous à venir
+      parameters:
+        - name: medecinId
+          in: query
+          schema: { type: integer }
+        - name: patientId
+          in: query
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Rendez-vous à venir
+
+  /api/appointments/{id}/confirm:
+    put:
+      tags: [Rendez-vous]
+      summary: Confirmer un rendez-vous
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Rendez-vous confirmé
+
+  /api/appointments/{id}/cancel:
+    put:
+      tags: [Rendez-vous]
+      summary: Annuler un rendez-vous
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                motif: { type: string }
+      responses:
+        '200':
+          description: Rendez-vous annulé
+
+  # ==================== ANALYSES ====================
+  /api/analyses:
+    get:
+      tags: [Analyses]
+      summary: Liste des analyses
+      responses:
+        '200':
+          description: Liste
+    post:
+      tags: [Analyses]
+      summary: Créer une analyse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Analyse'
+      responses:
+        '201':
+          description: Analyse créée
+
+  /api/analyses/urgentes:
+    get:
+      tags: [Analyses]
+      summary: Analyses urgentes
+      responses:
+        '200':
+          description: Analyses urgentes
+
+  /api/analyses/{id}/result:
+    put:
+      tags: [Analyses]
+      summary: Ajouter un résultat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resultat: { type: string }
+      responses:
+        '200':
+          description: Résultat ajouté
+
+  # ==================== FACTURATION ====================
+  /api/factures:
+    get:
+      tags: [Facturation]
+      summary: Liste des factures
+      responses:
+        '200':
+          description: Liste
+    post:
+      tags: [Facturation]
+      summary: Créer une facture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Facture'
+      responses:
+        '201':
+          description: Facture créée
+
+  # ==================== NOTIFICATIONS ====================
+  /api/notifications/send:
+    post:
+      tags: [Notifications]
+      summary: Envoyer une notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          description: Notification envoyée
+
+  /api/notifications/user/{userId}:
+    get:
+      tags: [Notifications]
+      summary: Notifications d'un utilisateur
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Liste des notifications
+
+  # ==================== RESSOURCES HUMAINES ====================
+  /api/hr/employees:
+    get:
+      tags: [Ressources Humaines]
+      summary: Liste des employés
+      responses:
+        '200':
+          description: Liste
+    post:
+      tags: [Ressources Humaines]
+      summary: Créer un employé
+      responses:
+        '201':
+          description: Employé créé
+
+  /api/hr/doctors:
+    get:
+      tags: [Ressources Humaines]
+      summary: Liste des médecins
+      responses:
+        '200':
+          description: Liste
+
+  /api/hr/doctors/by-user/{userId}:
+    get:
+      tags: [Ressources Humaines]
+      summary: Médecin par userId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Médecin trouvé
+
+  # ==================== HOSPITALISATION ====================
+  /api/admissions:
+    get:
+      tags: [Hospitalisation]
+      summary: Liste des hospitalisations
+      responses:
+        '200':
+          description: Liste
+    post:
+      tags: [Hospitalisation]
+      summary: Nouvelle hospitalisation
+      responses:
+        '201':
+          description: Hospitalisation créée
+
+  /api/admissions/en-cours:
+    get:
+      tags: [Hospitalisation]
+      summary: Hospitalisations en cours
+      responses:
+        '200':
+          description: Liste
+
+  /api/admissions/{id}/discharge:
+    put:
+      tags: [Hospitalisation]
+      summary: Sortie du patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Patient sorti
+
+  # ==================== ADMINISTRATION ====================
+  /api/admin/users:
+    get:
+      tags: [Administration]
+      summary: Liste des utilisateurs (admin)
+      responses:
+        '200':
+          description: Liste
+
+  /api/admin/role-templates:
+    get:
+      tags: [Administration]
+      summary: Templates de rôles
+    post:
+      tags: [Administration]
+      summary: Créer un template de rôle
+      responses:
+        '201':
+          description: Template créé
+
+  /api/admin/permissions/catalog:
+    get:
+      tags: [Administration]
+      summary: Catalogue des permissions
+      responses:
+        '200':
+          description: Catalogue
+
+  # ==================== MÉDICAMENTS ====================
+  /api/medicaments:
+    get:
+      tags: [Pharmacie]
+      summary: Liste des médicaments
+      responses:
+        '200':
+          description: Liste
+    post:
+      tags: [Pharmacie]
+      summary: Ajouter un médicament
+      responses:
+        '201':
+          description: Médicament ajouté
+
+  # ==================== DASHBOARD ====================
+  /api/dashboard:
+    get:
+      tags: [Dashboard]
+      summary: Tableau de bord
+      responses:
+        '200':
+          description: Données du dashboard
+
+  # ==================== WEBSOCKET ====================
+  /ws/notifications:
+    get:
+      tags: [WebSocket]
+      summary: Endpoint WebSocket pour notifications temps réel
+      description: |
+        Se connecter via STOMP/SockJS pour recevoir les notifications en temps réel.
+        URL: ws://localhost:8000/ws/notifications
+        Topic: /topic/notifications
+      responses:
+        '101':
+          description: Switching Protocols (WebSocket upgrade)

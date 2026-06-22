@@ -1,0 +1,25 @@
+{{- if .Values.vpa.enabled }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: {{ include "patient-service.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "patient-service.labels" . | nindent 4 }}
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "patient-service.fullname" . }}
+  updatePolicy:
+    updateMode: Auto
+  resourcePolicy:
+    containerPolicies:
+      - containerName: {{ include "patient-service.name" . }}
+        maxAllowed:
+          memory: {{ .Values.vpa.memory.max }}
+          cpu: {{ .Values.vpa.cpu.max }}
+        minAllowed:
+          memory: {{ .Values.vpa.memory.min }}
+          cpu: {{ .Values.vpa.cpu.min }}
+{{- end }}

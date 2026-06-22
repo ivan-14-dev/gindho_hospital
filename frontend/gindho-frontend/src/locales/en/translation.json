@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "patients": "Patients",
+    "appointments": "Appointments",
+    "medicalRecords": "Medical Records",
+    "laboratory": "Laboratory",
+    "pharmacy": "Pharmacy",
+    "payments": "Payments",
+    "aiAssistant": "AI Assistant",
+    "analytics": "Analytics",
+    "hospitalization": "Hospitalization",
+    "settings": "Settings"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "loginButton": "Sign in",
+    "registerButton": "Register"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  }
+}

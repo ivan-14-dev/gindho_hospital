@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GinDHO - Installation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e0e0e0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #999;
+            background: white;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .progress-step.active {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .progress-step.completed {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group .error {
+            color: #e74c3c;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .status-icon.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-icon.running {
+            background: #d1ecf1;
+            color: #0c5460;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-icon.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-icon.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .log-console {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .log-entry {
+            padding: 5px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .log-entry.info {
+            color: #4fc3f7;
+        }
+
+        .log-entry.success {
+            color: #81c784;
+        }
+
+        .log-entry.error {
+            color: #e57373;
+        }
+
+        .log-entry.warning {
+            color: #ffb74d;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .info-box strong {
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 GinDHO</h1>
+            <p>Assistant d'installation et de configuration</p>
+        </div>
+
+        <div class="content">
+            <div class="alert" id="alert"></div>
+
+            <div class="progress-bar">
+                <div class="progress-step" data-step="1">1</div>
+                <div class="progress-step" data-step="1b">1b</div>
+                <div class="progress-step" data-step="2">2</div>
+                <div class="progress-step" data-step="3">3</div>
+                <div class="progress-step" data-step="4">4</div>
+                <div class="progress-step" data-step="5">5</div>
+                <div class="progress-step" data-step="6">6</div>
+            </div>
+
+            <!-- Étape 1: Informations générales -->
+            <div class="form-section active" id="step1">
+                <h2 class="section-title">Informations de l'hôpital</h2>
+                <div class="info-box">
+                    <strong>Étape 1 sur 6 :</strong> Renseignez les informations générales de votre établissement hospitalier.
+                </div>
+
+                <form id="formStep1">
+                    <div class="form-group">
+                        <label for="hospitalName">Nom de l'hôpital *</label>
+                        <input type="text" id="hospitalName" name="hospitalName" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">Ville *</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Pays *</label>
+                            <input type="text" id="country" name="country" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hospitalAddress">Adresse complète *</label>
+                        <input type="text" id="hospitalAddress" name="hospitalAddress" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Téléphone *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email de l'hôpital *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="domainName">Nom de domaine *</label>
+                        <input type="text" id="domainName" name="domainName" placeholder="ex: hopital-exemple.com" required>
+                    </div>
+
+                    <div class="button-group">
+                        <div></div>
+                        <button type="submit" class="btn btn-primary">Suivant →</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Étape 1b: Configuration Base de Données -->
+            <div class="form-section" id="step1b">
+                <h2 class="section-title">Configuration de la Base de Données</h2>
+                <div class="info-box">
+                    <strong>Étape 1b sur 7 :</strong> Configurez les identifiants pour accéder à la base de données PostgreSQL.
+                </div>
+
+                <form id="formStep1b">
+                    <div class="form-group">
+                        <label for="databaseUsername">Nom d'utilisateur PostgreSQL *</label>
+                        <input type="text" id="databaseUsername" name="databaseUsername" placeholder="gindho" required>
+                        <small style="color: #666;">Généralement : gindho, postgres, ou admin</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="databasePassword">Mot de passe PostgreSQL *</label>
+                        <input type="password" id="databasePassword" name="databasePassword" minlength="8" required>
+                        <small style="color: #666;">Minimum 8 caractères - Ce mot de passe sera utilisé pour tous les services</small>
+                    </div>
+
+                    <div class="alert alert-warning" style="background: #fff3cd; color: #856404; border: 1px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <strong>⚠️ Important :</strong> Notez ce mot de passe précieusement. Il sera requis pour accéder à la base de données et ne pourra pas être récupéré si perdu.
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()">← Précédent</button>
+                        <button type="submit" class="btn btn-primary">Suivant →</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Étape 2: Compte SuperAdmin -->
+            <div class="form-section" id="step2">
+                <h2 class="section-title">Compte Super Administrateur</h2>
+                <div class="info-box">
+                    <strong>Étape 2 sur 6 :</strong> Créez le premier compte administrateur qui aura tous les droits sur le système.
+                </div>
+
+                <form id="formStep2">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="superAdminFirstName">Prénom *</label>
+                            <input type="text" id="superAdminFirstName" name="superAdminFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="superAdminLastName">Nom *</label>
+                            <input type="text" id="superAdminLastName" name="superAdminLastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="superAdminUsername">Nom d'utilisateur *</label>
+                        <input type="text" id="superAdminUsername" name="superAdminUsername" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="superAdminEmail">Email *</label>
+                        <input type="email" id="superAdminEmail" name="superAdminEmail" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="superAdminPassword">Mot de passe *</label>
+                        <input type="password" id="superAdminPassword" name="superAdminPassword" minlength="8" required>
+                        <small style="color: #666;">Minimum 8 caractères</small>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()">← Précédent</button>
+                        <button type="submit" class="btn btn-primary">Suivant →</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Étape 3: Configuration SMTP -->
+            <div class="form-section" id="step3">
+                <h2 class="section-title">Configuration du serveur de messagerie</h2>
+                <div class="info-box">
+                    <strong>Étape 3 sur 6 :</strong> Configurez le serveur SMTP pour l'envoi d'emails (notifications, rappels, etc.).
+                </div>
+
+                <form id="formStep3">
+                    <div class="form-group">
+                        <label for="smtpHost">Serveur SMTP *</label>
+                        <input type="text" id="smtpHost" name="smtpHost" placeholder="smtp.gmail.com" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="smtpPort">Port *</label>
+                            <input type="number" id="smtpPort" name="smtpPort" value="587" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="smtpFromEmail">Email expéditeur *</label>
+                            <input type="email" id="smtpFromEmail" name="smtpFromEmail" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="smtpUsername">Nom d'utilisateur SMTP *</label>
+                        <input type="text" id="smtpUsername" name="smtpUsername" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="smtpPassword">Mot de passe SMTP *</label>
+                        <input type="password" id="smtpPassword" name="smtpPassword" required>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()">← Précédent</button>
+                        <button type="submit" class="btn btn-primary">Suivant →</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Étape 4: Configuration de l'application -->
+            <div class="form-section" id="step4">
+                <h2 class="section-title">Configuration de l'application</h2>
+                <div class="info-box">
+                    <strong>Étape 4 sur 6 :</strong> Définissez les paramètres de connexion pour l'application.
+                </div>
+
+                <form id="formStep4">
+                    <div class="form-group">
+                        <label for="applicationUrl">URL de l'application *</label>
+                        <input type="url" id="applicationUrl" name="applicationUrl" placeholder="https://hopital-exemple.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applicationEmail">Email de l'application *</label>
+                        <input type="email" id="applicationEmail" name="applicationEmail" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applicationEmailPassword">Mot de passe de l'email *</label>
+                        <input type="password" id="applicationEmailPassword" name="applicationEmailPassword" required>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()">← Précédent</button>
+                        <button type="submit" class="btn btn-primary">Suivant →</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Étape 5: Vérification -->
+            <div class="form-section" id="step5">
+                <h2 class="section-title">Vérification des informations</h2>
+                <div class="info-box">
+                    <strong>Étape 5 sur 6 :</strong> Vérifiez toutes les informations avant de lancer l'installation.
+                </div>
+
+                <div class="status-card" id="summaryCard">
+                    <!-- Rempli dynamiquement -->
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep()">← Précédent</button>
+                    <button type="button" class="btn btn-primary" onclick="startInstallation()">Lancer l'installation 🚀</button>
+                </div>
+            </div>
+
+            <!-- Étape 6: Installation en cours -->
+            <div class="form-section" id="step6">
+                <h2 class="section-title">Installation en cours...</h2>
+                <div class="info-box">
+                    <strong>Étape 6 sur 6 :</strong> Veuillez patienter pendant que nous configurons votre infrastructure.
+                </div>
+
+                <div class="status-card" id="installationStatus">
+                    <!-- Rempli dynamiquement -->
+                </div>
+
+                <div class="log-console" id="logConsole">
+                    <div class="log-entry info">[INFO] Démarrage de l'installation...</div>
+                </div>
+
+                <div class="button-group" id="finalButtons" style="display: none;">
+                    <button type="button" class="btn btn-primary" onclick="location.reload()">Recommencer</button>
+                    <a id="accessLink" href="#" class="btn btn-primary" style="display: none;">Accéder à l'application →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+        let formData = {};
+
+        function showStep(step) {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+
+            document.querySelectorAll('.progress-step').forEach((el, index) => {
+                el.classList.remove('active', 'completed');
+                if (index + 1 < step) el.classList.add('completed');
+                if (index + 1 === step) el.classList.add('active');
+            });
+
+            currentStep = step;
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = 'alert show alert-' + type;
+            alert.textContent = message;
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        function collectFormData(formId) {
+            const form = document.getElementById(formId);
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+            return data;
+        }
+
+        document.getElementById('formStep1').addEventListener('submit', (e) => {
+            e.preventDefault();
+            formData = {...formData, ...collectFormData('formStep1')};
+            showStep('1b');
+        });
+
+        document.getElementById('formStep1b').addEventListener('submit', (e) => {
+            e.preventDefault();
+            formData = {...formData, ...collectFormData('formStep1b')};
+            showStep(2);
+        });
+
+        document.getElementById('formStep2').addEventListener('submit', (e) => {
+            e.preventDefault();
+            formData = {...formData, ...collectFormData('formStep2')};
+            showStep(3);
+        });
+
+        document.getElementById('formStep3').addEventListener('submit', (e) => {
+            e.preventDefault();
+            formData = {...formData, ...collectFormData('formStep3')};
+            showStep(4);
+        });
+
+        document.getElementById('formStep4').addEventListener('submit', (e) => {
+            e.preventDefault();
+            formData = {...formData, ...collectFormData('formStep4')};
+            showSummary();
+            showStep(5);
+        });
+
+        function showSummary() {
+            const summary = `
+                <div class="status-item"><strong>Hôpital:</strong> ${formData.hospitalName}</div>
+                <div class="status-item"><strong>Adresse:</strong> ${formData.hospitalAddress}, ${formData.city}, ${formData.country}</div>
+                <div class="status-item"><strong>Téléphone:</strong> ${formData.phone}</div>
+                <div class="status-item"><strong>Email:</strong> ${formData.email}</div>
+                <div class="status-item"><strong>Domaine:</strong> ${formData.domainName}</div>
+                <div class="status-item"><strong>Base de données:</strong> ${formData.databaseUsername}</div>
+                <div class="status-item"><strong>SuperAdmin:</strong> ${formData.superAdminFirstName} ${formData.superAdminLastName} (${formData.superAdminUsername})</div>
+                <div class="status-item"><strong>SMTP:</strong> ${formData.smtpHost}:${formData.smtpPort}</div>
+                <div class="status-item"><strong>Application URL:</strong> ${formData.applicationUrl}</div>
+            `;
+            document.getElementById('summaryCard').innerHTML = summary;
+        }
+
+        async function startInstallation() {
+            showStep(6);
+            addLog('Démarrage de l\'installation...', 'info');
+
+            try {
+                const response = await fetch('/api/setup/start', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    addLog('Configuration envoyée avec succès', 'success');
+                    simulateInstallation();
+                } else {
+                    addLog('Erreur: ' + result.message, 'error');
+                    showAlert('Erreur lors du démarrage', 'error');
+                }
+            } catch (error) {
+                addLog('Erreur de connexion: ' + error.message, 'error');
+                showAlert('Erreur de connexion au serveur', 'error');
+            }
+        }
+
+        function simulateInstallation() {
+            const steps = [
+                {key: 'database', message: 'Initialisation de la base de données...', duration: 2000},
+                {key: 'keycloak', message: 'Configuration de Keycloak...', duration: 3000},
+                {key: 'superadmin', message: 'Création du compte SuperAdmin...', duration: 1500},
+                {key: 'smtp', message: 'Configuration SMTP...', duration: 1000},
+                {key: 'domains', message: 'Configuration des domaines...', duration: 1500},
+                {key: 'complete', message: 'Finalisation...', duration: 1000}
+            ];
+
+            let currentIndex = 0;
+
+            function processStep() {
+                if (currentIndex >= steps.length) {
+                    addLog('Installation terminée avec succès!', 'success');
+                    document.getElementById('finalButtons').style.display = 'flex';
+                    document.getElementById('accessLink').href = formData.applicationUrl || '/';
+                    document.getElementById('accessLink').style.display = 'inline-block';
+                    return;
+                }
+
+                const step = steps[currentIndex];
+                addLog(step.message, 'info');
+                updateStepStatus(step.key, 'running');
+
+                setTimeout(() => {
+                    updateStepStatus(step.key, 'completed');
+                    addLog(step.message.replace('...', ' terminé ✓'), 'success');
+                    currentIndex++;
+                    processStep();
+                }, step.duration);
+            }
+
+            processStep();
+        }
+
+        function updateStepStatus(stepKey, status) {
+            const statusCard = document.getElementById('installationStatus');
+            const stepElement = document.querySelector(`[data-step="${getStepNumber(stepKey)}"]`);
+
+            if (status === 'running') {
+                stepElement.classList.add('running');
+            } else if (status === 'completed') {
+                stepElement.classList.remove('running');
+                stepElement.classList.add('completed');
+                stepElement.innerHTML = '✓';
+            }
+        }
+
+        function getStepNumber(stepKey) {
+            const map = {
+                'database': 1,
+                'keycloak': 2,
+                'superadmin': 3,
+                'smtp': 4,
+                'domains': 5,
+                'complete': 6
+            };
+            return map[stepKey] || 1;
+        }
+
+        function addLog(message, type = 'info') {
+            const console = document.getElementById('logConsole');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry ' + type;
+            entry.textContent = `[${timestamp}] ${message}`;
+            console.appendChild(entry);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        // Vérifier le statut au chargement
+        fetch('/api/setup/status')
+            .then(res => res.json())
+            .then(data => {
+                if (data.setupCompleted) {
+                    showAlert('Le système est déjà configuré', 'success');
+                    document.getElementById('step6').querySelector('.info-box').innerHTML =
+                        '<strong>Installation déjà effectuée</strong><br>Le système a été configuré le ' + new Date().toLocaleDateString();
+                }
+            });
+    </script>
+</body>
+</html>
+
+</parameter>
+<task_progress>
+- [x] Analyze existing project structure
+- [x] Design the setup service architecture
+- [x] Create the setup service backend
+- [ ] Create the setup service frontend
+- [ ] Integrate with existing infrastructure
+- [ ] Test the implementation
+</task_progress>
+</write_to_file>

@@ -1,0 +1,9 @@
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/PaymentServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/payment/controller/PaymentController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/payment/model/PaiementTransaction.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/payment/model/Remboursement.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/payment/model/StatutRemboursement.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/payment/model/StatutTransaction.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/payment/repository/PaiementTransactionRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/payment/repository/RemboursementRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/payment-service/src/main/java/com/gindho/payment/service/PaymentService.java

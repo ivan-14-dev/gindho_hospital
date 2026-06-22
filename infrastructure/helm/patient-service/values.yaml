@@ -1,0 +1,98 @@
+# =============================================================================
+# GinDHO patient-service Helm values
+# =============================================================================
+
+# Number of replicas
+replicaCount: 2
+
+# Image settings
+image:
+  repository: gindho/patient-service
+  tag: latest
+  pullPolicy: Always
+
+# Service port configuration
+service:
+  port: 8081
+  targetPort: 8081
+  name: http
+
+# Environment variables from ConfigMap
+configMap:
+  name: patient-service-config
+  data:
+    database_url: "jdbc:postgresql://postgres.patient.svc.cluster.local:5432/patient_service"
+    kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+
+# Secret references
+secrets:
+  db_username:
+    name: patient-service-secret
+    key: db_username
+  db_password:
+    name: patient-service-secret
+    key: db_password
+  jwt_secret:
+    name: patient-service-secret
+    key: jwt_secret
+
+# Health probe configuration
+livenessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8081
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 8081
+  initialDelaySeconds: 20
+  periodSeconds: 5
+
+# Resource limits and requests
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+# Autoscaling configuration
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# PodDisruptionBudget
+pdb:
+  enabled: true
+  minAvailable: 1
+
+# NetworkPolicy
+networkPolicy:
+  enabled: true
+  ingressNamespaces:
+    - kong
+
+# ServiceMonitor for Prometheus operator
+serviceMonitor:
+  enabled: true
+  namespace: patient
+  interval: 30s
+  scrapeTimeout: 10s
+  path: /actuator/prometheus
+  port: http
+
+# Additional annotations for pods
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "8081"
+  prometheus.io/path: "/actuator/prometheus"
+
+# Namespace
+namespace: patient

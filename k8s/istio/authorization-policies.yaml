@@ -1,0 +1,79 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: patient-service-policy
+  namespace: patient
+spec:
+  selector:
+    matchLabels:
+      app: patient-service
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/kong/sa/kong-gateway"]
+      to:
+        - operation:
+            methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+            paths: ["/api/v1/patients*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: appointment-service-policy
+  namespace: appointment
+spec:
+  selector:
+    matchLabels:
+      app: appointment-service
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/kong/sa/kong-gateway"]
+      to:
+        - operation:
+            methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+            paths: ["/api/v1/appointments*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: billing-service-policy
+  namespace: billing
+spec:
+  selector:
+    matchLabels:
+      app: billing-service
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/kong/sa/kong-gateway"]
+      to:
+        - operation:
+            methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+            paths: ["/api/v1/billing*", "/api/v1/invoices*", "/api/v1/payments*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: infrastructure-services-policy
+  namespace: infrastructure
+spec:
+  selector:
+    matchLabels:
+      component: streaming
+  rules:
+    - from:
+        - source:
+            namespaces: ["patient", "appointment", "billing", "hr", "reporting"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-health-checks
+  namespace: gindho
+spec:
+  action: ALLOW
+  rules:
+    - to:
+        - operation:
+            paths: ["/health*", "/ready*", "/metrics"]

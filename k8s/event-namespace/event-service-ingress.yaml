@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: event-service-ingress
+  namespace: event
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /event
+        pathType: Prefix
+        backend:
+          service:
+            name: event-service
+            port:
+              number: 8103

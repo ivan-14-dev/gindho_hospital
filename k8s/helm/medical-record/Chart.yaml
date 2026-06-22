@@ -1,0 +1,15 @@
+apiVersion: v2
+name: medical-record-service
+version: 1.0.0
+description: Helm chart for GinDHO medical-record-service microservice
+type: application
+keywords:
+  - gindho
+  - medical-record
+  - emr
+  - hospital
+home: https://github.com/gindho/gindho
+maintainers:
+  - name: GinDHO Team
+    email: team@gindho.com
+appVersion: "1.0.0"

@@ -1,0 +1,13 @@
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/PharmacyServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/controller/PharmacyController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/controller/PrescriptionController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/model/LotMedicament.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/model/Maladie.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/model/Medicament.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/model/PatientMaladie.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/model/Prescription.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/LotMedicamentRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/MaladieRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/MedicamentRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/PatientMaladieRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/pharmacy-service/src/main/java/com/gindho/pharmacy/repository/PrescriptionRepository.java

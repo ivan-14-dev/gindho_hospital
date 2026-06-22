@@ -1,0 +1,6 @@
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/emergency-service/src/main/java/com/gindho/EmergencyServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/emergency-service/src/main/java/com/gindho/emergency/controller/EmergencyController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/emergency-service/src/main/java/com/gindho/emergency/dto/EmergencyTriageDto.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/emergency-service/src/main/java/com/gindho/emergency/model/EmergencyTriage.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/emergency-service/src/main/java/com/gindho/emergency/repository/EmergencyTriageRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/emergency-service/src/main/java/com/gindho/emergency/service/EmergencyService.java

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: round-service-ingress
+  namespace: round
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /round
+        pathType: Prefix
+        backend:
+          service:
+            name: round-service
+            port:
+              number: 8088

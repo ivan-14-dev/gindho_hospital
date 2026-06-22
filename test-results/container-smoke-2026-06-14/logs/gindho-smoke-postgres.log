@@ -1,0 +1,229 @@
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+sh: locale: not found
+2026-06-14 04:05:57.144 UTC [40] WARNING:  no usable system locales were found
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
+
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+waiting for server to start....2026-06-14 04:05:57.926 UTC [46] LOG:  starting PostgreSQL 16.14 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-06-14 04:05:57.927 UTC [46] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-06-14 04:05:57.931 UTC [49] LOG:  database system was shut down at 2026-06-14 04:05:57 UTC
+2026-06-14 04:05:57.936 UTC [46] LOG:  database system is ready to accept connections
+ done
+server started
+CREATE DATABASE
+
+
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/init-dbs.sh
+/var/run/postgresql:5432 - accepting connections
+Creating database: patient_service
+CREATE DATABASE
+Creating database: appointment_service
+CREATE DATABASE
+Creating database: billing_service
+CREATE DATABASE
+Creating database: pharmacy_service
+CREATE DATABASE
+Creating database: laboratory_service
+CREATE DATABASE
+Creating database: admission_service
+CREATE DATABASE
+Creating database: emergency_service
+CREATE DATABASE
+Creating database: medical_record_service
+CREATE DATABASE
+Creating database: bed_service
+CREATE DATABASE
+Creating database: ward_service
+CREATE DATABASE
+Creating database: surgery_service
+CREATE DATABASE
+Creating database: imaging_service
+CREATE DATABASE
+Creating database: inventory_service
+CREATE DATABASE
+Creating database: hr_service
+CREATE DATABASE
+Creating database: notification_service
+CREATE DATABASE
+Creating database: audit_service
+CREATE DATABASE
+Creating database: insurance_service
+CREATE DATABASE
+Creating database: event_service
+CREATE DATABASE
+Creating database: authorization_service
+CREATE DATABASE
+Creating database: identity_service
+CREATE DATABASE
+Creating database: payment_service
+CREATE DATABASE
+Creating database: prescription_service
+CREATE DATABASE
+Creating database: scheduling_service
+CREATE DATABASE
+Creating database: ambulance_service
+CREATE DATABASE
+Creating database: asset_service
+CREATE DATABASE
+Creating database: procurement_service
+CREATE DATABASE
+Creating database: round_service
+CREATE DATABASE
+Creating database: reporting_service
+CREATE DATABASE
+Creating database: generator_core
+CREATE DATABASE
+Creating database: kong
+CREATE DATABASE
+Creating database: keycloak
+CREATE DATABASE
+All databases created successfully!
+
+waiting for server to shut down...2026-06-14 04:06:01.957 UTC [46] LOG:  received fast shutdown request
+.2026-06-14 04:06:01.963 UTC [46] LOG:  aborting any active transactions
+2026-06-14 04:06:01.966 UTC [46] LOG:  background worker "logical replication launcher" (PID 52) exited with exit code 1
+2026-06-14 04:06:01.970 UTC [47] LOG:  shutting down
+2026-06-14 04:06:01.975 UTC [47] LOG:  checkpoint starting: shutdown immediate
+..2026-06-14 04:06:04.955 UTC [47] LOG:  checkpoint complete: wrote 15373 buffers (93.8%); 0 WAL file(s) added, 0 removed, 8 recycled; write=0.467 s, sync=2.476 s, total=2.985 s; sync files=9477, longest=0.199 s, average=0.001 s; distance=136700 kB, estimate=136700 kB; lsn=0/9A71898, redo lsn=0/9A71898
+.2026-06-14 04:06:04.998 UTC [46] LOG:  database system is shut down
+ done
+server stopped
+
+PostgreSQL init process complete; ready for start up.
+
+2026-06-14 04:06:05.250 UTC [1] LOG:  starting PostgreSQL 16.14 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-06-14 04:06:05.250 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-06-14 04:06:05.250 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-06-14 04:06:05.378 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-06-14 04:06:05.401 UTC [227] LOG:  database system was shut down at 2026-06-14 04:06:04 UTC
+2026-06-14 04:06:05.413 UTC [1] LOG:  database system is ready to accept connections
+2026-06-14 04:07:42.345 UTC [256] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:43.456 UTC [257] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:44.470 UTC [258] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:45.480 UTC [259] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:46.493 UTC [260] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:47.502 UTC [261] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:48.519 UTC [262] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:49.530 UTC [264] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:50.542 UTC [265] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:51.554 UTC [266] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:52.567 UTC [267] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:53.578 UTC [268] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:54.589 UTC [269] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:55.601 UTC [270] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:56.613 UTC [271] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:57.625 UTC [272] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:58.637 UTC [273] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:07:59.650 UTC [274] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:00.664 UTC [275] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:01.673 UTC [277] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:02.685 UTC [278] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:03.696 UTC [279] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:04.708 UTC [280] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:05.722 UTC [281] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:06.731 UTC [282] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:07.743 UTC [283] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:08.751 UTC [284] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:09.763 UTC [285] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:10.780 UTC [286] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:11.792 UTC [287] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:12.805 UTC [288] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:13.816 UTC [290] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:14.825 UTC [291] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:15.841 UTC [292] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:16.858 UTC [293] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:17.868 UTC [294] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:18.879 UTC [295] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:19.892 UTC [296] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:20.905 UTC [297] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:21.913 UTC [298] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:22.927 UTC [299] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:23.939 UTC [300] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:24.951 UTC [301] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:25.963 UTC [303] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:26.975 UTC [304] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:27.987 UTC [305] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:29.005 UTC [306] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:30.014 UTC [307] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:31.026 UTC [308] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:32.037 UTC [309] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:33.048 UTC [310] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:34.061 UTC [311] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:35.075 UTC [312] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:36.085 UTC [313] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:37.095 UTC [314] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:38.105 UTC [316] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:39.117 UTC [317] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:40.132 UTC [318] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:41.145 UTC [319] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:52.161 UTC [321] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:53.173 UTC [322] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:54.181 UTC [323] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:55.193 UTC [324] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:56.202 UTC [325] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:57.215 UTC [326] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:58.225 UTC [327] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:08:59.237 UTC [328] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:00.245 UTC [329] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:01.258 UTC [330] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:02.268 UTC [332] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:03.277 UTC [333] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:04.286 UTC [334] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:05.295 UTC [335] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:06.306 UTC [336] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:07.315 UTC [337] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:08.323 UTC [338] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:09.333 UTC [339] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:10.343 UTC [340] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:11.356 UTC [341] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:12.368 UTC [342] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:13.379 UTC [343] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:14.392 UTC [345] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:15.405 UTC [346] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:16.417 UTC [347] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:17.426 UTC [348] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:18.439 UTC [349] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:19.455 UTC [350] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:20.467 UTC [351] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:21.480 UTC [352] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:22.490 UTC [353] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:23.502 UTC [354] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:24.521 UTC [355] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:25.533 UTC [357] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:26.548 UTC [358] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:27.559 UTC [359] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:28.567 UTC [360] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:29.581 UTC [361] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:30.593 UTC [362] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:31.605 UTC [363] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:32.618 UTC [364] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:33.630 UTC [365] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:34.647 UTC [366] FATAL:  database "api_gateway" does not exist
+2026-06-14 04:09:36.128 UTC [389] LOG:  could not receive data from client: Connection reset by peer
+2026-06-14 04:11:05.501 UTC [225] LOG:  checkpoint starting: time
+2026-06-14 04:13:11.739 UTC [225] LOG:  checkpoint complete: wrote 1258 buffers (7.7%); 0 WAL file(s) added, 0 removed, 0 recycled; write=126.203 s, sync=0.025 s, total=126.239 s; sync files=585, longest=0.001 s, average=0.001 s; distance=5584 kB, estimate=5584 kB; lsn=0/A0816F0, redo lsn=0/9FE5A78
+2026-06-14 04:16:05.840 UTC [225] LOG:  checkpoint starting: time
+2026-06-14 04:16:50.584 UTC [225] LOG:  checkpoint complete: wrote 445 buffers (2.7%); 0 WAL file(s) added, 1 removed, 0 recycled; write=44.715 s, sync=0.021 s, total=44.745 s; sync files=385, longest=0.002 s, average=0.001 s; distance=1630 kB, estimate=5189 kB; lsn=0/A1F16E8, redo lsn=0/A17D618

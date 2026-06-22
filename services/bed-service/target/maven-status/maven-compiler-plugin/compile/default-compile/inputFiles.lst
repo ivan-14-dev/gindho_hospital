@@ -1,0 +1,10 @@
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/BedServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/controller/BedController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/controller/ChambreAliasController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/dto/ChambreDto.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/dto/LitDto.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/model/Chambre.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/model/Lit.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/repository/ChambreRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/repository/LitRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/bed-service/src/main/java/com/gindho/bed/service/BedService.java

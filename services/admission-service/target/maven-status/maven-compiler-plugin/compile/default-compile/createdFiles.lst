@@ -1,0 +1,9 @@
+com/gindho/admission/dto/HospitalisationDto.class
+com/gindho/admission/repository/HospitalisationRepository.class
+com/gindho/admission/service/HospitalisationService.class
+com/gindho/admission/model/Hospitalisation.class
+com/gindho/AdmissionServiceApplication.class
+com/gindho/admission/controller/HospitalisationAliasController.class
+com/gindho/admission/model/Hospitalisation$StatutHospitalisation.class
+com/gindho/admission/controller/AdmissionController.class
+com/gindho/admission/dto/HospitalisationDto$HospitalisationDtoBuilder.class

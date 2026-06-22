@@ -1,0 +1,53 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ include "patient-service.fullname" . }}-gateway
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    istio.io/gateway: kong-gateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - {{ include "patient-service.fullname" . }}.gindho.com
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - {{ include "patient-service.fullname" . }}.gindho.com
+      tls:
+        mode: SIMPLE
+        credential:
+          secret:
+            name: gindho-tls
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "patient-service.fullname" . }}
+  namespace: {{ .Values.namespace }}
+spec:
+  hosts:
+    - {{ include "patient-service.fullname" . }}.gindho.com
+  gateways:
+    - {{ include "patient-service.fullname" . }}-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /api/v1/patients
+      route:
+        - destination:
+            host: {{ include "patient-service.fullname" . }}
+            port:
+              number: {{ .Values.service.port }}
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: connect-failure,refused-stream
+      timeout: 15s

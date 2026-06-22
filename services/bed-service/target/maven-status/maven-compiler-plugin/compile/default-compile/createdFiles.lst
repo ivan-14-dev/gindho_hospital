@@ -1,0 +1,14 @@
+com/gindho/bed/controller/LitAliasController.class
+com/gindho/BedServiceApplication.class
+com/gindho/bed/dto/LitDto.class
+com/gindho/bed/service/BedService.class
+com/gindho/bed/model/Chambre$TypeChambre.class
+com/gindho/bed/dto/LitDto$LitDtoBuilder.class
+com/gindho/bed/controller/ChambreAliasController.class
+com/gindho/bed/dto/ChambreDto.class
+com/gindho/bed/dto/ChambreDto$ChambreDtoBuilder.class
+com/gindho/bed/controller/BedController.class
+com/gindho/bed/repository/ChambreRepository.class
+com/gindho/bed/model/Chambre.class
+com/gindho/bed/repository/LitRepository.class
+com/gindho/bed/model/Lit.class

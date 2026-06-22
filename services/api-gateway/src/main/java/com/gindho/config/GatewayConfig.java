@@ -159,8 +159,11 @@ public class GatewayConfig {
                                         .setFallbackUri("forward:/fallback/audit")))
                         .uri("lb://audit-service"))
                 .route("legacy-monolith", r -> r.path("/api/legacy/**")
-                        .filters(f -> f.rewritePath("/api/legacy/(?<segment>.*)", "/api/${segment}")
-                                .addRequestHeader("X-Gateway-Source", "spring-gateway")))
+                        .filters(f -> {
+                            var spec = f.rewritePath("/api/legacy/(?<segment>.*)", "/api/${segment}");
+                            return spec.addRequestHeader("X-Gateway-Source", "spring-gateway");
+                        })
+                        .uri("lb://backend-service"))
                 .build();
     }
 

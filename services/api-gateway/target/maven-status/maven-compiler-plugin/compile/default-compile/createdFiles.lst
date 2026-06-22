@@ -1,0 +1,4 @@
+com/gindho/ApiGatewayApplication.class
+com/gindho/config/GatewayConfig.class
+com/gindho/config/GatewaySecurityConfig.class
+com/gindho/controller/GatewayHealthController.class

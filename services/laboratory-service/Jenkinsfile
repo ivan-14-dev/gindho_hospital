@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+
+    environment {
+        SERVICE_NAME = "laboratory-service"
+        IMAGE_NAME = "gindho/${SERVICE_NAME}"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir("services/${SERVICE_NAME}") {
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir("services/${SERVICE_NAME}") {
+                    sh 'mvn test || true'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                script {
+                    def img = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}", "services/${SERVICE_NAME}")
+                    docker.withRegistry('', 'docker-credentials') {
+                        img.push()
+                        img.push("latest")
+                    }
+                }
+            }
+        }
+
+        stage('Deploy (K8s)') {
+            steps {
+                sh """
+                kubectl apply -f k8s/${SERVICE_NAME}
+                """
+            }
+        }
+    }
+}

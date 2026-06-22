@@ -1,4 +1,12 @@
+com/gindho/audit/service/QualityService.class
+com/gindho/audit/controller/QualityController.class
+com/gindho/audit/dto/AuditQualiteDto.class
 com/gindho/AuditServiceApplication.class
 com/gindho/audit/model/AuditLog.class
 com/gindho/audit/repository/AuditLogRepository.class
+com/gindho/audit/model/Incident.class
 com/gindho/audit/controller/AuditController.class
+com/gindho/audit/repository/AuditQualiteRepository.class
+com/gindho/audit/dto/IncidentDto.class
+com/gindho/audit/model/AuditQualite.class
+com/gindho/audit/repository/IncidentRepository.class

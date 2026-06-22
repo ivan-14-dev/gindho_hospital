@@ -8,9 +8,11 @@
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/model/Paiement.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/model/Revenu.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/model/StatutFacture.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/repository/BillingRepository.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/repository/FactureRepository.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/repository/PaiementRepository.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/repository/RevenuRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/service/BillingService.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/service/FactureService.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/service/PaiementService.java
 /media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/billing-service/src/main/java/com/gindho/billing/service/RevenuService.java

@@ -1,6 +1,8 @@
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/laboratory-service/src/main/java/com/gindho/LaboratoryServiceApplication.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/laboratory-service/src/main/java/com/gindho/laboratory/controller/LaboratoryController.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/laboratory-service/src/main/java/com/gindho/laboratory/dto/AnalyseDto.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/laboratory-service/src/main/java/com/gindho/laboratory/model/Analyse.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/laboratory-service/src/main/java/com/gindho/laboratory/repository/AnalyseRepository.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/services/laboratory-service/src/main/java/com/gindho/laboratory/service/AnalyseService.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/laboratory-service/src/main/java/com/gindho/LaboratoryServiceApplication.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/laboratory-service/src/main/java/com/gindho/laboratory/controller/LaboratoryController.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/laboratory-service/src/main/java/com/gindho/laboratory/dto/AnalyseDto.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/laboratory-service/src/main/java/com/gindho/laboratory/model/Analyse.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/laboratory-service/src/main/java/com/gindho/laboratory/repository/AnalyseRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/laboratory-service/src/main/java/com/gindho/laboratory/repository/LaboratoryRepository.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/laboratory-service/src/main/java/com/gindho/laboratory/service/AnalyseService.java
+/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/laboratory-service/src/main/java/com/gindho/laboratory/service/LaboratoryService.java

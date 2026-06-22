@@ -27,4 +27,7 @@ public final class EventType {
     public static final String QUALITY_INCIDENT_RESOLVED = "QualityIncidentResolved";
     public static final String INSURANCE_CREATED = "InsuranceCreated";
     public static final String INSURANCE_UPDATED = "InsuranceUpdated";
+    public static final String DOCTOR_AVAILABILITY_UPDATED = "DoctorAvailabilityUpdated";
+    public static final String PATIENT_TRANSFER_REQUESTED = "PatientTransferRequested";
+    public static final String PUBLIC_EVENT_CREATED = "PublicEventCreated";
 }

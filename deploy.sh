@@ -22,10 +22,10 @@ clean() {
 build() {
     log "Building backend and all microservices..."
     clean
+    log "Building microservices (reactor build, tests skipped)..."
+    mvn clean install -Dmaven.test.skip=true -f pom.xml
     log "Building backend..."
-    mvn clean package -DskipTests -f backend/pom.xml
-    log "Building microservices..."
-    mvn clean install -DskipTests -f pom.xml
+    mvn clean package -Dmaven.test.skip=true -f services/backend-service/pom.xml
     log "Build complete."
 }
 

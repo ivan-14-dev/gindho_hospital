@@ -83,6 +83,24 @@ deploy_k8s() {
         kubectl apply -f k8s/crds/opentelemetrycollector-crd.yaml
     fi
 
+    # Install Strimzi Kafka Operator (for KafkaTopic CRD)
+    log_info "Installing Strimzi Kafka Operator..."
+    helm repo add strimzi https://strimzi.io/charts/ 2>/dev/null || true
+    helm repo update
+    helm upgrade --install strimzi-kafka-operator strimzi/strimzi-kafka-operator \
+        --namespace kube-system --create-namespace \
+        --set watchNamespaces="{infrastructure}" \
+        --wait --timeout 5m
+
+    # Install Prometheus Operator (kube-prometheus-stack for PrometheusRule, ServiceMonitor, etc.)
+    log_info "Installing Prometheus Operator..."
+    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts 2>/dev/null || true
+    helm repo update
+    helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+        --namespace infrastructure --create-namespace \
+        --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false \
+        --wait --timeout 5m
+
     # Deploy infrastructure (PostgreSQL, Kafka, Keycloak, Kong, Redis, MongoDB, etc.)
     kubectl apply -k k8s/infrastructure
 

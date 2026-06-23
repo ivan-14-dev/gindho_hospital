@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: surgery-service-ingress
+  namespace: surgery
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /surgery
+        pathType: Prefix
+        backend:
+          service:
+            name: surgery-service
+            port:
+              number: 9012

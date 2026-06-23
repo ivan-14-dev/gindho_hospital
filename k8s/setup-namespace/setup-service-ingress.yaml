@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: setup-service-ingress
+  namespace: setup
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /setup
+        pathType: Prefix
+        backend:
+          service:
+            name: setup-service
+            port:
+              number: 9002

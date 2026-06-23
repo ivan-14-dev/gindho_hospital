@@ -30,9 +30,16 @@ build() {
 build_docker() {
     log "Building Docker images..."
 
+    # Build setup-service first (browser wizard, MUST be first)
+    if [ -f "services/setup-service/Dockerfile" ]; then
+        log "Building setup-service..."
+        (cd services/setup-service && docker build -t "gindho/setup-service:latest" .)
+    fi
+
     # Build microservice images
     for svc in services/*/; do
         name=$(basename "$svc")
+        [ "$name" = "setup-service" ] && continue
         if [ -f "${svc}Dockerfile" ]; then
             log "Building $name..."
             (cd "$svc" && docker build -t "gindho/$name:latest" .)
@@ -67,8 +74,17 @@ deploy_local() {
 deploy_k8s() {
     log "Deploying to Kubernetes..."
 
+    # Build Docker images first (setup-service + all services)
+    build_docker
+
+    # Load images into k3s containerd
+    log "Loading images into k3s..."
+    for img in $(docker images --format '{{.Repository}}:{{.Tag}}' | grep gindho); do
+        sudo docker save "$img" | sudo k3s ctr images import - 2>/dev/null || true
+    done
+
     # Create namespaces
-    for ns in patient appointment medicalrecord laboratory pharmacy billing inventory hr reporting monitoring security infrastructure admission ambulance apigateway asset audit authorization bed emergency event identity imaging insurance notification payment prescription procurement round scheduling surgery ward; do
+    for ns in patient appointment medicalrecord laboratory pharmacy billing inventory hr reporting monitoring security infrastructure admission ambulance apigateway asset audit authorization bed emergency event identity imaging insurance notification payment prescription procurement round scheduling surgery ward setup; do
         kubectl create namespace "$ns" --dry-run=client -o yaml | kubectl apply -f -
     done
 
@@ -97,30 +113,31 @@ deploy_k8s() {
     # Deploy infrastructure (PostgreSQL, Kafka, Keycloak, Kong, Redis, MongoDB, etc.)
     kubectl apply -k k8s/infrastructure
 
-    # Deploy security
+    # Deploy security + setup RBAC
     kubectl apply -f k8s/security -R 2>/dev/null || true
+    [ -f k8s/security/setup-rbac.yaml ] && kubectl apply -f k8s/security/setup-rbac.yaml
+
+    # Deploy setup service FIRST (browser wizard)
+    if [ -d k8s/setup-namespace ]; then
+        log "Deploying setup-service..."
+        kubectl apply -f k8s/setup-namespace -R 2>/dev/null || true
+    fi
 
     # Deploy monitoring
     kubectl apply -f k8s/monitoring -R 2>/dev/null || true
 
-    # Deploy business services (auto-discover all non-empty namespace dirs)
-    for ns_dir in k8s/*-namespace/; do
-        [ -d "$ns_dir" ] || continue
-        [ "$(basename "$ns_dir")" = "infrastructure-namespace" ] && continue
-        files=$(find "$ns_dir" -type f | wc -l)
-        [ "$files" -gt 0 ] || continue
-        log "Deploying $(basename "$ns_dir")..."
-        kubectl apply -f "$ns_dir" -R 2>/dev/null || true
-    done
+    # ⚠️ Les microservices ne sont PAS déployés ici.
+    # Ils seront déployés depuis le wizard navigateur setup-service après sélection utilisateur.
+    # Le setup-service va appliquer les manifests k8s correspondants aux services choisis.
 
-    log "Kubernetes deployment complete."
-    log "Kong ingress available at: http://localhost:9000"
-    log "Keycloak available at: http://localhost:9001"
+    log "Kubernetes deployment complete (infra + setup-service only)."
+    log "Open http://localhost:9000/setup to finish the hospital setup and deploy services."
+    log "Keycloak available at: http://localhost:9001 (admin / admin123)"
 }
 
 teardown() {
     log "Tearing down Kubernetes deployment..."
-    kubectl delete ns patient appointment medicalrecord laboratory pharmacy billing inventory hr reporting monitoring security infrastructure admission ambulance apigateway asset audit authorization bed emergency event identity imaging insurance notification payment prescription procurement round scheduling surgery ward --timeout=60s || true
+    kubectl delete ns patient appointment medicalrecord laboratory pharmacy billing inventory hr reporting monitoring security infrastructure admission ambulance apigateway asset audit authorization bed emergency event identity imaging insurance notification payment prescription procurement round scheduling surgery ward setup --timeout=60s || true
     kubectl delete crd opentelemetrycollectors.opentelemetry.io --ignore-not-found=true || true
     helm list -A 2>/dev/null | awk 'NR>1 {print "helm uninstall " $1 " -n " $2}' | bash 2>/dev/null || true
     log "Teardown complete."
@@ -162,6 +179,7 @@ info() {
     echo "  - Authorization Service   :9030"
     echo "  - Identity Service        :9001 (Keycloak proxy)"
     echo "  - API Gateway             :9000 (Kong)"
+    echo "  - Setup Wizard            :9000/setup (browser)"
     echo ""
     echo "Infrastructure:"
     echo "  - Kong           :9000 (API Gateway)"

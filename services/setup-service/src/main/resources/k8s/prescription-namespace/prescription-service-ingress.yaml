@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prescription-service-ingress
+  namespace: prescription
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /prescription
+        pathType: Prefix
+        backend:
+          service:
+            name: prescription-service
+            port:
+              number: 9013

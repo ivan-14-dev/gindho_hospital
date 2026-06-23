@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ambulance-service-ingress
+  namespace: ambulance
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /ambulance
+        pathType: Prefix
+        backend:
+          service:
+            name: ambulance-service
+            port:
+              number: 9023

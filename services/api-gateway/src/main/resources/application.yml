@@ -74,5 +74,5 @@ service:
     notification-service: http://localhost:9027
     reporting-service: http://localhost:9028
     audit-service: http://localhost:9029
-    authorization-service: http://localhost:9012
-    legacy-backend: http://localhost:9000
+    authorization-service: http://localhost:9030
+    setup-service: http://localhost:9002

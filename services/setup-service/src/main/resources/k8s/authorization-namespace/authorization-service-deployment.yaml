@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authorization-service
+  namespace: authorization
+  labels:
+    app: authorization-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: authorization-service
+  template:
+    metadata:
+      labels:
+        app: authorization-service
+    spec:
+      containers:
+      - name: authorization-service
+        image: gindho/authorization-service:latest
+        ports:
+        - containerPort: 9030
+        env:
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: authorization-service-config
+              key: database_url
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: authorization-service-secret
+              key: db_username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: authorization-service-secret
+              key: db_password
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          valueFrom:
+            configMapKeyRef:
+              name: authorization-service-config
+              key: kafka_servers
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: authorization-service-secret
+              key: jwt_secret
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 9030
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 9030
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authorization-service
+  namespace: authorization
+spec:
+  selector:
+    app: authorization-service
+  ports:
+  - port: 9030
+    targetPort: 9030
+    name: http
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authorization-service-config
+  namespace: authorization
+data:
+  database_url: "jdbc:postgresql://postgres.authorization.svc.cluster.local:95432/authorization_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authorization-service-secret
+  namespace: authorization
+type: Opaque
+data:
+  db_username: Z2luZGhv
+  db_password: Z2luZGhvMTIz
+  jwt_secret: NDA0RTYzNTI2NjU1NkE1ODZFMzI3MjM1NzUzODc4MkY0MTNGNDQyODQ3MkI0QjYyNTA2NDUzNjc1NjZCNTk3MA==
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: authorization-service-hpa
+  namespace: authorization
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: authorization-service
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

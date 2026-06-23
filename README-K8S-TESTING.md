@@ -90,6 +90,32 @@ done
 
 ---
 
+## 3b. Setup via navigateur (Wizard)
+
+Le service `setup-service` est déployé automatiquement et exposé via Kong sur `/setup`.
+
+```bash
+# Exposer le setup-service (si pas de LoadBalancer)
+kubectl port-forward -n apigateway svc/api-gateway 9000:9000 &
+```
+
+Puis ouvrir : **http://localhost:9000/setup**
+
+Le wizard guidera à travers :
+- Informations de l'hôpital et base de données
+- Création du SuperAdmin
+- Configuration SMTP
+- Configuration de l'application
+- **Déploiement automatique de tous les manifests K8s**
+- Initialisation PostgreSQL
+- Configuration Keycloak
+- Création des topics Kafka
+- Test SMTP
+
+La progression est affichée en temps réel étape par étape.
+
+---
+
 ## 4. Tester chaque service (port-forward)
 
 ### API Gateway

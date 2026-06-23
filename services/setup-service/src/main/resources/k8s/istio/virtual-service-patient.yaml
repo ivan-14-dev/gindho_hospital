@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: patient-service
+  namespace: patient
+spec:
+  hosts:
+    - patient-service.gindho.com
+    - patient-service.patient.svc.cluster.local
+  gateways:
+    - kong-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /api/v1/patients
+      route:
+        - destination:
+            host: patient-service.patient.svc.cluster.local
+            port:
+              number: 9004
+            subset: v1
+          weight: 100
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: connect-failure,refused-stream,unavailable
+      timeout: 15s
+      fault:
+        {{- if eq .Values.environment "staging" }}
+        abort:
+          percentage:
+            value: 0.1
+          httpStatus: 500
+        {{- end }}

@@ -53,7 +53,7 @@ public class GatewayHealthController {
         services.put("reporting-service", "UP");
         services.put("audit-service", "UP");
         services.put("authorization-service", "UP");
-        services.put("legacy-monolith", "UP");
+        services.put("setup-service", "UP");
         response.put("services", services);
         return Mono.just(ResponseEntity.ok(response));
     }

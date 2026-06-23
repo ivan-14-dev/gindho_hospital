@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: setup-service-sa
+  namespace: setup
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: setup-service-admin
+rules:
+  - apiGroups: [""]
+    resources: ["namespaces", "pods", "services", "configmaps", "secrets", "serviceaccounts"]
+    verbs: ["*"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets", "replicasets"]
+    verbs: ["*"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses", "networkpolicies"]
+    verbs: ["*"]
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["*"]
+  - apiGroups: ["kafka.strimzi.io"]
+    resources: ["kafkatopics", "kafkas"]
+    verbs: ["*"]
+  - apiGroups: ["monitoring.coreos.com"]
+    resources: ["prometheuses", "prometheusrules", "servicemonitors"]
+    verbs: ["*"]
+  - apiGroups: ["helm.sh"]
+    resources: ["releases"]
+    verbs: ["*"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: setup-service-admin-binding
+subjects:
+  - kind: ServiceAccount
+    name: setup-service-sa
+    namespace: setup
+roleRef:
+  kind: ClusterRole
+  name: setup-service-admin
+  apiGroup: rbac.authorization.k8s.io

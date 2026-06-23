@@ -1,1 +1,9 @@
-../../../GinDHO_Hospital/k8s/monitoring/grafana-datasources.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: monitoring
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources: []

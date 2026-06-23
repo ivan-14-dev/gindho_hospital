@@ -84,8 +84,7 @@ deploy_k8s() {
     helm repo update
     helm upgrade --install strimzi-kafka-operator strimzi/strimzi-kafka-operator \
         --namespace kube-system --create-namespace \
-        --set watchNamespaces="{infrastructure}" \
-        --wait --timeout 5m
+        --set watchNamespaces="{infrastructure}"
 
     # Install Prometheus Operator (kube-prometheus-stack for PrometheusRule, ServiceMonitor, etc.)
     log "Installing Prometheus Operator..."
@@ -93,8 +92,7 @@ deploy_k8s() {
     helm repo update
     helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
         --namespace infrastructure --create-namespace \
-        --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false \
-        --wait --timeout 5m
+        --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false
 
     # Deploy infrastructure (PostgreSQL, Kafka, Keycloak, Kong, Redis, MongoDB, etc.)
     kubectl apply -k k8s/infrastructure
@@ -118,6 +116,14 @@ deploy_k8s() {
     log "Kubernetes deployment complete."
     log "Kong ingress available at: http://localhost:9000"
     log "Keycloak available at: http://localhost:9001"
+}
+
+teardown() {
+    log "Tearing down Kubernetes deployment..."
+    kubectl delete ns patient appointment medicalrecord laboratory pharmacy billing inventory hr reporting monitoring security infrastructure admission ambulance apigateway asset audit authorization bed emergency event identity imaging insurance notification payment prescription procurement round scheduling surgery ward --timeout=60s || true
+    kubectl delete crd opentelemetrycollectors.opentelemetry.io --ignore-not-found=true || true
+    helm list -A 2>/dev/null | awk 'NR>1 {print "helm uninstall " $1 " -n " $2}' | bash 2>/dev/null || true
+    log "Teardown complete."
 }
 
 info() {
@@ -192,11 +198,12 @@ case "${1:-help}" in
         docker compose -f docker/docker-compose.yml --env-file .env --profile all up -d
         ;;
     k8s) deploy_k8s ;;
+    teardown) teardown ;;
     all)
         build
         build_docker
         deploy_local
         ;;
     info|help) info ;;
-    *) err "Usage: $0 {clean|build|docker|local|docker-all|k8s|all|info}" ;;
+    *) err "Usage: $0 {clean|build|docker|local|docker-all|k8s|teardown|all|info}" ;;
 esac

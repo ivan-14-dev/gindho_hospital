@@ -2,7 +2,7 @@
 
 export const API_CONFIG = {
   // Kong API Gateway (point d'entrée unique)
-  GATEWAY_URL: import.meta.env.VITE_GATEWAY_URL || 'http://localhost:8080',
+  GATEWAY_URL: import.meta.env.VITE_GATEWAY_URL || 'http://localhost:9000',
   
   // Services endpoints (via Kong)
   SERVICES: {

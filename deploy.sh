@@ -83,8 +83,8 @@ deploy_k8s() {
         kubectl apply -f k8s/crds/opentelemetrycollector-crd.yaml
     fi
 
-    # Deploy infrastructure
-    kubectl apply -k k8s/infrastructure-namespace
+    # Deploy infrastructure (PostgreSQL, Kafka, Keycloak, Kong, Redis, MongoDB, etc.)
+    kubectl apply -k k8s/infrastructure
 
     # Deploy security
     kubectl apply -f k8s/security -R 2>/dev/null || true

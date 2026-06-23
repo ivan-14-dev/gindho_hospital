@@ -21,7 +21,7 @@ spec:
       - name: postgres
         image: postgres:15-alpine
         ports:
-        - containerPort: 5432
+        - containerPort: 95432
           name: postgresql
         env:
         - name: POSTGRES_USER
@@ -55,7 +55,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - exec pg_isready -U postgres -h 127.0.0.1 -p 5432
+            - exec pg_isready -U postgres -h 127.0.0.1 -p 95432
           initialDelaySeconds: 60
           periodSeconds: 10
         readinessProbe:
@@ -63,7 +63,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - exec pg_isready -U postgres -h 127.0.0.1 -p 5432
+            - exec pg_isready -U postgres -h 127.0.0.1 -p 95432
           initialDelaySeconds: 30
           periodSeconds: 5
   volumeClaimTemplates:
@@ -85,8 +85,8 @@ metadata:
     app: postgres
 spec:
   ports:
-  - port: 5432
-    targetPort: 5432
+  - port: 95432
+    targetPort: 95432
     name: postgresql
   clusterIP: None
   selector:

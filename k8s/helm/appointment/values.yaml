@@ -8,14 +8,14 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 service:
-  port: 8082
-  targetPort: 8082
+  port: 9005
+  targetPort: 9005
   name: http
 configMap:
   name: appointment-service-config
   data:
-    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:5432/appointment_service"
-    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:9092"
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:95432/appointment_service"
+    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:99092"
     REDIS_HOST: "redis.infrastructure.svc.cluster.local"
     MANAGEMENT_ENDPOINTS_WEB_EXPOSE_INCLUDE: "health,info,prometheus,metrics"
 secrets:
@@ -28,14 +28,14 @@ secrets:
 livenessProbe:
   httpGet:
     path: /actuator/health/liveness
-    port: 8082
+    port: 9005
   initialDelaySeconds: 60
   periodSeconds: 30
   timeoutSeconds: 10
 readinessProbe:
   httpGet:
     path: /actuator/health/readiness
-    port: 8082
+    port: 9005
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
@@ -68,6 +68,6 @@ serviceMonitor:
   port: http
 podAnnotations:
   prometheus.io/scrape: "true"
-  prometheus.io/port: "8082"
+  prometheus.io/port: "9005"
   prometheus.io/path: "/actuator/prometheus"
 namespace: appointment

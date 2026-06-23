@@ -9,7 +9,7 @@ package com.gindho.dto;
 // curl -s -X PUT -H "Content-Type: application/json" \
 //   -H "Authorization: Bearer <TOKEN>" \
 //   -d '{"role":"PHARMACIST"}' \
-//   http://localhost:8080/api/admin/users/8/role
+//   http://localhost:9001/api/admin/users/8/role
 //
 public class UserRoleUpdateRequest {
     private String role;

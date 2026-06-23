@@ -19,7 +19,7 @@ spec:
       - name: laboratory-service
         image: gindho/laboratory-service:latest
         ports:
-        - containerPort: 8092
+        - containerPort: 9015
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8092
+            port: 9015
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8092
+            port: 9015
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: laboratory-service
   ports:
-  - port: 8092
-    targetPort: 8092
+  - port: 9015
+    targetPort: 9015
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: laboratory-service-config
   namespace: laboratory
 data:
-  database_url: "jdbc:postgresql://postgres.laboratory.svc.cluster.local:5432/laboratory_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.laboratory.svc.cluster.local:95432/laboratory_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

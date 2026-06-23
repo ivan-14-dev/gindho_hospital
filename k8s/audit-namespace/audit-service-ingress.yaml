@@ -16,4 +16,4 @@ spec:
           service:
             name: audit-service
             port:
-              number: 8106
+              number: 9029

@@ -42,14 +42,14 @@
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    Frontend (React 19)                   │
-│                   Port: 3000 (dev)                       │
+│                   Port: 9300 (dev)                       │
 └────────────────────┬────────────────────────────────────┘
                      │
                      │ HTTPS/JWT
                      ▼
 ┌─────────────────────────────────────────────────────────┐
 │              Kong API Gateway (K8s Ingress)              │
-│                    Port: 8080                            │
+│                    Port: 9001                            │
 └────────────────────┬────────────────────────────────────┘
                      │
         ┌────────────┼────────────┐
@@ -181,7 +181,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Le frontend sera accessible sur `http://localhost:3000`
+Le frontend sera accessible sur `http://localhost:9300`
 
 ## ⚙️ Configuration
 
@@ -189,8 +189,8 @@ Le frontend sera accessible sur `http://localhost:3000`
 
 ```env
 # API
-VITE_API_URL=http://localhost:8080
-VITE_KEYCLOAK_URL=http://localhost:8081
+VITE_API_URL=http://localhost:9001
+VITE_KEYCLOAK_URL=http://localhost:9004
 VITE_KEYCLOAK_REALM=gindho
 VITE_KEYCLOAK_CLIENT_ID=gindho-frontend
 

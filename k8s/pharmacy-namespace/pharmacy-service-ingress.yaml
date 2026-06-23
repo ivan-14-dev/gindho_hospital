@@ -16,4 +16,4 @@ spec:
           service:
             name: pharmacy-service
             port:
-              number: 8091
+              number: 9014

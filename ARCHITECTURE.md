@@ -7,7 +7,7 @@
                         │
                  Load Balancer
                         │
-                 Kong API Gateway (8000)
+                 Kong API Gateway (9000)
                         │
                  ┌──────────────────┐
                  │  Service Mesh    │
@@ -19,53 +19,53 @@
               │  ~~~~~~~~~~~~~~~   │
               │                    │
               │  Identity Service  │
-              │  (Keycloak :8080)  │
+              │  (Keycloak :9001)  │
               └─────────┬──────────┘
                         │
      ┌──────────────────┼──────────────────────┐
      │                  │                       │
   Patient         Appointment            Medical Record
-  :8081           :8082                  :8083
+  :9004           :9005                  :9006
      │                  │                       │
   Admission        Emergency              Ward
-  :8084            :8085                  :8086
+  :9007            :9008                  :9009
      │                  │                       │
   Bed              Round                  Surgery
-  :8087            :8088                  :8089
+  :9010            :9011                  :9012
      │                  │                       │
   Prescription     Pharmacy               Laboratory
-  :8090            :8091                  :8092
+  :9013            :9014                  :9015
      │                  │                       │
   Imaging          Billing                Insurance
-  :8093            :8094                  :8095
+  :9016            :9017                  :9018
      │                  │                       │
   Payment          Inventory              Procurement
-  :8096            :8097                  :8098
+  :9019            :9020                  :9021
      │                  │                       │
   Asset            Ambulance              HR
-  :8099            :8100                  :8101
+  :9022            :9023                  :9024
      │                  │                       │
   Scheduling       Event                  Notification
-  :8102            :8103                  :8104
+  :9025            :9026                  :9027
      │                  │                       │
   Reporting        Audit                  Authorization
-  :8105            :8106                  :8107
+  :9028            :9029                  :9030
                     │
-              Apache Kafka (:9092)
+              Apache Kafka (:99092)
                     │
      ┌──────────────┼────────────────┐
      │              │                │
   PostgreSQL    MongoDB          Redis
-  (:5432)      (:27017)         (:6379)
+  (:95432)      (:97017)         (:96379)
                     │
               Observabilité
      ┌──────────────┬────────────────┐
      │              │                │
   Prometheus    Grafana          Jaeger
-  (:9090)      (:3000)          (:16686)
+  (:9990)      (:9300)          (:19686)
      │              │
      Loki           │
-     (:3100)        │
+     (:9310)        │
               └─────┴─────┐
                   ELK Stack
 ```
@@ -74,11 +74,11 @@
 
 ### 1. API Gateway (Kong)
 Point d'entrée unique. Routes :
-- `/patient/*` → patient-service:8081
-- `/appointment/*` → appointment-service:8082
-- `/emr/*` → medical-record-service:8083
-- `/billing/*` → billing-service:8094
-- `/lab/*` → laboratory-service:8092
+- `/patient/*` → patient-service:9004
+- `/appointment/*` → appointment-service:9005
+- `/emr/*` → medical-record-service:9006
+- `/billing/*` → billing-service:9017
+- `/lab/*` → laboratory-service:9015
 - etc.
 
 Plugins Kong activés : JWT, Rate-Limiting, CORS, Prometheus
@@ -95,35 +95,35 @@ Plugins Kong activés : JWT, Rate-Limiting, CORS, Prometheus
 
 | Service | Port | Base | Description |
 |---------|------|------|-------------|
-| patient-service | 8081 | patient_db | Patients, contacts, assurances, documents |
-| appointment-service | 8082 | appointment_db | Rendez-vous, calendrier, liste d'attente |
-| medical-record-service | 8083 | emr_db | Dossier médical (consultations, diagnostics) |
-| admission-service | 8084 | patient_db | Admissions, transferts, sorties |
-| emergency-service | 8085 | patient_db | Triage, urgences |
-| ward-service | 8086 | patient_db | Services hospitaliers |
-| bed-service | 8087 | patient_db | Lits, chambres, occupation |
-| round-service | 8088 | emr_db | Rondes médicales |
-| surgery-service | 8089 | emr_db | Bloc opératoire |
-| prescription-service | 8090 | pharmacy_db | Ordonnances |
-| pharmacy-service | 8091 | pharmacy_db | Dispensation, lots |
-| laboratory-service | 8092 | lab_db | Examens, résultats |
-| imaging-service | 8093 | lab_db | Radiologie, DICOM, PACS |
-| billing-service | 8094 | billing_db | Factures |
-| insurance-service | 8095 | billing_db | Assurances, remboursements |
-| payment-service | 8096 | billing_db | Paiements |
-| inventory-service | 8097 | inventory_db | Stocks, inventaires |
-| procurement-service | 8098 | inventory_db | Achats, fournisseurs |
-| asset-service | 8099 | inventory_db | Équipements |
-| ambulance-service | 8100 | dispatch_db | Ambulances |
-| hr-service | 8101 | hr_db | Employés, contrats, congés |
-| scheduling-service | 8102 | hr_db | Gardes, astreintes, planning |
-| event-service | 8103 | event_db | Événements hospitaliers |
-| notification-service | 8104 | notification_db | SMS, Email, Push |
-| reporting-service | 8105 | reporting_db | Rapports, statistiques |
-| audit-service | 8106 | audit_db | Traçabilité, historique |
-| authorization-service | 8107 | authz_db | Permissions dynamiques RBAC |
-| identity-service | 8080 | keycloak | Identity Provider (proxy Keycloak) |
-| api-gateway | 8000 | - | Kong API Gateway |
+| patient-service | 9004 | patient_db | Patients, contacts, assurances, documents |
+| appointment-service | 9005 | appointment_db | Rendez-vous, calendrier, liste d'attente |
+| medical-record-service | 9006 | emr_db | Dossier médical (consultations, diagnostics) |
+| admission-service | 9007 | patient_db | Admissions, transferts, sorties |
+| emergency-service | 9008 | patient_db | Triage, urgences |
+| ward-service | 9009 | patient_db | Services hospitaliers |
+| bed-service | 9010 | patient_db | Lits, chambres, occupation |
+| round-service | 9011 | emr_db | Rondes médicales |
+| surgery-service | 9012 | emr_db | Bloc opératoire |
+| prescription-service | 9013 | pharmacy_db | Ordonnances |
+| pharmacy-service | 9014 | pharmacy_db | Dispensation, lots |
+| laboratory-service | 9015 | lab_db | Examens, résultats |
+| imaging-service | 9016 | lab_db | Radiologie, DICOM, PACS |
+| billing-service | 9017 | billing_db | Factures |
+| insurance-service | 9018 | billing_db | Assurances, remboursements |
+| payment-service | 9019 | billing_db | Paiements |
+| inventory-service | 9020 | inventory_db | Stocks, inventaires |
+| procurement-service | 9021 | inventory_db | Achats, fournisseurs |
+| asset-service | 9022 | inventory_db | Équipements |
+| ambulance-service | 9023 | dispatch_db | Ambulances |
+| hr-service | 9024 | hr_db | Employés, contrats, congés |
+| scheduling-service | 9025 | hr_db | Gardes, astreintes, planning |
+| event-service | 9026 | event_db | Événements hospitaliers |
+| notification-service | 9027 | notification_db | SMS, Email, Push |
+| reporting-service | 9028 | reporting_db | Rapports, statistiques |
+| audit-service | 9029 | audit_db | Traçabilité, historique |
+| authorization-service | 9030 | authz_db | Permissions dynamiques RBAC |
+| identity-service | 9001 | keycloak | Identity Provider (proxy Keycloak) |
+| api-gateway | 9000 | - | Kong API Gateway |
 
 ### 4. Communication Inter-Services
 
@@ -181,10 +181,10 @@ Chaque service possède :
 
 | Outil | Port | Usage |
 |-------|------|-------|
-| Prometheus | 9090 | Métriques |
-| Grafana | 3000 | Dashboards |
-| Jaeger | 16686 | Tracing distribué |
-| Loki | 3100 | Agrégation de logs |
+| Prometheus | 9990 | Métriques |
+| Grafana | 9300 | Dashboards |
+| Jaeger | 19686 | Tracing distribué |
+| Loki | 9310 | Agrégation de logs |
 | ELK Stack | - | Logs avancés |
 
 ### 8. Sécurité

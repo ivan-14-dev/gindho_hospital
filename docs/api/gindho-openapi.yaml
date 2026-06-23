@@ -12,7 +12,7 @@ info:
     name: Proprietary
 
 servers:
-  - url: http://localhost:8000
+  - url: http://localhost:9000
     description: Développement local via Kong
   - url: https://api.gindho.com
     description: Production
@@ -613,7 +613,7 @@ paths:
       summary: Endpoint WebSocket pour notifications temps réel
       description: |
         Se connecter via STOMP/SockJS pour recevoir les notifications en temps réel.
-        URL: ws://localhost:8000/ws/notifications
+        URL: ws://localhost:9000/ws/notifications
         Topic: /topic/notifications
       responses:
         '101':

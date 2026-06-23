@@ -16,4 +16,4 @@ spec:
           service:
             name: payment-service
             port:
-              number: 8096
+              number: 9019

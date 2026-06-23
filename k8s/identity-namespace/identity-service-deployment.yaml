@@ -19,7 +19,7 @@ spec:
       - name: identity-service
         image: gindho/identity-service:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 9001
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
+            port: 9001
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8080
+            port: 9001
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: identity-service
   ports:
-  - port: 8080
-    targetPort: 8080
+  - port: 9001
+    targetPort: 9001
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: identity-service-config
   namespace: identity
 data:
-  database_url: "jdbc:postgresql://postgres.identity.svc.cluster.local:5432/identity_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.identity.svc.cluster.local:95432/identity_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

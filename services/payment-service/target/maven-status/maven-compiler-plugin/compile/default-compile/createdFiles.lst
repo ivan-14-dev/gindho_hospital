@@ -1,9 +1,0 @@
-com/gindho/payment/repository/RemboursementRepository.class
-com/gindho/payment/model/StatutTransaction.class
-com/gindho/payment/controller/PaymentController.class
-com/gindho/payment/service/PaymentService.class
-com/gindho/payment/model/StatutRemboursement.class
-com/gindho/PaymentServiceApplication.class
-com/gindho/payment/model/PaiementTransaction.class
-com/gindho/payment/model/Remboursement.class
-com/gindho/payment/repository/PaiementTransactionRepository.class

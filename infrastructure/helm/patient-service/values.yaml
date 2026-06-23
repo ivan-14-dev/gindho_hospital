@@ -13,16 +13,16 @@ image:
 
 # Service port configuration
 service:
-  port: 8081
-  targetPort: 8081
+  port: 9004
+  targetPort: 9004
   name: http
 
 # Environment variables from ConfigMap
 configMap:
   name: patient-service-config
   data:
-    database_url: "jdbc:postgresql://postgres.patient.svc.cluster.local:5432/patient_service"
-    kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+    database_url: "jdbc:postgresql://postgres.patient.svc.cluster.local:95432/patient_service"
+    kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 
 # Secret references
 secrets:
@@ -40,14 +40,14 @@ secrets:
 livenessProbe:
   httpGet:
     path: /actuator/health
-    port: 8081
+    port: 9004
   initialDelaySeconds: 30
   periodSeconds: 10
 
 readinessProbe:
   httpGet:
     path: /actuator/health/readiness
-    port: 8081
+    port: 9004
   initialDelaySeconds: 20
   periodSeconds: 5
 
@@ -91,7 +91,7 @@ serviceMonitor:
 # Additional annotations for pods
 podAnnotations:
   prometheus.io/scrape: "true"
-  prometheus.io/port: "8081"
+  prometheus.io/port: "9004"
   prometheus.io/path: "/actuator/prometheus"
 
 # Namespace

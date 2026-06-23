@@ -11,7 +11,7 @@ info:
     name: Proprietary
 
 servers:
-  - url: http://localhost:8000/api/v1
+  - url: http://localhost:9002/api/v1
     description: Local development via Kong
   - url: https://api.gindho.com/api/v1
     description: Production
@@ -190,7 +190,7 @@ components:
   securitySchemes:
     oidc:
       type: openIdConnect
-      openIdConnectUrl: http://localhost:8080/realms/gindho/.well-known/openid-configuration
+      openIdConnectUrl: http://localhost:9001/realms/gindho/.well-known/openid-configuration
     cookieAuth:
       type: apiKey
       in: cookie

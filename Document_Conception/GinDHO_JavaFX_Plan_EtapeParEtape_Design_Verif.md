@@ -5,7 +5,7 @@
 ### Environnement
 - Java 21
 - Maven (projet dans `javafx-client/`)
-- Backend déjà fonctionnel à `http://localhost:8080`
+- Backend déjà fonctionnel à `http://localhost:9001`
 
 ### Commandes Maven (client JavaFX)
 Dans la racine du repo :

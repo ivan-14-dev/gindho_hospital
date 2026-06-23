@@ -94,188 +94,188 @@ done
 
 ### API Gateway
 ```bash
-kubectl port-forward -n apigateway svc/api-gateway 8000:8080 &
-curl -s http://localhost:8000/actuator/health | jq .
+kubectl port-forward -n apigateway svc/api-gateway 9000:9000 &
+curl -s http://localhost:9000/actuator/health | jq .
 ```
 
 ### Identity Service
 ```bash
-kubectl port-forward -n security svc/identity-service 8080:8080 &
-curl -s http://localhost:8080/actuator/health | jq .
+kubectl port-forward -n security svc/identity-service 9001:9001 &
+curl -s http://localhost:9001/actuator/health | jq .
 ```
 
 ### Patient Service
 ```bash
-kubectl port-forward -n patient svc/patient-service 8081:8081 &
-curl -s http://localhost:8081/actuator/health | jq .
+kubectl port-forward -n patient svc/patient-service 9004:9004 &
+curl -s http://localhost:9004/actuator/health | jq .
 ```
 
 ### Appointment Service
 ```bash
-kubectl port-forward -n appointment svc/appointment-service 8082:8082 &
-curl -s http://localhost:8082/actuator/health | jq .
+kubectl port-forward -n appointment svc/appointment-service 9005:9005 &
+curl -s http://localhost:9005/actuator/health | jq .
 ```
 
 ### Medical Record Service
 ```bash
-kubectl port-forward -n emr svc/medical-record-service 8083:8083 &
-curl -s http://localhost:8083/actuator/health | jq .
+kubectl port-forward -n emr svc/medical-record-service 9006:9006 &
+curl -s http://localhost:9006/actuator/health | jq .
 ```
 
 ### Admission Service
 ```bash
-kubectl port-forward -n admission svc/admission-service 8084:8084 &
-curl -s http://localhost:8084/actuator/health | jq .
+kubectl port-forward -n admission svc/admission-service 9007:9007 &
+curl -s http://localhost:9007/actuator/health | jq .
 ```
 
 ### Emergency Service
 ```bash
-kubectl port-forward -n emergency svc/emergency-service 8085:8085 &
-curl -s http://localhost:8085/actuator/health | jq .
+kubectl port-forward -n emergency svc/emergency-service 9008:9008 &
+curl -s http://localhost:9008/actuator/health | jq .
 ```
 
 ### Ward Service
 ```bash
-kubectl port-forward -n ward svc/ward-service 8086:8086 &
-curl -s http://localhost:8086/actuator/health | jq .
+kubectl port-forward -n ward svc/ward-service 9009:9009 &
+curl -s http://localhost:9009/actuator/health | jq .
 ```
 
 ### Bed Service
 ```bash
-kubectl port-forward -n bed svc/bed-service 8087:8087 &
-curl -s http://localhost:8087/actuator/health | jq .
+kubectl port-forward -n bed svc/bed-service 9010:9010 &
+curl -s http://localhost:9010/actuator/health | jq .
 ```
 
 ### Round Service
 ```bash
-kubectl port-forward -n round svc/round-service 8088:8088 &
-curl -s http://localhost:8088/actuator/health | jq .
+kubectl port-forward -n round svc/round-service 9011:9011 &
+curl -s http://localhost:9011/actuator/health | jq .
 ```
 
 ### Surgery Service
 ```bash
-kubectl port-forward -n surgery svc/surgery-service 8089:8089 &
-curl -s http://localhost:8089/actuator/health | jq .
+kubectl port-forward -n surgery svc/surgery-service 9012:9012 &
+curl -s http://localhost:9012/actuator/health | jq .
 ```
 
 ### Prescription Service
 ```bash
-kubectl port-forward -n prescription svc/prescription-service 8090:8090 &
-curl -s http://localhost:8090/actuator/health | jq .
+kubectl port-forward -n prescription svc/prescription-service 9013:9013 &
+curl -s http://localhost:9013/actuator/health | jq .
 ```
 
 ### Pharmacy Service
 ```bash
-kubectl port-forward -n pharmacy svc/pharmacy-service 8091:8091 &
-curl -s http://localhost:8091/actuator/health | jq .
+kubectl port-forward -n pharmacy svc/pharmacy-service 9014:9014 &
+curl -s http://localhost:9014/actuator/health | jq .
 ```
 
 ### Laboratory Service
 ```bash
-kubectl port-forward -n laboratory svc/laboratory-service 8092:8092 &
-curl -s http://localhost:8092/actuator/health | jq .
+kubectl port-forward -n laboratory svc/laboratory-service 9015:9015 &
+curl -s http://localhost:9015/actuator/health | jq .
 ```
 
 ### Imaging Service
 ```bash
-kubectl port-forward -n imaging svc/imaging-service 8093:8093 &
-curl -s http://localhost:8093/actuator/health | jq .
+kubectl port-forward -n imaging svc/imaging-service 9016:9016 &
+curl -s http://localhost:9016/actuator/health | jq .
 ```
 
 ### Billing Service
 ```bash
-kubectl port-forward -n billing svc/billing-service 8094:8094 &
-curl -s http://localhost:8094/actuator/health | jq .
+kubectl port-forward -n billing svc/billing-service 9017:9017 &
+curl -s http://localhost:9017/actuator/health | jq .
 ```
 
 ### Insurance Service
 ```bash
-kubectl port-forward -n insurance svc/insurance-service 8095:8095 &
-curl -s http://localhost:8095/actuator/health | jq .
+kubectl port-forward -n insurance svc/insurance-service 9018:9018 &
+curl -s http://localhost:9018/actuator/health | jq .
 ```
 
 ### Payment Service
 ```bash
-kubectl port-forward -n payment svc/payment-service 8096:8096 &
-curl -s http://localhost:8096/actuator/health | jq .
+kubectl port-forward -n payment svc/payment-service 9019:9019 &
+curl -s http://localhost:9019/actuator/health | jq .
 ```
 
 ### Inventory Service
 ```bash
-kubectl port-forward -n inventory svc/inventory-service 8097:8097 &
-curl -s http://localhost:8097/actuator/health | jq .
+kubectl port-forward -n inventory svc/inventory-service 9020:9020 &
+curl -s http://localhost:9020/actuator/health | jq .
 ```
 
 ### Procurement Service
 ```bash
-kubectl port-forward -n procurement svc/procurement-service 8098:8098 &
-curl -s http://localhost:8098/actuator/health | jq .
+kubectl port-forward -n procurement svc/procurement-service 9021:9021 &
+curl -s http://localhost:9021/actuator/health | jq .
 ```
 
 ### Asset Service
 ```bash
-kubectl port-forward -n asset svc/asset-service 8099:8099 &
-curl -s http://localhost:8099/actuator/health | jq .
+kubectl port-forward -n asset svc/asset-service 9022:9022 &
+curl -s http://localhost:9022/actuator/health | jq .
 ```
 
 ### Ambulance Service
 ```bash
-kubectl port-forward -n ambulance svc/ambulance-service 8100:8100 &
-curl -s http://localhost:8100/actuator/health | jq .
+kubectl port-forward -n ambulance svc/ambulance-service 9023:9023 &
+curl -s http://localhost:9023/actuator/health | jq .
 ```
 
 ### HR Service
 ```bash
-kubectl port-forward -n hr svc/hr-service 8101:8101 &
-curl -s http://localhost:8101/actuator/health | jq .
+kubectl port-forward -n hr svc/hr-service 9024:9024 &
+curl -s http://localhost:9024/actuator/health | jq .
 ```
 
 ### Scheduling Service
 ```bash
-kubectl port-forward -n scheduling svc/scheduling-service 8102:8102 &
-curl -s http://localhost:8102/actuator/health | jq .
+kubectl port-forward -n scheduling svc/scheduling-service 9025:9025 &
+curl -s http://localhost:9025/actuator/health | jq .
 ```
 
 ### Event Service
 ```bash
-kubectl port-forward -n event svc/event-service 8103:8103 &
-curl -s http://localhost:8103/actuator/health | jq .
+kubectl port-forward -n event svc/event-service 9026:9026 &
+curl -s http://localhost:9026/actuator/health | jq .
 ```
 
 ### Notification Service
 ```bash
-kubectl port-forward -n notification svc/notification-service 8104:8104 &
-curl -s http://localhost:8104/actuator/health | jq .
+kubectl port-forward -n notification svc/notification-service 9027:9027 &
+curl -s http://localhost:9027/actuator/health | jq .
 ```
 
 ### Reporting Service
 ```bash
-kubectl port-forward -n reporting svc/reporting-service 8105:8105 &
-curl -s http://localhost:8105/actuator/health | jq .
+kubectl port-forward -n reporting svc/reporting-service 9028:9028 &
+curl -s http://localhost:9028/actuator/health | jq .
 ```
 
 ### Audit Service
 ```bash
-kubectl port-forward -n audit svc/audit-service 8106:8106 &
-curl -s http://localhost:8106/actuator/health | jq .
+kubectl port-forward -n audit svc/audit-service 9029:9029 &
+curl -s http://localhost:9029/actuator/health | jq .
 ```
 
 ### Authorization Service
 ```bash
-kubectl port-forward -n authorization svc/authorization-service 8107:8107 &
-curl -s http://localhost:8107/actuator/health | jq .
+kubectl port-forward -n authorization svc/authorization-service 9030:9030 &
+curl -s http://localhost:9030/actuator/health | jq .
 ```
 
 ### Outgoing Service
 ```bash
-kubectl port-forward -n outgoing svc/outgoing-service 8110:8080 &
-curl -s http://localhost:8110/actuator/health | jq .
+kubectl port-forward -n outgoing svc/outgoing-service 9003:9003 &
+curl -s http://localhost:9003/actuator/health | jq .
 ```
 
 ### Interconnect Service
 ```bash
-kubectl port-forward -n interconnect svc/interconnect-service 8111:8080 &
-curl -s http://localhost:8111/actuator/health | jq .
+kubectl port-forward -n interconnect svc/interconnect-service 9002:9002 &
+curl -s http://localhost:9002/actuator/health | jq .
 ```
 
 ---
@@ -311,7 +311,7 @@ Si tu es sur un serveur distant, remplace les services de type `ClusterIP` par `
 
 ```bash
 # Exemple pour patient-service
-kubectl patch svc patient-service -n patient -p '{"spec":{"type":"NodePort","ports":[{"port":8081,"nodePort":30081}]}}'
+kubectl patch svc patient-service -n patient -p '{"spec":{"type":"NodePort","ports":[{"port":9004,"nodePort":30081}]}}'
 
 # Accès via l'IP du noeud Minikube
 MINIKUBE_IP=$(minikube ip)
@@ -327,10 +327,10 @@ Pour MetalLB (si installé), utiliser `type: LoadBalancer` directement.
 | ✓ | Test | Commande |
 |---|------|----------|
 | Tous les pods Running | `kubectl get pods -A` |
-| PostgreSQL prêt | `kubectl exec -n infrastructure deploy/postgres -- pg_isready -h localhost -p 5432` |
-| Kafka prêt | `kubectl exec -n infrastructure deploy/kafka -- kafka-topics.sh --bootstrap-server localhost:9092 --list` |
+| PostgreSQL prêt | `kubectl exec -n infrastructure deploy/postgres -- pg_isready -h localhost -p 95432` |
+| Kafka prêt | `kubectl exec -n infrastructure deploy/kafka -- kafka-topics.sh --bootstrap-server localhost:99092  --list` |
 | DNS inter-services | `kubectl exec -n patient deploy/patient-service -- nslookup appointment-service.appointment.svc.cluster.local` |
-| API Gateway santé | `curl http://localhost:8000/actuator/health` |
+| API Gateway santé | `curl http://localhost:9000/actuator/health` |
 
 ---
 

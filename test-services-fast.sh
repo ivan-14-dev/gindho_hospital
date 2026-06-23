@@ -3,19 +3,19 @@ set +e
 
 echo "=== Test séquentiel des services GinDHO ==="
 echo "Démarrage de PostgreSQL..."
-docker run -d --name postgres-test -e POSTGRES_USER=gindho -e POSTGRES_PASSWORD=gindho123 -p 5432:5432 postgres:15 >/dev/null 2>&1 || true
+docker run -d --name postgres-test -e POSTGRES_USER=gindho -e POSTGRES_PASSWORD=gindho123 -p 95432:95432 postgres:15 >/dev/null 2>&1 || true
 sleep 3
 
 SERVICES=(
-  "identity-service:8081"
-  "patient-service:8082"
-  "appointment-service:8083"
-  "billing-service:8084"
-  "emergency-service:8085"
-  "laboratory-service:8086"
-  "pharmacy-service:8087"
-  "medical-record-service:8088"
-  "notification-service:8089"
+  "identity-service:9004"
+  "patient-service:9005"
+  "appointment-service:9006"
+  "billing-service:9007"
+  "emergency-service:9008"
+  "laboratory-service:9009"
+  "pharmacy-service:9010"
+  "medical-record-service:9011"
+  "notification-service:9012"
 )
 
 for svc_port in "${SERVICES[@]}"; do

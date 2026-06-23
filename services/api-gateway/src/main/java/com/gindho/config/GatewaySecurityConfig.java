@@ -31,14 +31,14 @@ public class GatewaySecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:3000",
+        config.setAllowedOriginPatterns(List.of("http://localhost:9300",
                 "https://gindho-app.gindho.com",
-                "http://localhost:8080",
-                "http://localhost:8081",
-                "http://localhost:8082",
-                "http://localhost:8083",
-                "http://localhost:8000",
-                "http://localhost:8001"));
+                "http://localhost:9001",
+                "http://localhost:9004",
+                "http://localhost:9005",
+                "http://localhost:9006",
+                "http://localhost:9000",
+                "http://localhost:9041"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

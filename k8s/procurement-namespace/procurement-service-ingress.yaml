@@ -16,4 +16,4 @@ spec:
           service:
             name: procurement-service
             port:
-              number: 8098
+              number: 9021

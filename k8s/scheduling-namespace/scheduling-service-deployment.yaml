@@ -19,7 +19,7 @@ spec:
       - name: scheduling-service
         image: gindho/scheduling-service:latest
         ports:
-        - containerPort: 8102
+        - containerPort: 9025
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8102
+            port: 9025
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8102
+            port: 9025
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: scheduling-service
   ports:
-  - port: 8102
-    targetPort: 8102
+  - port: 9025
+    targetPort: 9025
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: scheduling-service-config
   namespace: scheduling
 data:
-  database_url: "jdbc:postgresql://postgres.scheduling.svc.cluster.local:5432/scheduling_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.scheduling.svc.cluster.local:95432/scheduling_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

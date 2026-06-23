@@ -1,9 +1,0 @@
-com/gindho/emergency/model/EmergencyTriage.class
-com/gindho/emergency/dto/EmergencyTriageDto$EmergencyTriageDtoBuilder.class
-com/gindho/emergency/model/EmergencyTriage$TriageLevel.class
-com/gindho/emergency/service/EmergencyService.class
-com/gindho/EmergencyServiceApplication.class
-com/gindho/emergency/model/EmergencyTriage$StatutUrgence.class
-com/gindho/emergency/dto/EmergencyTriageDto.class
-com/gindho/emergency/controller/EmergencyController.class
-com/gindho/emergency/repository/EmergencyTriageRepository.class

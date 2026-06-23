@@ -78,10 +78,10 @@ kubectl apply -f k8s/argocd/
 
 ```bash
 # Port forward to access services
-kubectl -n monitoring port-forward svc/prometheus-server 9090:9090
-kubectl -n monitoring port-forward svc/grafana 3000:3000
-kubectl -n infrastructure port-forward svc/kong-gateway 8000:8000
-kubectl -n argocd port-forward svc/argocd-server 8080:80
+kubectl -n monitoring port-forward svc/prometheus-server 9990:9990
+kubectl -n monitoring port-forward svc/grafana 9300:9300
+kubectl -n infrastructure port-forward svc/kong-gateway 9002:9000
+kubectl -n argocd port-forward svc/argocd-server 9001:80
 ```
 
 ## Backup & DR

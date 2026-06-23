@@ -16,4 +16,4 @@ spec:
           service:
             name: ward-service
             port:
-              number: 8086
+              number: 9009

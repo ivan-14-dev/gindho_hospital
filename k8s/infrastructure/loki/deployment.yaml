@@ -25,7 +25,7 @@ spec:
         - -config.file=/etc/loki/local-config.yaml
         - -target=all
         ports:
-        - containerPort: 3100
+        - containerPort: 9310
           name: http
         - containerPort: 9095
           name: grpc
@@ -44,13 +44,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /ready
-            port: 3100
+            port: 9310
           initialDelaySeconds: 60
           periodSeconds: 30
         readinessProbe:
           httpGet:
             path: /ready
-            port: 3100
+            port: 9310
           initialDelaySeconds: 30
           periodSeconds: 10
       volumes:
@@ -71,8 +71,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 3100
-    targetPort: 3100
+  - port: 9310
+    targetPort: 9310
     name: http
   - port: 9095
     targetPort: 9095
@@ -89,7 +89,7 @@ data:
   local-config.yaml: |
     auth_enabled: false
     server:
-      http_listen_port: 3100
+      http_listen_port: 9310
       grpc_listen_port: 9095
     common:
       path_prefix: /loki

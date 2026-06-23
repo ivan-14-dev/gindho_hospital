@@ -16,4 +16,4 @@ spec:
           service:
             name: reporting-service
             port:
-              number: 8105
+              number: 9028

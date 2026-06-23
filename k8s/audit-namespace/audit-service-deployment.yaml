@@ -19,7 +19,7 @@ spec:
       - name: audit-service
         image: gindho/audit-service:latest
         ports:
-        - containerPort: 8106
+        - containerPort: 9029
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8106
+            port: 9029
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8106
+            port: 9029
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: audit-service
   ports:
-  - port: 8106
-    targetPort: 8106
+  - port: 9029
+    targetPort: 9029
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: audit-service-config
   namespace: audit
 data:
-  database_url: "jdbc:postgresql://postgres.audit.svc.cluster.local:5432/audit_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.audit.svc.cluster.local:95432/audit_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

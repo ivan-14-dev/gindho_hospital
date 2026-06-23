@@ -16,4 +16,4 @@ spec:
           service:
             name: appointment-service
             port:
-              number: 8082
+              number: 9005

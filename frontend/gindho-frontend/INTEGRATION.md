@@ -9,7 +9,7 @@ Le frontend communique **exclusivement** via Kong API Gateway qui route vers les
 ```
 Frontend (React)
     ↓
-Kong API Gateway (http://localhost:8080)
+Kong API Gateway (http://localhost:9001)
     ↓
     ├── patient-service.patient.svc.cluster.local
     ├── appointment-service.appointment.svc.cluster.local
@@ -27,10 +27,10 @@ Kong API Gateway (http://localhost:8080)
 
 ```env
 # Kong API Gateway
-VITE_GATEWAY_URL=http://localhost:8080
+VITE_GATEWAY_URL=http://localhost:9001
 
 # Keycloak
-VITE_KEYCLOAK_URL=http://localhost:8081
+VITE_KEYCLOAK_URL=http://localhost:9004
 VITE_KEYCLOAK_REALM=gindho
 VITE_KEYCLOAK_CLIENT_ID=gindho-frontend
 ```
@@ -162,7 +162,7 @@ gindho-frontend/
 
 ```typescript
 API_CONFIG = {
-  GATEWAY_URL: 'http://localhost:8080',  // Kong Gateway
+  GATEWAY_URL: 'http://localhost:9001',  // Kong Gateway
   SERVICES: {
     AUTH: '/api/auth',
     PATIENTS: '/api/patients',

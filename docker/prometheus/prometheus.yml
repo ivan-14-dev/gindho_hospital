@@ -5,11 +5,11 @@ global:
 scrape_configs:
   - job_name: prometheus
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['localhost:9990']
   - job_name: spring-boot-apps
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - patient-service:8081
-          - appointment-service:8082
-          - billing-service:8084
+          - patient-service:9004
+          - appointment-service:9005
+          - billing-service:9007

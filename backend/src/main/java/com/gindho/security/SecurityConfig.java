@@ -46,9 +46,9 @@ public class SecurityConfig {
         // 1) Lancer le backend :
         //    mvn -f backend/pom.xml spring-boot:run -DskipTests
         // 2) Tester un accès “PATIENT” à une route réservée “ACCOUNTING” :
-        //    curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer <TOKEN>" http://localhost:8080/api/revenus?page=0&size=5
+        //    curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer <TOKEN>" http://localhost:9001/api/revenus?page=0&size=5
         // 3) Tester un accès “PHARMACIST” :
-        //    curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer <TOKEN>" http://localhost:8080/api/prescriptions?page=0&size=5
+        //    curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer <TOKEN>" http://localhost:9001/api/prescriptions?page=0&size=5
 
         http
             .csrf(AbstractHttpConfigurer::disable)

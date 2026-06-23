@@ -11,7 +11,7 @@ docker run -d --name postgres-test \
   -e POSTGRES_USER=gindho \
   -e POSTGRES_PASSWORD=gindho123 \
   -e POSTGRES_DB=gindho \
-  -p 5432:5432 \
+  -p 95432:95432 \
   postgres:15 > "$LOG_DIR/postgres.log" 2>&1
 
 echo "Waiting for PostgreSQL..."
@@ -27,11 +27,11 @@ echo ""
 echo "=== Testing services in containers ==="
 
 services=(
-  "identity-service:8081"
-  "patient-service:8082"
-  "appointment-service:8083"
-  "billing-service:8084"
-  "notification-service:8085"
+  "identity-service:9004"
+  "patient-service:9005"
+  "appointment-service:9006"
+  "billing-service:9007"
+  "notification-service:9008"
 )
 
 for svc_port in "${services[@]}"; do
@@ -58,13 +58,13 @@ for svc_port in "${services[@]}"; do
   echo "  Starting container..."
   docker run -d --name "$svc-test" \
     --add-host=host.docker.internal:host-gateway \
-    -p "$port":8080 \
-    -e "SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/${db_name}" \
+    -p "$port":9001 \
+    -e "SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:95432/${db_name}" \
     -e "DB_USERNAME=gindho" \
     -e "DB_PASSWORD=gindho123" \
     -e "JWT_SECRET=test-secret" \
-    -e "KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:9092" \
-    --health-cmd="curl -f http://localhost:8080/actuator/health || exit 1" \
+    -e "KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:99092" \
+    --health-cmd="curl -f http://localhost:9001/actuator/health || exit 1" \
     --health-interval=5s \
     --health-timeout=3s \
     --health-retries=3 \

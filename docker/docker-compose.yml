@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB:-gindho}
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "${POSTGRES_PORT:-95432}:95432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./postgres-init/init-dbs.sh:/docker-entrypoint-initdb.d/init-dbs.sh
@@ -24,7 +24,7 @@ services:
     image: mongo:7
     container_name: gindho-mongodb
     ports:
-      - "${MONGO_PORT:-27017}:27017"
+      - "${MONGO_PORT:-97017}:97017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-gindho}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
@@ -35,7 +35,7 @@ services:
     image: redis:7-alpine
     container_name: gindho-redis
     ports:
-      - "${REDIS_PORT:-6379}:6379"
+      - "${REDIS_PORT:-96379}:96379"
     volumes:
       - redis-data:/data
 
@@ -44,10 +44,10 @@ services:
     image: confluentinc/cp-zookeeper:7.5.0
     container_name: gindho-zookeeper
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_CLIENT_PORT: 92181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "2181:2181"
+      - "92181:92181"
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -55,12 +55,12 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "${KAFKA_PORT:-9092}:9092"
+      - "${KAFKA_PORT:-99092}:99092"
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:921811
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:99092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:99092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -74,13 +74,13 @@ services:
     command: start-dev --import-realm
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+      KC_DB_URL: jdbc:postgresql://keycloak-db:95432/keycloak
       KC_DB_USERNAME: ${KC_DB_USERNAME:-keycloak}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
     ports:
-      - "${KEYCLOAK_PORT:-8080}:8080"
+      - "${KEYCLOAK_PORT:-9001}:9001"
     volumes:
       - ../infrastructure/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     depends_on:
@@ -113,10 +113,10 @@ services:
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_ADMIN_LISTEN: 0.0.0.0:9041
     ports:
-      - "${KONG_PROXY_PORT:-8000}:8000"
-      - "${KONG_ADMIN_PORT:-8001}:8001"
+      - "${KONG_PROXY_PORT:-9000}:9000"
+      - "${KONG_ADMIN_PORT:-9041}:9041"
     volumes:
       - ../infrastructure/kong/kong.yml:/etc/kong/kong.yml:ro
     depends_on:
@@ -130,7 +130,7 @@ services:
     image: prom/prometheus:v2.48.0
     container_name: gindho-prometheus
     ports:
-      - "${PROMETHEUS_PORT:-9090}:9090"
+      - "${PROMETHEUS_PORT:-9990}:9990"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     depends_on:
@@ -140,7 +140,7 @@ services:
     image: grafana/grafana:10.2.2
     container_name: gindho-grafana
     ports:
-      - "${GRAFANA_PORT:-3000}:3000"
+      - "${GRAFANA_PORT:-9300}:9300"
     environment:
       GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
@@ -151,22 +151,22 @@ services:
     image: jaegertracing/all-in-one:1.52
     container_name: gindho-jaeger
     ports:
-      - "${JAEGER_UI_PORT:-16686}:16686"
-      - "${JAEGER_OTLP_GRPC_PORT:-4317}:4317"
-      - "${JAEGER_OTLP_HTTP_PORT:-4318}:4318"
+      - "${JAEGER_UI_PORT:-19686}:19686"
+      - "${JAEGER_OTLP_GRPC_PORT:-94317}:94317"
+      - "${JAEGER_OTLP_HTTP_PORT:-94318}:94318"
 
   loki:
     image: grafana/loki:2.9.2
     container_name: gindho-loki
     ports:
-      - "${LOKI_PORT:-3100}:3100"
+      - "${LOKI_PORT:-9310}:9310"
 
   minio:
     image: minio/minio:latest
     container_name: gindho-minio
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000"
+      - "9002:9002"
       - "9001:9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
@@ -183,17 +183,17 @@ services:
        dockerfile: Dockerfile
      container_name: gindho-identity-service
      profiles: [services, all]
-     ports: ["8111:8080"]
+     ports: ["8111:9001"]
      environment:
-       - PORT=8080
-       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/identity_service
+       - PORT=9001
+       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/identity_service
        - DB_USERNAME=${DB_USERNAME:-gindho}
        - DB_PASSWORD=${DB_PASSWORD}
        - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
        - JWT_SECRET=${JWT_SECRET}
        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-       - KEYCLOAK_URL=http://keycloak:8080
-       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080
+       - KEYCLOAK_URL=http://keycloak:9001
+       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:9001
        - KEYCLOAK_CLIENT_ID=gindho-client
        - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET:-test-secret}
      depends_on:
@@ -201,7 +201,7 @@ services:
        kafka: { condition: service_started }
        keycloak: { condition: service_healthy }
      healthcheck:
-       test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+       test: ["CMD-SHELL", "curl -f http://localhost:9001/actuator/health || exit 1"]
        interval: 30s
        timeout: 10s
        retries: 3
@@ -213,24 +213,24 @@ services:
        dockerfile: Dockerfile
      container_name: gindho-authorization-service
      profiles: [services, all]
-     ports: ["8110:8089"]
+     ports: ["9003:9012"]
     environment:
-      - PORT=8089
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/authorization_service
+      - PORT=9012
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/authorization_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - JWT_SECRET=${JWT_SECRET}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_PORT=96379
     depends_on:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8089/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9012/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -242,15 +242,15 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-api-gateway
     profiles: [services, all]
-    ports: ["8080:8080"]
+    ports: ["9001:9001"]
     environment:
-      - PORT=8080
+      - PORT=9001
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9001/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -263,10 +263,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-patient-service
     profiles: [services, all]
-    ports: ["8081:8081"]
+    ports: ["9004:9004"]
     environment:
-      - PORT=8081
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/patient_service
+      - PORT=9004
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/patient_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -276,7 +276,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8081/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9004/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -288,10 +288,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-appointment-service
     profiles: [services, all]
-    ports: ["8082:8082"]
+    ports: ["9005:9005"]
     environment:
-      - PORT=8082
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/appointment_service
+      - PORT=9005
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/appointment_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -301,7 +301,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8082/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9005/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -313,22 +313,22 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-medical-record-service
     profiles: [services, all]
-    ports: ["8083:8083"]
+    ports: ["9006:9006"]
     environment:
-      - PORT=8083
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/medical_record_service
+      - PORT=9006
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/medical_record_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - JWT_SECRET=${JWT_SECRET}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - MONGODB_URI=mongodb://${MONGO_USERNAME:-gindho}:${MONGO_PASSWORD}@mongodb:27017/medical_record_db?authSource=admin
+      - MONGODB_URI=mongodb://${MONGO_USERNAME:-gindho}:${MONGO_PASSWORD}@mongodb:97017/medical_record_db?authSource=admin
     depends_on:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
       mongodb: { condition: service_healthy }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8083/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9006/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -340,10 +340,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-admission-service
     profiles: [services, all]
-    ports: ["8084:8084"]
+    ports: ["9007:9007"]
     environment:
-      - PORT=8084
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/admission_service
+      - PORT=9007
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/admission_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -353,7 +353,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8084/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9007/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -365,10 +365,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-emergency-service
     profiles: [services, all]
-    ports: ["8085:8085"]
+    ports: ["9008:9008"]
     environment:
-      - PORT=8085
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/emergency_service
+      - PORT=9008
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/emergency_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -378,7 +378,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8085/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9008/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -391,10 +391,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-ward-service
     profiles: [services, all]
-    ports: ["8086:8086"]
+    ports: ["9009:9009"]
     environment:
-      - PORT=8086
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ward_service
+      - PORT=9009
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/ward_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -404,7 +404,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8086/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9009/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -416,10 +416,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-bed-service
     profiles: [services, all]
-    ports: ["8087:8087"]
+    ports: ["9010:9010"]
     environment:
-      - PORT=8087
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bed_service
+      - PORT=9010
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/bed_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -429,7 +429,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8087/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9010/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -442,10 +442,10 @@ services:
        dockerfile: Dockerfile
      container_name: gindho-surgery-service
      profiles: [services, all]
-     ports: ["8112:8089"]
+     ports: ["8112:9012"]
     environment:
-      - PORT=8089
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/surgery_service
+      - PORT=9012
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/surgery_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -455,7 +455,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8089/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9012/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -467,10 +467,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-round-service
     profiles: [services, all]
-    ports: ["8088:8088"]
+    ports: ["9011:9011"]
     environment:
-      - PORT=8088
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/round_service
+      - PORT=9011
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/round_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -480,7 +480,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8088/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9011/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -493,10 +493,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-pharmacy-service
     profiles: [services, all]
-    ports: ["8091:8091"]
+    ports: ["9014:9014"]
     environment:
-      - PORT=8091
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/pharmacy_service
+      - PORT=9014
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/pharmacy_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -506,7 +506,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8091/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9014/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -518,10 +518,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-prescription-service
     profiles: [services, all]
-    ports: ["8090:8090"]
+    ports: ["9013:9013"]
     environment:
-      - PORT=8090
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/prescription_service
+      - PORT=9013
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/prescription_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -531,7 +531,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8090/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9013/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -544,10 +544,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-laboratory-service
     profiles: [services, all]
-    ports: ["8092:8092"]
+    ports: ["9015:9015"]
     environment:
-      - PORT=8092
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/laboratory_service
+      - PORT=9015
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/laboratory_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -558,7 +558,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8092/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9015/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -570,23 +570,23 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-imaging-service
     profiles: [services, all]
-    ports: ["8093:8093"]
+    ports: ["9016:9016"]
     environment:
-      - PORT=8093
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/imaging_service
+      - PORT=9016
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/imaging_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - JWT_SECRET=${JWT_SECRET}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - MINIO_ENDPOINT=http://minio:9000
+      - MINIO_ENDPOINT=http://minio:9002
       - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-minioadmin}
       - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-minioadmin}
     depends_on:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8093/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9016/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -599,10 +599,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-billing-service
     profiles: [services, all]
-    ports: ["8094:8094"]
+    ports: ["9017:9017"]
     environment:
-      - PORT=8094
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/billing_service
+      - PORT=9017
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/billing_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -612,7 +612,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8094/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9017/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -624,10 +624,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-insurance-service
     profiles: [services, all]
-    ports: ["8095:8095"]
+    ports: ["9018:9018"]
     environment:
-      - PORT=8095
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/insurance_service
+      - PORT=9018
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/insurance_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -637,7 +637,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8095/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9018/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -649,10 +649,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-payment-service
     profiles: [services, all]
-    ports: ["8096:8096"]
+    ports: ["9019:9019"]
     environment:
-      - PORT=8096
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/payment_service
+      - PORT=9019
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/payment_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -662,7 +662,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8096/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9019/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -675,10 +675,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-inventory-service
     profiles: [services, all]
-    ports: ["8097:8097"]
+    ports: ["9020:9020"]
     environment:
-      - PORT=8097
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/inventory_service
+      - PORT=9020
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/inventory_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -688,7 +688,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8097/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9020/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -700,10 +700,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-procurement-service
     profiles: [services, all]
-    ports: ["8098:8098"]
+    ports: ["9021:9021"]
     environment:
-      - PORT=8098
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/procurement_service
+      - PORT=9021
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/procurement_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -713,7 +713,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8098/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9021/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -725,10 +725,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-asset-service
     profiles: [services, all]
-    ports: ["8099:8099"]
+    ports: ["9022:9022"]
     environment:
-      - PORT=8099
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/asset_service
+      - PORT=9022
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/asset_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -738,7 +738,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8099/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9022/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -750,10 +750,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-ambulance-service
     profiles: [services, all]
-    ports: ["8100:8100"]
+    ports: ["9023:9023"]
     environment:
-      - PORT=8100
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ambulance_service
+      - PORT=9023
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/ambulance_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -763,7 +763,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8100/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9023/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -776,10 +776,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-hr-service
     profiles: [services, all]
-    ports: ["8101:8101"]
+    ports: ["9024:9024"]
     environment:
-      - PORT=8101
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/hr_service
+      - PORT=9024
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/hr_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -789,7 +789,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8101/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9024/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -801,10 +801,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-scheduling-service
     profiles: [services, all]
-    ports: ["8102:8102"]
+    ports: ["9025:9025"]
     environment:
-      - PORT=8102
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/scheduling_service
+      - PORT=9025
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/scheduling_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -814,7 +814,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8102/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9025/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -827,10 +827,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-event-service
     profiles: [services, all]
-    ports: ["8103:8103"]
+    ports: ["9026:9026"]
     environment:
-      - PORT=8103
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/event_service
+      - PORT=9026
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/event_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -840,7 +840,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8103/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9026/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -852,10 +852,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-notification-service
     profiles: [services, all]
-    ports: ["8104:8104"]
+    ports: ["9027:9027"]
     environment:
-      - PORT=8104
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/notification_service
+      - PORT=9027
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/notification_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -873,7 +873,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8104/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9027/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -885,10 +885,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-reporting-service
     profiles: [services, all]
-    ports: ["8105:8105"]
+    ports: ["9028:9028"]
     environment:
-      - PORT=8105
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/reporting_service
+      - PORT=9028
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/reporting_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -898,7 +898,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8105/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9028/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -910,10 +910,10 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-audit-service
     profiles: [services, all]
-    ports: ["8106:8106"]
+    ports: ["9029:9029"]
     environment:
-      - PORT=8106
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/audit_service
+      - PORT=9029
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/audit_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -923,7 +923,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8106/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9029/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -935,9 +935,9 @@ services:
       context: ../services/setup-service
       dockerfile: Dockerfile
     container_name: gindho-setup-service
-    ports: ["9000:9000"]
+    ports: ["9002:9002"]
     environment:
-      - SERVER_PORT=9000
+      - SERVER_PORT=9002
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
@@ -955,14 +955,14 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-backend
     profiles: [legacy, all]
-    ports: ["8000:8000"]
+    ports: ["9002:9002"]
     environment:
-      - DB_URL=jdbc:postgresql://postgres:5432/gindho
+      - DB_URL=jdbc:postgresql://postgres:95432/gindho
       - DB_USERNAME=${DB_USERNAME:-gindho}
       - DB_PASSWORD=${DB_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
-      - server.port=8000
-      - spring.datasource.url=jdbc:postgresql://postgres:5432/gindho
+      - server.port=9002
+      - spring.datasource.url=jdbc:postgresql://postgres:95432/gindho
       - spring.datasource.username=${DB_USERNAME:-gindho}
       - spring.datasource.password=${DB_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -973,7 +973,7 @@ services:
     depends_on:
       postgres: { condition: service_healthy }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9002/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5

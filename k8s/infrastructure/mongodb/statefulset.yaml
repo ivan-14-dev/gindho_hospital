@@ -21,7 +21,7 @@ spec:
       - name: mongodb
         image: mongo:7
         ports:
-        - containerPort: 27017
+        - containerPort: 97017
           name: mongodb
         command:
         - mongod
@@ -84,8 +84,8 @@ metadata:
     app: mongodb
 spec:
   ports:
-  - port: 27017
-    targetPort: 27017
+  - port: 97017
+    targetPort: 97017
     name: mongodb
   clusterIP: None
   selector:

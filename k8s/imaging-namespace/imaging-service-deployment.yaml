@@ -19,7 +19,7 @@ spec:
       - name: imaging-service
         image: gindho/imaging-service:latest
         ports:
-        - containerPort: 8093
+        - containerPort: 9016
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8093
+            port: 9016
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8093
+            port: 9016
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: imaging-service
   ports:
-  - port: 8093
-    targetPort: 8093
+  - port: 9016
+    targetPort: 9016
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: imaging-service-config
   namespace: imaging
 data:
-  database_url: "jdbc:postgresql://postgres.imaging.svc.cluster.local:5432/imaging_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.imaging.svc.cluster.local:95432/imaging_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

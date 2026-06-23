@@ -206,19 +206,19 @@ Lancer un service avec PostgreSQL/Kafka Docker:
 
 ```bash
 docker run --rm --network gindho_default \
-  -e SERVER_PORT=8080 \
-  -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/patient_service \
+  -e SERVER_PORT=9001 \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/patient_service \
   -e DB_USERNAME=gindho \
   -e DB_PASSWORD=gindho123 \
   -e KAFKA_BOOTSTRAP_SERVERS=kafka:29092 \
-  -p 8080:8080 \
+  -p 9001:9001 \
   gindho/patient-service:latest
 ```
 
 Verifier la sante:
 
 ```bash
-curl http://localhost:8080/actuator/health
+curl http://localhost:9001/actuator/health
 ```
 
 ## Recommandations

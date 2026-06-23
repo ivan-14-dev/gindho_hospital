@@ -16,4 +16,4 @@ spec:
           service:
             name: surgery-service
             port:
-              number: 8089
+              number: 9012

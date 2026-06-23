@@ -9,7 +9,7 @@ package com.gindho.dto;
 // curl -s -X PUT -H "Content-Type: application/json" \
 //   -H "Authorization: Bearer <TOKEN>" \
 //   -d '{"actif":false}' \
-//   http://localhost:8080/api/admin/users/8/active
+//   http://localhost:9001/api/admin/users/8/active
 //
 public class UserActiveUpdateRequest {
     private boolean actif;

@@ -16,4 +16,4 @@ spec:
           service:
             name: scheduling-service
             port:
-              number: 8102
+              number: 9025

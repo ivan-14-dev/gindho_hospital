@@ -21,7 +21,7 @@ spec:
       - name: zookeeper
         image: bitnami/zookeeper:3.9
         ports:
-        - containerPort: 2181
+        - containerPort: 92181
           name: client
         - containerPort: 2888
           name: peer
@@ -76,8 +76,8 @@ metadata:
     app: zookeeper
 spec:
   ports:
-  - port: 2181
-    targetPort: 2181
+  - port: 92181
+    targetPort: 92181
     name: client
   clusterIP: None
   selector:

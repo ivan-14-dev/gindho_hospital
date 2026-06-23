@@ -9,7 +9,7 @@ Responsabilite:
 
 Contrats sources:
 
-- Kong local: `http://localhost:8000`
+- Kong local: `http://localhost:9000`
 - Production: `https://api.gindho.com`
 - OpenAPI global: `../../GinDHO_Hospital/docs/api/gindho-openapi.yaml`
 - OpenAPI patient-service: `../../GinDHO_Hospital/docs/api/patient-service-openapi.yaml`

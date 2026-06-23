@@ -21,7 +21,7 @@ spec:
       - name: grafana
         image: grafana/grafana:10
         ports:
-        - containerPort: 3000
+        - containerPort: 9300
           name: http
         env:
         - name: GF_SECURITY_ADMIN_PASSWORD
@@ -48,13 +48,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /api/health
-            port: 3000
+            port: 9300
           initialDelaySeconds: 60
           periodSeconds: 30
         readinessProbe:
           httpGet:
             path: /api/health
-            port: 3000
+            port: 9300
           initialDelaySeconds: 30
           periodSeconds: 10
       volumes:
@@ -75,8 +75,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 3000
-    targetPort: 3000
+  - port: 9300
+    targetPort: 9300
     name: http
   selector:
     app: grafana
@@ -93,16 +93,16 @@ data:
     - name: Prometheus
       type: prometheus
       access: proxy
-      url: http://prometheus.infrastructure.svc.cluster.local:9090
+      url: http://prometheus.infrastructure.svc.cluster.local:9990
       isDefault: true
     - name: Loki
       type: loki
       access: proxy
-      url: http://loki.infrastructure.svc.cluster.local:3100
+      url: http://loki.infrastructure.svc.cluster.local:9310
     - name: Tempo
       type: tempo
       access: proxy
-      url: http://jaeger.infrastructure.svc.cluster.local:3200
+      url: http://jaeger.infrastructure.svc.cluster.local:9320
   dashboards.yaml: |
     apiVersion: 1
     providers:

@@ -1,8 +1,0 @@
-com/gindho/InventoryServiceApplication.class
-com/gindho/inventory/controller/InventoryController.class
-com/gindho/inventory/model/MouvementStock$TypeMouvement.class
-com/gindho/inventory/model/Produit.class
-com/gindho/inventory/repository/ProduitRepository.class
-com/gindho/inventory/controller/StockAliasController.class
-com/gindho/inventory/model/MouvementStock.class
-com/gindho/inventory/repository/MouvementStockRepository.class

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka
+  namespace: infrastructure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: bitnami/kafka:3.4
+          ports:
+            - containerPort: 99092
+          env:
+            - name: KAFKA_CFG_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTING_ENABLED
+              value: "true"
+            - name: KAFKA_CFG_LISTENERS
+              value: "PLAINTEXT://:99092"
+            - name: KAFKA_CFG_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://kafka.infrastructure.svc.cluster.local:99092"
+            - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
+              value: "true"
+            - name: ALLOW_PLAINTEXT_LISTENER
+              value: "yes"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  namespace: infrastructure
+spec:
+  ports:
+    - port: 99092
+      targetPort: 99092
+  selector:
+    app: kafka

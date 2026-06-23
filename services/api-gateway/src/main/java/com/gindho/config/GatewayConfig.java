@@ -158,12 +158,9 @@ public class GatewayConfig {
                                 .circuitBreaker(c -> c.setName("audit-cb")
                                         .setFallbackUri("forward:/fallback/audit")))
                         .uri("lb://audit-service"))
-                .route("legacy-monolith", r -> r.path("/api/legacy/**")
-                        .filters(f -> {
-                            var spec = f.rewritePath("/api/legacy/(?<segment>.*)", "/api/${segment}");
-                            return spec.addRequestHeader("X-Gateway-Source", "spring-gateway");
-                        })
-                        .uri("lb://backend-service"))
+                .route("setup-service", r -> r.path("/setup/**")
+                        .filters(f -> f.rewritePath("/setup/(?<segment>.*)", "/${segment}"))
+                        .uri("lb://setup-service"))
                 .build();
     }
 

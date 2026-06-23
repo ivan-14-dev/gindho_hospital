@@ -1,0 +1,15 @@
+apiVersion: v2
+name: appointment-service
+version: 1.0.0
+description: Helm chart for GinDHO appointment-service microservice
+type: application
+keywords:
+  - gindho
+  - appointment
+  - hospital
+  - microservice
+home: https://github.com/gindho/gindho
+maintainers:
+  - name: GinDHO Team
+    email: team@gindho.com
+appVersion: "1.0.0"

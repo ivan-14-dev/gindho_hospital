@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: audit-service-ingress
+  namespace: audit
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /audit
+        pathType: Prefix
+        backend:
+          service:
+            name: audit-service
+            port:
+              number: 9029

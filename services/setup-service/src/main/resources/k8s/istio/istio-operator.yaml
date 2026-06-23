@@ -1,0 +1,51 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: gindho-istio
+  namespace: istio-system
+spec:
+  profile: default
+  values:
+    global:
+      proxy:
+        autoInject: enabled
+        privileged: true
+      defaultNamespace: patient
+      controlPlaneSecurityEnabled: true
+    cni:
+      enabled: true
+  components:
+    ingressGateways:
+      - name: kong-gateway
+        enabled: true
+        label:
+          istio.io/gateway: kong-gateway
+        k8s:
+          service:
+            type: LoadBalancer
+            ports:
+              - port: 80
+                targetPort: 9001
+                name: http
+              - port: 443
+                targetPort: 8443
+                name: https
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+  meshConfig:
+    accessLogFile: /dev/stdout
+    accessLogFormat: |
+      {
+        "timestamp": "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%",
+        "method": "%REQUEST_METHOD%",
+        "upstream": "%UPSTREAM_CLUSTER%",
+        "response_code": "%RESPONSE_CODE%",
+        "response_flags": "%RESPONSE_FLAGS%"
+      }
+    defaultConfig:
+      proxyMetadata: {}

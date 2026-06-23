@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: keycloak
+  namespace: infrastructure
+  labels:
+    app: keycloak
+    component: identity
+spec:
+  serviceName: "keycloak"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:24
+        command:
+        - /bin/sh
+        - -c
+        - |
+          keycloak start \
+            --optimized \
+            --proxy=edge \
+            --http-replication-enabled=true \
+            --cache-stack=jpa \
+            --db=postgres \
+            --db-url-host=postgres.infrastructure.svc.cluster.local \
+            --db-url-port=95432 \
+            --db-username=$(KEYCLOAK_DB_USER) \
+            --db-password=$(KEYCLOAK_DB_PASSWORD) \
+            --db-database=keycloak
+        env:
+        - name: KEYCLOAK_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-secret
+              key: db_username
+        - name: KEYCLOAK_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-secret
+              key: db_password
+        - name: KC_HOSTNAME
+          value: identity.gindho.com
+        - name: KC_PROXY
+          value: edge
+        - name: JAVA_OPTS_APPEND
+          value: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+        ports:
+        - containerPort: 9001
+          name: http
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9001
+          initialDelaySeconds: 120
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /realms/master
+            port: 9001
+          initialDelaySeconds: 60
+          periodSeconds: 15
+  volumeClaimTemplates:
+  - metadata:
+      name: keycloak-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "keycloak-storage"
+      resources:
+        requests:
+          storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: infrastructure
+  labels:
+    app: keycloak
+spec:
+  type: ClusterIP
+  ports:
+  - port: 9001
+    targetPort: 9001
+    name: http
+  selector:
+    app: keycloak

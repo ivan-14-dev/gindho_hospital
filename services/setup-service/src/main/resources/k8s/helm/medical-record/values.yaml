@@ -1,0 +1,69 @@
+# =============================================================================
+# GinDHO medical-record-service Helm values
+# =============================================================================
+
+replicaCount: 3
+image:
+  repository: gindho/medical-record-service
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  port: 9006
+  targetPort: 9006
+  name: http
+configMap:
+  name: medical-record-service-config
+  data:
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:95432/medical_record_service"
+    SPRING_DATA_MONGODB_URI: "mongodb://mongodb.infrastructure.svc.cluster.local:97017/medical_record_service"
+    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:99092"
+    MANAGEMENT_ENDPOINTS_WEB_EXPOSE_INCLUDE: "health,info,prometheus,metrics"
+secrets:
+  db_username:
+    name: medical-record-service-secret
+    key: db_username
+  db_password:
+    name: medical-record-service-secret
+    key: db_password
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: 9006
+  initialDelaySeconds: 60
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 9006
+  initialDelaySeconds: 30
+  periodSeconds: 10
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+hpa:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+pdb:
+  enabled: true
+  minAvailable: 2
+networkPolicy:
+  enabled: true
+  ingressNamespaces:
+    - kong
+    - istio-system
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  namespace: monitoring
+  path: /actuator/prometheus
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "9006"
+  prometheus.io/path: "/actuator/prometheus"
+namespace: emr

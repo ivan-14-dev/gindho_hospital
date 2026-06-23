@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: setup-service
+  namespace: setup
+  labels:
+    app: setup-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: setup-service
+  template:
+    metadata:
+      labels:
+        app: setup-service
+    spec:
+      serviceAccountName: setup-service-sa
+      containers:
+      - name: setup-service
+        image: gindho/setup-service:latest
+        ports:
+        - containerPort: 9002
+          name: http
+        env:
+        - name: SERVER_PORT
+          value: "9002"
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: setup-service-config
+              key: database_url
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: setup-service-secret
+              key: db_username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: setup-service-secret
+              key: db_password
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          valueFrom:
+            configMapKeyRef:
+              name: setup-service-config
+              key: kafka_servers
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: setup-service-secret
+              key: jwt_secret
+        - name: KEYCLOAK_URL
+          valueFrom:
+            configMapKeyRef:
+              name: setup-service-config
+              key: keycloak_url
+        - name: KEYCLOAK_REALM
+          valueFrom:
+            configMapKeyRef:
+              name: setup-service-config
+              key: keycloak_realm
+        - name: KEYCLOAK_ADMIN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: setup-service-secret
+              key: keycloak_admin_username
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: setup-service-secret
+              key: keycloak_admin_password
+        - name: KEYCLOAK_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: setup-service-secret
+              key: keycloak_client_secret
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 9002
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 9002
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

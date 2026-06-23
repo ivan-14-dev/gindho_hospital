@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper
+  namespace: infrastructure
+  labels:
+    app: zookeeper
+    component: kafka
+spec:
+  serviceName: "zookeeper"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+      - name: zookeeper
+        image: bitnami/zookeeper:3.9
+        ports:
+        - containerPort: 92181
+          name: client
+        - containerPort: 2888
+          name: peer
+        - containerPort: 3888
+          name: leader-election
+        env:
+        - name: ZOO_SERVER_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ZOO_SERVERS
+          value: "zookeeper-0.zookeeper:2888:3888;zookeeper-1.zookeeper:2888:3888;zookeeper-2.zookeeper:2888:3888"
+        - name: ALLOW_ANONYMOUS_LOGIN
+          value: "yes"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+        livenessProbe:
+          exec:
+            command:
+            - zkCli.cmd
+            - stat
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - zkCli.cmd
+            - stat
+          initialDelaySeconds: 20
+          periodSeconds: 5
+  volumeClaimTemplates:
+  - metadata:
+      name: zookeeper-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "zookeeper-storage"
+      resources:
+        requests:
+          storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  namespace: infrastructure
+  labels:
+    app: zookeeper
+spec:
+  ports:
+  - port: 92181
+    targetPort: 92181
+    name: client
+  clusterIP: None
+  selector:
+    app: zookeeper

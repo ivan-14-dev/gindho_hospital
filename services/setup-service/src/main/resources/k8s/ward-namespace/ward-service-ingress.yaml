@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ward-service-ingress
+  namespace: ward
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /ward
+        pathType: Prefix
+        backend:
+          service:
+            name: ward-service
+            port:
+              number: 9009

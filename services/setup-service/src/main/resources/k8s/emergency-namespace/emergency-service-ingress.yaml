@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: emergency-service-ingress
+  namespace: emergency
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /emergency
+        pathType: Prefix
+        backend:
+          service:
+            name: emergency-service
+            port:
+              number: 9008

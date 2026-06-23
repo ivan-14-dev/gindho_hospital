@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "patient-service.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "patient-service.labels" . | nindent 4 }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "{{ .Values.service.port }}"
+    prometheus.io/path: "/actuator/prometheus"
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "patient-service.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: {{ .Values.service.name }}
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP

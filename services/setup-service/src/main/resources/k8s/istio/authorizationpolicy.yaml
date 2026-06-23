@@ -1,0 +1,83 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: patient-authorization
+  namespace: patient
+spec:
+  selector:
+    matchLabels:
+      app: patient-service
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+    - source:
+        namespaces: ["kong"]
+    - source:
+        namespaces: ["appointment"]
+    to:
+    - operation:
+        methods: ["GET", "POST", "PUT", "DELETE"]
+        paths: ["/api/*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: appointment-authorization
+  namespace: appointment
+spec:
+  selector:
+    matchLabels:
+      app: appointment-service
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+    - source:
+        namespaces: ["kong"]
+    - source:
+        namespaces: ["patient"]
+    to:
+    - operation:
+        methods: ["GET", "POST", "PUT", "DELETE"]
+        paths: ["/api/*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: emr-authorization
+  namespace: emr
+spec:
+  selector:
+    matchLabels:
+      app: emr-service
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+    - source:
+        namespaces: ["kong"]
+    - source:
+        namespaces: ["patient"]
+    to:
+    - operation:
+        methods: ["GET", "POST", "PUT", "DELETE"]
+        paths: ["/api/*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: infrastructure-authorization
+  namespace: infrastructure
+spec:
+  selector:
+    matchLabels:
+      component: database
+  rules:
+  - from:
+    - source:
+        namespaces: ["patient", "appointment", "emr", "laboratory", "pharmacy", "billing", "inventory", "hr", "reporting"]
+    to:
+    - operation:
+        methods: ["GET", "POST", "PUT", "DELETE"]
+        paths: ["/api/*"]

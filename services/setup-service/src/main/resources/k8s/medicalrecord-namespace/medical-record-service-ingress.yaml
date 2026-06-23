@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: medical-record-service-ingress
+  namespace: medicalrecord
+  annotations:
+    kubernetes.io/ingress.class: kong
+spec:
+  rules:
+  - host: api.gindho.com
+    http:
+      paths:
+      - path: /medical-record
+        pathType: Prefix
+        backend:
+          service:
+            name: medical-record-service
+            port:
+              number: 9006

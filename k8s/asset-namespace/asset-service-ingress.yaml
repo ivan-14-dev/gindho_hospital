@@ -16,4 +16,4 @@ spec:
           service:
             name: asset-service
             port:
-              number: 8099
+              number: 9022

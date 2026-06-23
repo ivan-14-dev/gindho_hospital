@@ -26,11 +26,11 @@ cd hospital/services/setup-service
 mvn spring-boot:run
 ```
 
-Le service sera accessible sur `http://localhost:9000`
+Le service sera accessible sur `http://localhost:9002`
 
 ### 2. Accéder à l'interface
 
-Ouvrez votre navigateur et accédez à `http://localhost:9000`
+Ouvrez votre navigateur et accédez à `http://localhost:9002`
 
 ### 3. Suivre les étapes
 
@@ -49,8 +49,8 @@ Ouvrez votre navigateur et accédez à `http://localhost:9000`
 |----------|-------------|--------|
 | `DB_USERNAME` | Nom d'utilisateur PostgreSQL | `gindho` |
 | `DB_PASSWORD` | Mot de passe PostgreSQL | (requis) |
-| `KAFKA_BOOTSTRAP_SERVERS` | Serveurs Kafka | `localhost:9092` |
-| `SERVER_PORT` | Port du service | `9000` |
+| `KAFKA_BOOTSTRAP_SERVERS` | Serveurs Kafka | `localhost:99092` |
+| `SERVER_PORT` | Port du service | `9002` |
 
 ### Exemple de lancement
 
@@ -147,9 +147,9 @@ setup-service:
     context: ../services/setup-service
     dockerfile: Dockerfile
   container_name: gindho-setup-service
-  ports: ["9000:9000"]
+  ports: ["9002:9002"]
   environment:
-    - SERVER_PORT=9000
+    - SERVER_PORT=9002
     - DB_USERNAME=${DB_USERNAME:-gindho}
     - DB_PASSWORD=${DB_PASSWORD}
     - KAFKA_BOOTSTRAP_SERVERS=kafka:29092

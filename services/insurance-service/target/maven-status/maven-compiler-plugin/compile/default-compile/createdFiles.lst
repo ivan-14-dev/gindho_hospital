@@ -1,8 +1,0 @@
-com/gindho/insurance/controller/AssurancePatientController.class
-com/gindho/insurance/dto/AssurancePatientDto.class
-com/gindho/insurance/dto/AssurancePatientDto$AssurancePatientDtoBuilder.class
-com/gindho/insurance/model/AssurancePatient$AssurancePatientBuilder.class
-com/gindho/insurance/service/AssurancePatientService.class
-com/gindho/InsuranceServiceApplication.class
-com/gindho/insurance/repository/AssurancePatientRepository.class
-com/gindho/insurance/model/AssurancePatient.class

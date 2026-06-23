@@ -207,7 +207,7 @@ Make it executable: `chmod +x k8s/deploy-all.sh`
 
 ```bash
 # Port‑forward the ArgoCD server (default admin password is admin‑admin)
-kubectl -n argocd port-forward svc/argocd-server 8080:443 &
+kubectl -n argocd port-forward svc/argocd-server 9001:443 &
 
 # Login
 argocd login --grpc-web --username admin --password admin
@@ -269,14 +269,14 @@ kubectl apply -f k8s/infrastructure/backup.yaml
 ## 10. Monitoring & Observability  
 
 ```bash
-# Grafana (default UI on http://node-ip:3000)
-kubectl port-forward -n monitoring svc/grafana 3000:3000
+# Grafana (default UI on http://node-ip:9300)
+kubectl port-forward -n monitoring svc/grafana 9300:9300
 
 # Prometheus metrics
-kubectl port-forward -n monitoring svc/prometheus-server 9090:9090
+kubectl port-forward -n monitoring svc/prometheus-server 9990:9990
 
 # Loki logs
-kubectl port-forward -n monitoring svc/loki 3100:3100
+kubectl port-forward -n monitoring svc/loki 9310:9310
 ```
 
 Dashboard bundles are provided in `k8s/monitoring/grafana-dashboards.yaml`. Import the JSON files via Grafana UI.
@@ -353,12 +353,12 @@ Running it (`./k8s/deploy.sh`) will:
 |---|------|---------|
 | 1 | All pods are `Running` | `kubectl get pods -A` |
 | 2 | DNS resolution works | `kubectl exec -n patient deploy/patient-service -c default -- nslookup appointment-service.appointment.svc.cluster.local` |
-| 3 | Kong is reachable | `curl -s http://localhost:8000/mock | head -c 1` |
-| 3‑a | Kong can route to a service | `curl -s http://localhost:8000/api/v1/patients | wc -c` (should return JSON size > 0) |
-| 4 | PostgreSQL connectivity | `kubectl exec -n infrastructure -it deploy/postgres -- pg_isready -h localhost -p 5432` |
-| 5 | Kafka health | `kubectl exec -n infrastructure -it deploy/kafka -- kafka-topics.sh --bootstrap-server localhost:9092 --list` |
-| 6 | Prometheus UI up | `curl http://localhost:9090/-/ready` |
-| 7 | Grafana UI loads (port‑forward) | `curl -s http://localhost:3000/api/health | grep "OK"` |
+| 3 | Kong is reachable | `curl -s http://localhost:9002/mock | head -c 1` |
+| 3‑a | Kong can route to a service | `curl -s http://localhost:9002/api/v1/patients | wc -c` (should return JSON size > 0) |
+| 4 | PostgreSQL connectivity | `kubectl exec -n infrastructure -it deploy/postgres -- pg_isready -h localhost -p 95432` |
+| 5 | Kafka health | `kubectl exec -n infrastructure -it deploy/kafka -- kafka-topics.sh --bootstrap-server localhost:99092  --list` |
+| 6 | Prometheus UI up | `curl http://localhost:9990/-/ready` |
+| 7 | Grafana UI loads (port‑forward) | `curl -s http://localhost:9300/api/health | grep "OK"` |
 | 8 | ArgoCD shows all apps **Synced** | `argocd app list` |
 | 9 | NetworkPolicy enforcement | Attempt `kubectl run -i --rm --restart=Never test-pod --image=alpine -- sleep 3600 -n billing` and verify it cannot `nc` to `payment-service` |
 | 10| TLS/mTLS (Istio) | `istioctl authn tls-check payment-service.billing.svc.cluster.local` |

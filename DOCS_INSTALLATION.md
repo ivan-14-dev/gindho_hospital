@@ -41,7 +41,7 @@ GRANT ALL PRIVILEGES ON DATABASE gindho TO gindho_user;
 
 1. Modifier `backend/src/main/resources/application.properties`:
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/gindho
+spring.datasource.url=jdbc:postgresql://localhost:95432/gindho
 spring.datasource.username=gindho_user
 spring.datasource.password=password123
 jwt.secret=votre_secret_jwt_ici_64_caracteres_minimum_pour_securite
@@ -61,8 +61,8 @@ mvn spring-boot:run
 ## Vérification
 
 Le backend devrait être accessible sur:
-- API: http://localhost:8080/api
-- Swagger: http://localhost:8080/swagger-ui.html
+- API: http://localhost:9001/api
+- Swagger: http://localhost:9001/swagger-ui.html
 
 ## Tests
 
@@ -97,7 +97,7 @@ mvn verify
 - Vérifier que PostgreSQL tourne
 - Vérifier les identifiants dans application.properties
 
-### Port 8080 déjà utilisé
+### Port 9001 déjà utilisé
 - Changer `server.port` dans application.properties
 - Ou arrêter le service utilisant ce port
 

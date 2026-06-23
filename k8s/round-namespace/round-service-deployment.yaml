@@ -19,7 +19,7 @@ spec:
       - name: round-service
         image: gindho/round-service:latest
         ports:
-        - containerPort: 8088
+        - containerPort: 9011
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8088
+            port: 9011
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8088
+            port: 9011
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: round-service
   ports:
-  - port: 8088
-    targetPort: 8088
+  - port: 9011
+    targetPort: 9011
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: round-service-config
   namespace: round
 data:
-  database_url: "jdbc:postgresql://postgres.round.svc.cluster.local:5432/round_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.round.svc.cluster.local:95432/round_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

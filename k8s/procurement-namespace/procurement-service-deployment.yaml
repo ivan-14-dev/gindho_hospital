@@ -19,7 +19,7 @@ spec:
       - name: procurement-service
         image: gindho/procurement-service:latest
         ports:
-        - containerPort: 8098
+        - containerPort: 9021
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8098
+            port: 9021
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8098
+            port: 9021
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: procurement-service
   ports:
-  - port: 8098
-    targetPort: 8098
+  - port: 9021
+    targetPort: 9021
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: procurement-service-config
   namespace: procurement
 data:
-  database_url: "jdbc:postgresql://postgres.procurement.svc.cluster.local:5432/procurement_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.procurement.svc.cluster.local:95432/procurement_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

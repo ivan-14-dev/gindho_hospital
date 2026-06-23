@@ -8,15 +8,15 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 service:
-  port: 8083
-  targetPort: 8083
+  port: 9006
+  targetPort: 9006
   name: http
 configMap:
   name: medical-record-service-config
   data:
-    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:5432/medical_record_service"
-    SPRING_DATA_MONGODB_URI: "mongodb://mongodb.infrastructure.svc.cluster.local:27017/medical_record_service"
-    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:9092"
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:95432/medical_record_service"
+    SPRING_DATA_MONGODB_URI: "mongodb://mongodb.infrastructure.svc.cluster.local:97017/medical_record_service"
+    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:99092"
     MANAGEMENT_ENDPOINTS_WEB_EXPOSE_INCLUDE: "health,info,prometheus,metrics"
 secrets:
   db_username:
@@ -28,13 +28,13 @@ secrets:
 livenessProbe:
   httpGet:
     path: /actuator/health/liveness
-    port: 8083
+    port: 9006
   initialDelaySeconds: 60
   periodSeconds: 30
 readinessProbe:
   httpGet:
     path: /actuator/health/readiness
-    port: 8083
+    port: 9006
   initialDelaySeconds: 30
   periodSeconds: 10
 resources:
@@ -64,6 +64,6 @@ serviceMonitor:
   path: /actuator/prometheus
 podAnnotations:
   prometheus.io/scrape: "true"
-  prometheus.io/port: "8083"
+  prometheus.io/port: "9006"
   prometheus.io/path: "/actuator/prometheus"
 namespace: emr

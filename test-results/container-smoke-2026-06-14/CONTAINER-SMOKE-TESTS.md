@@ -3,7 +3,7 @@
 Date: 2026-06-14
 Mode: smoke test Docker; un microservice applicatif a la fois; dependances partagees PostgreSQL/Kafka; validation via GET /actuator/health.
 
-Variables de test: SERVER_PORT=8080, SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/<service>, SPRING_JPA_HIBERNATE_DDL_AUTO=update, KAFKA_BOOTSTRAP_SERVERS=kafka:29092.
+Variables de test: SERVER_PORT=9001, SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/<service>, SPRING_JPA_HIBERNATE_DDL_AUTO=update, KAFKA_BOOTSTRAP_SERVERS=kafka:29092.
 
 | Service | Image | Resultat | HTTP | Duree | Note |
 |---|---|---:|---:|---:|---|

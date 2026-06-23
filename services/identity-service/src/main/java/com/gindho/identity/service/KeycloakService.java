@@ -29,7 +29,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class KeycloakService {
-    @Value("${keycloak.url:${keycloak.auth-server-url:http://localhost:8080}}")
+    @Value("${keycloak.url:${keycloak.auth-server-url:http://localhost:9001}}")
     private String keycloakUrl;
     @Value("${keycloak.realm:gindho}")
     private String realm;

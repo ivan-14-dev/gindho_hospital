@@ -16,4 +16,4 @@ spec:
           service:
             name: emergency-service
             port:
-              number: 8085
+              number: 9008

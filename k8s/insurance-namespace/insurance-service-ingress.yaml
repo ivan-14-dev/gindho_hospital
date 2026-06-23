@@ -16,4 +16,4 @@ spec:
           service:
             name: insurance-service
             port:
-              number: 8095
+              number: 9018

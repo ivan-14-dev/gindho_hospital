@@ -21,8 +21,8 @@ kubectl get svc -A
 kubectl exec -it deploy/patient-service -n patient -- nslookup postgres.infrastructure.svc.cluster.local
 
 # 5. Port-forward pour tester
-kubectl port-forward svc/postgres -n infrastructure 5432:5432
-kubectl port-forward svc/patient-service -n patient 8081:8081
+kubectl port-forward svc/postgres -n infrastructure 95432:95432
+kubectl port-forward svc/patient-service -n patient 9004:9004
 ```
 
 ## Architecture Validée

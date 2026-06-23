@@ -16,4 +16,4 @@ spec:
           service:
             name: inventory-service
             port:
-              number: 8097
+              number: 9020

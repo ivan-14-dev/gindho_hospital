@@ -1,7 +1,0 @@
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/admission-service/src/main/java/com/gindho/AdmissionServiceApplication.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/admission-service/src/main/java/com/gindho/admission/controller/AdmissionController.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/admission-service/src/main/java/com/gindho/admission/controller/HospitalisationAliasController.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/admission-service/src/main/java/com/gindho/admission/dto/HospitalisationDto.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/admission-service/src/main/java/com/gindho/admission/model/Hospitalisation.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/admission-service/src/main/java/com/gindho/admission/repository/HospitalisationRepository.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/admission-service/src/main/java/com/gindho/admission/service/HospitalisationService.java

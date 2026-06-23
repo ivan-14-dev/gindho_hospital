@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:9000}
 
 spring:
   application:
@@ -47,32 +47,32 @@ logging:
 
 service:
   registry:
-    identity-service: http://localhost:8080
-    patient-service: http://localhost:8081
-    appointment-service: http://localhost:8082
-    medical-record-service: http://localhost:8083
-    admission-service: http://localhost:8084
-    emergency-service: http://localhost:8085
-    ward-service: http://localhost:8086
-    bed-service: http://localhost:8087
-    round-service: http://localhost:8088
-    surgery-service: http://localhost:8089
-    prescription-service: http://localhost:8090
-    pharmacy-service: http://localhost:8091
-    laboratory-service: http://localhost:8092
-    imaging-service: http://localhost:8093
-    billing-service: http://localhost:8094
-    insurance-service: http://localhost:8095
-    payment-service: http://localhost:8096
-    inventory-service: http://localhost:8097
-    procurement-service: http://localhost:8098
-    asset-service: http://localhost:8099
-    ambulance-service: http://localhost:8100
-    hr-service: http://localhost:8101
-    scheduling-service: http://localhost:8102
-    event-service: http://localhost:8103
-    notification-service: http://localhost:8104
-    reporting-service: http://localhost:8105
-    audit-service: http://localhost:8106
-    authorization-service: http://localhost:8089
-    legacy-backend: http://localhost:8000
+    identity-service: http://localhost:9001
+    patient-service: http://localhost:9004
+    appointment-service: http://localhost:9005
+    medical-record-service: http://localhost:9006
+    admission-service: http://localhost:9007
+    emergency-service: http://localhost:9008
+    ward-service: http://localhost:9009
+    bed-service: http://localhost:9010
+    round-service: http://localhost:9011
+    surgery-service: http://localhost:9012
+    prescription-service: http://localhost:9013
+    pharmacy-service: http://localhost:9014
+    laboratory-service: http://localhost:9015
+    imaging-service: http://localhost:9016
+    billing-service: http://localhost:9017
+    insurance-service: http://localhost:9018
+    payment-service: http://localhost:9019
+    inventory-service: http://localhost:9020
+    procurement-service: http://localhost:9021
+    asset-service: http://localhost:9022
+    ambulance-service: http://localhost:9023
+    hr-service: http://localhost:9024
+    scheduling-service: http://localhost:9025
+    event-service: http://localhost:9026
+    notification-service: http://localhost:9027
+    reporting-service: http://localhost:9028
+    audit-service: http://localhost:9029
+    authorization-service: http://localhost:9012
+    legacy-backend: http://localhost:9000

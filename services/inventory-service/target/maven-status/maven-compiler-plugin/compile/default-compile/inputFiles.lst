@@ -1,7 +1,0 @@
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/inventory-service/src/main/java/com/gindho/InventoryServiceApplication.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/inventory-service/src/main/java/com/gindho/inventory/controller/InventoryController.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/inventory-service/src/main/java/com/gindho/inventory/controller/StockAliasController.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/inventory-service/src/main/java/com/gindho/inventory/model/MouvementStock.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/inventory-service/src/main/java/com/gindho/inventory/model/Produit.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/inventory-service/src/main/java/com/gindho/inventory/repository/MouvementStockRepository.java
-/media/ivan/Ultimate/Ivan/script/common/GinDHO/hospital/services/inventory-service/src/main/java/com/gindho/inventory/repository/ProduitRepository.java

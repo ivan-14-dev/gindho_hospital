@@ -19,7 +19,7 @@ spec:
       - name: reporting-service
         image: gindho/reporting-service:latest
         ports:
-        - containerPort: 8105
+        - containerPort: 9028
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8105
+            port: 9028
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8105
+            port: 9028
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: reporting-service
   ports:
-  - port: 8105
-    targetPort: 8105
+  - port: 9028
+    targetPort: 9028
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: reporting-service-config
   namespace: reporting
 data:
-  database_url: "jdbc:postgresql://postgres.reporting.svc.cluster.local:5432/reporting_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.reporting.svc.cluster.local:95432/reporting_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

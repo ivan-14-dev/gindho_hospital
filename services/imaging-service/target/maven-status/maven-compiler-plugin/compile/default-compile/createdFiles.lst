@@ -1,6 +1,0 @@
-com/gindho/ImagingServiceApplication.class
-com/gindho/imaging/controller/ImagingController.class
-com/gindho/imaging/model/Imagerie$StatutImagerie.class
-com/gindho/imaging/controller/ImagerieAliasController.class
-com/gindho/imaging/repository/ImagerieRepository.class
-com/gindho/imaging/model/Imagerie.class

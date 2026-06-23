@@ -5,7 +5,7 @@ echo "=========================================="
 # Start backend in background
 echo "📦 Démarrage du backend Spring Boot..."
 cd backend
-mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8000 &
+mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=9002 &
 BACKEND_PID=$!
 cd ..
 
@@ -14,8 +14,8 @@ echo "⏳ Attente du démarrage du backend (30s)..."
 sleep 30
 
 # Check if backend is running
-if curl -s http://localhost:8000/api/auth/login > /dev/null 2>&1; then
-    echo "✅ Backend démarré sur http://localhost:8000"
+if curl -s http://localhost:9002/api/auth/login > /dev/null 2>&1; then
+    echo "✅ Backend démarré sur http://localhost:9000"
 else
     echo "⚠️  Le backend peut nécessiter plus de temps"
 fi

@@ -16,4 +16,4 @@ spec:
           service:
             name: admission-service
             port:
-              number: 8084
+              number: 9007

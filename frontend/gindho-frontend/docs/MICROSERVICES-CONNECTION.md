@@ -372,17 +372,17 @@ La gateway Kong doit avoir les routes suivantes configurées :
 ```yaml
 services:
   - name: auth-service
-    url: http://auth-service:8080
+    url: http://auth-service:9001
     routes:
       - paths: ["/api/auth"]
   
   - name: patient-service
-    url: http://patient-service:8080
+    url: http://patient-service:9001
     routes:
       - paths: ["/api/patients"]
   
   - name: appointment-service
-    url: http://appointment-service:8080
+    url: http://appointment-service:9001
     routes:
       - paths: ["/api/appointments"]
   
@@ -392,7 +392,7 @@ services:
 ### Actions Requises
 1. Vérifier que tous les microservices sont déployés dans Kubernetes
 2. Vérifier que Kong a les routes configurées pour chaque service
-3. Tester la connectivité avec `curl http://localhost:8000/api/patients`
+3. Tester la connectivité avec `curl http://localhost:9002/api/patients`
 4. Vérifier les logs Kong pour détecter les erreurs de routage
 
 ## 6. Tests de Connectivité
@@ -400,18 +400,18 @@ services:
 ### Commandes de Test
 ```bash
 # Tester l'authentification
-curl -X POST http://localhost:8000/api/auth/login \
+curl -X POST http://localhost:9002/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@test.com","password":"password"}'
 
 # Tester les patients
-curl http://localhost:8000/api/patients
+curl http://localhost:9002/api/patients
 
 # Tester les rendez-vous
-curl http://localhost:8000/api/appointments
+curl http://localhost:9002/api/appointments
 
 # Tester le dashboard
-curl http://localhost:8000/api/reporting/dashboard/admin/stats
+curl http://localhost:9002/api/reporting/dashboard/admin/stats
 ```
 
 ## 7. Prochaines Étapes

@@ -17,7 +17,7 @@ spec:
         - destination:
             host: patient-service.patient.svc.cluster.local
             port:
-              number: 8081
+              number: 9004
             subset: v1
           weight: 100
       retries:

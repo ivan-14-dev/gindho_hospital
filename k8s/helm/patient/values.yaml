@@ -5,8 +5,8 @@ replicaCount: 3
 configMap:
   name: patient-service-config
   data:
-    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:5432/patient_service"
-    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:9092"
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:95432/patient_service"
+    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:99092"
     MANAGEMENT_ENDPOINTS_WEB_EXPOSE_INCLUDE: "health,info,prometheus,metrics"
     SERVER_SHUTDOWN: "graceful"
 
@@ -77,8 +77,8 @@ serviceMonitor:
 
 # Service port configuration
 service:
-  port: 8081
-  targetPort: 8081
+  port: 9004
+  targetPort: 9004
   name: http
 
 # Istio sidecar
@@ -95,14 +95,14 @@ image:
 livenessProbe:
   httpGet:
     path: /actuator/health/liveness
-    port: 8081
+    port: 9004
   initialDelaySeconds: 60
   periodSeconds: 30
   timeoutSeconds: 10
 readinessProbe:
   httpGet:
     path: /actuator/health/readiness
-    port: 8081
+    port: 9004
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5

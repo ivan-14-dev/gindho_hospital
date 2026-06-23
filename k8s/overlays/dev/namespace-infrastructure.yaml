@@ -54,7 +54,7 @@ spec:
         - name: postgres
           image: postgres:15-alpine
           ports:
-            - containerPort: 5432
+            - containerPort: 95432
           env:
             - name: POSTGRES_USER
               value: "gindho"
@@ -79,7 +79,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 5432
+    - port: 95432
   selector:
     app: postgres
 
@@ -103,7 +103,7 @@ spec:
         - name: redis
           image: redis:7-alpine
           ports:
-            - containerPort: 6379
+            - containerPort: 96379
           resources:
             requests:
               memory: "64Mi"
@@ -120,7 +120,7 @@ metadata:
   namespace: infrastructure
 spec:
   ports:
-    - port: 6379
+    - port: 96379
   selector:
     app: redis
 
@@ -144,14 +144,14 @@ spec:
         - name: kafka
           image: bitnami/kafka:3.5
           ports:
-            - containerPort: 9092
+            - containerPort: 99092
           env:
             - name: KAFKA_CFG_PROCESS_ROLES
               value: "broker,controller"
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTING_ENABLED
               value: "true"
             - name: KAFKA_CFG_LISTENERS
-              value: "PLAINTEXT://:9092"
+              value: "PLAINTEXT://:99092"
             - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
               value: "true"
           resources:
@@ -170,7 +170,7 @@ metadata:
   namespace: infrastructure
 spec:
   ports:
-    - port: 9092
+    - port: 99092
   selector:
     app: kafka
 
@@ -203,9 +203,9 @@ spec:
             - name: KONG_ADMIN_ACCESS_LOG
               value: /dev/stdout
           ports:
-            - containerPort: 8000
+            - containerPort: 9002
               name: proxy
-            - containerPort: 8001
+            - containerPort: 9041
               name: admin
           resources:
             requests:
@@ -222,10 +222,10 @@ spec:
   type: NodePort
   ports:
     - port: 80
-      targetPort: 8000
+      targetPort: 9002
       name: proxy
-    - port: 8001
-      targetPort: 8001
+    - port: 9041
+      targetPort: 9041
       name: admin
   selector:
     app: kong-gateway

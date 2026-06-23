@@ -82,7 +82,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 9090
+  - port: 9990
     targetPort: web
     name: web
   selector:

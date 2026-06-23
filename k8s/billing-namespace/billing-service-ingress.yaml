@@ -16,4 +16,4 @@ spec:
           service:
             name: billing-service
             port:
-              number: 8094
+              number: 9017

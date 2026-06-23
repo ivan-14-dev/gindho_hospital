@@ -13,47 +13,47 @@ Microservices hospitaliers - Architecture complète avec 31 services indépendan
 
 | Service | Port externe | Port interne |
 |---------|-------------|--------------|
-| PostgreSQL | 5435 | 5432 |
-| Keycloak | 8081 | 8080 |
-| Kong Proxy | 8001 | 8000 |
-| Kong Admin | 8002 | 8001 |
-| Kafka | 9094 | 9092 |
-| MongoDB | 27017 | 27017 |
-| Redis | 6379 | 6379 |
-| Prometheus | 9091 | 9090 |
-| Grafana | 3001 | 3000 |
-| Jaeger UI | 16687 | 16686 |
+| PostgreSQL | 5435 | 95432 |
+| Keycloak | 9004 | 9001 |
+| Kong Proxy | 9041 | 9000 |
+| Kong Admin | 8002 | 9041 |
+| Kafka | 9094 | 99092 |
+| MongoDB | 97017 | 97017 |
+| Redis | 96379 | 96379 |
+| Prometheus | 9091 | 9990 |
+| Grafana | 3001 | 9300 |
+| Jaeger UI | 16687 | 19686 |
 
 ## Services Microservices
 
 | Service | Port |
 |---------|------|
-| patient-service | 8081 |
-| appointment-service | 8082 |
-| medical-record-service | 8083 |
-| admission-service | 8084 |
-| emergency-service | 8085 |
-| ward-service | 8086 |
-| bed-service | 8087 |
-| round-service | 8088 |
-| surgery-service | 8089 |
-| prescription-service | 8090 |
-| pharmacy-service | 8091 |
-| laboratory-service | 8092 |
-| imaging-service | 8093 |
-| billing-service | 8094 |
-| insurance-service | 8095 |
-| payment-service | 8096 |
-| inventory-service | 8097 |
-| procurement-service | 8098 |
-| asset-service | 8099 |
-| ambulance-service | 8100 |
-| hr-service | 8101 |
-| scheduling-service | 8102 |
-| event-service | 8103 |
-| notification-service | 8104 |
-| reporting-service | 8105 |
-| audit-service | 8106 |
+| patient-service | 9004 |
+| appointment-service | 9005 |
+| medical-record-service | 9006 |
+| admission-service | 9007 |
+| emergency-service | 9008 |
+| ward-service | 9009 |
+| bed-service | 9010 |
+| round-service | 9011 |
+| surgery-service | 9012 |
+| prescription-service | 9013 |
+| pharmacy-service | 9014 |
+| laboratory-service | 9015 |
+| imaging-service | 9016 |
+| billing-service | 9017 |
+| insurance-service | 9018 |
+| payment-service | 9019 |
+| inventory-service | 9020 |
+| procurement-service | 9021 |
+| asset-service | 9022 |
+| ambulance-service | 9023 |
+| hr-service | 9024 |
+| scheduling-service | 9025 |
+| event-service | 9026 |
+| notification-service | 9027 |
+| reporting-service | 9028 |
+| audit-service | 9029 |
 
 ## Démarrage rapide (Docker)
 
@@ -124,12 +124,12 @@ kubectl apply -f k8s/infrastructure/loki/
 
 ```bash
 # Port-forward pour accès local
-kubectl port-forward -n infrastructure svc/keycloak 8081:8080
-kubectl port-forward -n infrastructure svc/kong 8001:8000
-kubectl port-forward -n monitoring svc/grafana 3001:3000
+kubectl port-forward -n infrastructure svc/keycloak 9004:9001
+kubectl port-forward -n infrastructure svc/kong 9041:9000
+kubectl port-forward -n monitoring svc/grafana 3001:9300
 
 # Health check
-curl http://localhost:8001/api/v1/patients
+curl http://localhost:9041/api/v1/patients
 ```
 
 ## Structure
@@ -163,6 +163,6 @@ hospital/
 
 ## Support
 
-- Keycloak : http://localhost:8081 (admin/admin_dev_2024)
+- Keycloak : http://localhost:9004 (admin/admin_dev_2024)
 - Kong Admin API : http://localhost:8002
 - Grafana : http://localhost:3001 (admin/admin_dev_2024)

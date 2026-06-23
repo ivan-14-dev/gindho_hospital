@@ -153,20 +153,20 @@ log_info "Performing health checks..."
 # DNS resolution test
 kubectl run -it --rm --restart=Never --image=alpine:latest dns-test --namespace=patient -- nslookup appointment-service.appointment.svc.cluster.local >/dev/null 2>&1 && log_info "DNS resolution: OK" || log_warn "DNS resolution: FAILED"
 # Kong health
-curl -s http://localhost:8001/health >/dev/null 2>&1 && log_info "Kong Admin API: OK" || log_warn "Kong Admin API: NOT REACHABLE (port-forward if needed)"
+curl -s http://localhost:9041/health >/dev/null 2>&1 && log_info "Kong Admin API: OK" || log_warn "Kong Admin API: NOT REACHABLE (port-forward if needed)"
 # PostgreSQL health
-kubectl exec -n infrastructure -it deploy/postgres -- pg_isready -h localhost -p 5432 >/dev/null 2>&1 && log_info "PostgreSQL: Ready" || log_warn "PostgreSQL: NOT READY"
+kubectl exec -n infrastructure -it deploy/postgres -- pg_isready -h localhost -p 95432 >/dev/null 2>&1 && log_info "PostgreSQL: Ready" || log_warn "PostgreSQL: NOT READY"
 # Kafka health (if deployed)
 if kubectl get deployment kafka -n infrastructure >/dev/null 2>&1; then
-    kubectl exec -n infrastructure -it deploy/kafka -- kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1 && log_info "Kafka: Ready" || log_warn "Kafka: NOT READY"
+    kubectl exec -n infrastructure -it deploy/kafka -- kafka-topics.sh --bootstrap-server localhost:99092  --list >/dev/null 2>&1 && log_info "Kafka: Ready" || log_warn "Kafka: NOT READY"
 fi
 
 log_info "=== Deployment complete ==="
 log_info "Access points:"
-log_info "  Kong Gateway:          http://localhost:8000 (proxy) / http://localhost:8001 (admin)"
-log_info "  ArgoCD UI:             http://localhost:8080 (after port-forward svc/argocd-server 8080:443 -n argocd)"
-log_info "  Grafana:               http://localhost:3000 (after port-forward svc/grafana 3000:3000 -n monitoring)"
-log_info "  Prometheus:            http://localhost:9090 (after port-forward svc/prometheus-server 9090:9090 -n monitoring)"
+log_info "  Kong Gateway:          http://localhost:9000 (proxy) / http://localhost:9041 (admin)"
+log_info "  ArgoCD UI:             http://localhost:9001 (after port-forward svc/argocd-server 9001:443 -n argocd)"
+log_info "  Grafana:               http://localhost:9300 (after port-forward svc/grafana 9300:9300 -n monitoring)"
+log_info "  Prometheus:            http://localhost:9990 (after port-forward svc/prometheus-server 9990:9990 -n monitoring)"
 log_info ""
 log_info "Tip: Use 'kubectl get pods -A -w' to watch pod status."
 log_info "Tip: Use 'argocd app list' to see GitOps sync status."

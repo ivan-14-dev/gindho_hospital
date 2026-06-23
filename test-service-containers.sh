@@ -22,13 +22,13 @@ run_service_container() {
   
   local db_name="${service//-/_}"
   
-  docker run -d --name "$service-test" -p "$port":8080 \
+  docker run -d --name "$service-test" -p "$port":9001 \
     -e "SPRING_DATASOURCE_URL=jdbc:h2:mem:${db_name}" \
     -e "DB_USERNAME=sa" \
     -e "DB_PASSWORD=" \
     -e "JWT_SECRET=test-secret" \
-    -e "KAFKA_BOOTSTRAP_SERVERS=localhost:9092" \
-    --health-cmd="curl -f http://localhost:8080/actuator/health || exit 1" \
+    -e "KAFKA_BOOTSTRAP_SERVERS=localhost:99092" \
+    --health-cmd="curl -f http://localhost:9001/actuator/health || exit 1" \
     --health-interval=5s \
     --health-timeout=3s \
     --health-retries=2 \
@@ -64,11 +64,11 @@ run_service_container() {
 }
 
 SERVICES=(
-  "identity-service:8081"
-  "patient-service:8082"
-  "appointment-service:8083"
-  "billing-service:8084"
-  "notification-service:8085"
+  "identity-service:9004"
+  "patient-service:9005"
+  "appointment-service:9006"
+  "billing-service:9007"
+  "notification-service:9008"
 )
 
 for svc_port in "${SERVICES[@]}"; do

@@ -7,12 +7,12 @@ package com.gindho.security;
 //
 // Commandes utiles (FR) pour tester :
 // 1) Lister users (ADMIN) :
-//    curl -s -H "Authorization: Bearer <TOKEN>" http://localhost:8080/api/admin/users
+//    curl -s -H "Authorization: Bearer <TOKEN>" http://localhost:9001/api/admin/users
 //
 // 2) Tester une route protégée (ex: PATIENT vers /api/revenus doit être 403) :
 //    curl -s -o /dev/null -w "%{http_code}\n" \
 //      -H "Authorization: Bearer <TOKEN_PATIENT>" \
-//      http://localhost:8080/api/revenus?page=0&size=5
+//      http://localhost:9001/api/revenus?page=0&size=5
 //
 import java.io.IOException;
 

@@ -16,4 +16,4 @@ spec:
           service:
             name: hr-service
             port:
-              number: 8101
+              number: 9024

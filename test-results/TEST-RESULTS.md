@@ -2,26 +2,17 @@
 
 Date: sam. 13 juin 2026 06:05:29 WAT
 
-Testing identity-service in namespace security on port 8100
+Testing identity-service in namespace security on port 9023
 
-Testing identity-service in namespace security on port 8100
+Testing identity-service in namespace security on port 9023
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
   Health: ✅ OK
   Health: ✅ OK
 
 ----------------------------------------
-Testing authorization-service in namespace security on port 8107
-Testing authorization-service in namespace security on port 8107
-
-  Pod: ✅ RUNNING
-  Pod: ✅ RUNNING
-  Health: ✅ OK
-  Health: ✅ OK
-
-----------------------------------------
-Testing audit-service in namespace security on port 8106
-Testing audit-service in namespace security on port 8106
+Testing authorization-service in namespace security on port 9030
+Testing authorization-service in namespace security on port 9030
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -29,8 +20,17 @@ Testing audit-service in namespace security on port 8106
   Health: ✅ OK
 
 ----------------------------------------
-Testing patient-service in namespace patient on port 8081
-Testing patient-service in namespace patient on port 8081
+Testing audit-service in namespace security on port 9029
+Testing audit-service in namespace security on port 9029
+
+  Pod: ✅ RUNNING
+  Pod: ✅ RUNNING
+  Health: ✅ OK
+  Health: ✅ OK
+
+----------------------------------------
+Testing patient-service in namespace patient on port 9004
+Testing patient-service in namespace patient on port 9004
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -49,16 +49,16 @@ Testing patient-service in namespace patient on port 8081
       
 
 ----------------------------------------
-Testing admission-service in namespace patient on port 8084
-Testing admission-service in namespace patient on port 8084
+Testing admission-service in namespace patient on port 9007
+Testing admission-service in namespace patient on port 9007
 
   Pod: ❌ NOT RUNNING
   Pod: ❌ NOT RUNNING
 No resources found in patient namespace.
 No resources found in patient namespace.
 
-Testing emergency-service in namespace patient on port 8085
-Testing emergency-service in namespace patient on port 8085
+Testing emergency-service in namespace patient on port 9008
+Testing emergency-service in namespace patient on port 9008
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -66,8 +66,8 @@ Testing emergency-service in namespace patient on port 8085
   Health: ✅ OK
 
 ----------------------------------------
-Testing ward-service in namespace patient on port 8086
-Testing ward-service in namespace patient on port 8086
+Testing ward-service in namespace patient on port 9009
+Testing ward-service in namespace patient on port 9009
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -75,8 +75,8 @@ Testing ward-service in namespace patient on port 8086
   Health: ✅ OK
 
 ----------------------------------------
-Testing bed-service in namespace patient on port 8087
-Testing bed-service in namespace patient on port 8087
+Testing bed-service in namespace patient on port 9010
+Testing bed-service in namespace patient on port 9010
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -84,8 +84,8 @@ Testing bed-service in namespace patient on port 8087
   Health: ✅ OK
 
 ----------------------------------------
-Testing round-service in namespace patient on port 8088
-Testing round-service in namespace patient on port 8088
+Testing round-service in namespace patient on port 9011
+Testing round-service in namespace patient on port 9011
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -93,8 +93,8 @@ Testing round-service in namespace patient on port 8088
   Health: ✅ OK
 
 ----------------------------------------
-Testing surgery-service in namespace patient on port 8089
-Testing surgery-service in namespace patient on port 8089
+Testing surgery-service in namespace patient on port 9012
+Testing surgery-service in namespace patient on port 9012
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -102,8 +102,8 @@ Testing surgery-service in namespace patient on port 8089
   Health: ✅ OK
 
 ----------------------------------------
-Testing ambulance-service in namespace patient on port 8100
-Testing ambulance-service in namespace patient on port 8100
+Testing ambulance-service in namespace patient on port 9023
+Testing ambulance-service in namespace patient on port 9023
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -111,26 +111,17 @@ Testing ambulance-service in namespace patient on port 8100
   Health: ✅ OK
 
 ----------------------------------------
-Testing appointment-service in namespace appointment on port 8082
+Testing appointment-service in namespace appointment on port 9005
 
-Testing appointment-service in namespace appointment on port 8082
+Testing appointment-service in namespace appointment on port 9005
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
   Health: ✅ OK
   Health: ✅ OK
 
 ----------------------------------------
-Testing medical-record-service in namespace emr on port 8083
-Testing medical-record-service in namespace emr on port 8083
-
-  Pod: ✅ RUNNING
-  Pod: ✅ RUNNING
-  Health: ✅ OK
-  Health: ✅ OK
-
-----------------------------------------
-Testing imaging-service in namespace emr on port 8093
-Testing imaging-service in namespace emr on port 8093
+Testing medical-record-service in namespace emr on port 9006
+Testing medical-record-service in namespace emr on port 9006
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -138,8 +129,8 @@ Testing imaging-service in namespace emr on port 8093
   Health: ✅ OK
 
 ----------------------------------------
-Testing billing-service in namespace billing on port 8094
-Testing billing-service in namespace billing on port 8094
+Testing imaging-service in namespace emr on port 9016
+Testing imaging-service in namespace emr on port 9016
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -147,8 +138,8 @@ Testing billing-service in namespace billing on port 8094
   Health: ✅ OK
 
 ----------------------------------------
-Testing insurance-service in namespace billing on port 8095
-Testing insurance-service in namespace billing on port 8095
+Testing billing-service in namespace billing on port 9017
+Testing billing-service in namespace billing on port 9017
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -156,8 +147,8 @@ Testing insurance-service in namespace billing on port 8095
   Health: ✅ OK
 
 ----------------------------------------
-Testing payment-service in namespace billing on port 8096
-Testing payment-service in namespace billing on port 8096
+Testing insurance-service in namespace billing on port 9018
+Testing insurance-service in namespace billing on port 9018
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -165,17 +156,8 @@ Testing payment-service in namespace billing on port 8096
   Health: ✅ OK
 
 ----------------------------------------
-Testing pharmacy-service in namespace pharmacy on port 8091
-Testing pharmacy-service in namespace pharmacy on port 8091
-
-  Pod: ✅ RUNNING
-  Pod: ✅ RUNNING
-  Health: ✅ OK
-
-----------------------------------------
-  Health: ✅ OK
-Testing prescription-service in namespace pharmacy on port 8090
-Testing prescription-service in namespace pharmacy on port 8090
+Testing payment-service in namespace billing on port 9019
+Testing payment-service in namespace billing on port 9019
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -183,8 +165,17 @@ Testing prescription-service in namespace pharmacy on port 8090
   Health: ✅ OK
 
 ----------------------------------------
-Testing laboratory-service in namespace laboratory on port 8092
-Testing laboratory-service in namespace laboratory on port 8092
+Testing pharmacy-service in namespace pharmacy on port 9014
+Testing pharmacy-service in namespace pharmacy on port 9014
+
+  Pod: ✅ RUNNING
+  Pod: ✅ RUNNING
+  Health: ✅ OK
+
+----------------------------------------
+  Health: ✅ OK
+Testing prescription-service in namespace pharmacy on port 9013
+Testing prescription-service in namespace pharmacy on port 9013
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -192,8 +183,8 @@ Testing laboratory-service in namespace laboratory on port 8092
   Health: ✅ OK
 
 ----------------------------------------
-Testing hr-service in namespace hr on port 8101
-Testing hr-service in namespace hr on port 8101
+Testing laboratory-service in namespace laboratory on port 9015
+Testing laboratory-service in namespace laboratory on port 9015
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -201,8 +192,8 @@ Testing hr-service in namespace hr on port 8101
   Health: ✅ OK
 
 ----------------------------------------
-Testing scheduling-service in namespace hr on port 8102
-Testing scheduling-service in namespace hr on port 8102
+Testing hr-service in namespace hr on port 9024
+Testing hr-service in namespace hr on port 9024
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -210,8 +201,8 @@ Testing scheduling-service in namespace hr on port 8102
   Health: ✅ OK
 
 ----------------------------------------
-Testing inventory-service in namespace inventory on port 8097
-Testing inventory-service in namespace inventory on port 8097
+Testing scheduling-service in namespace hr on port 9025
+Testing scheduling-service in namespace hr on port 9025
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -219,8 +210,8 @@ Testing inventory-service in namespace inventory on port 8097
   Health: ✅ OK
 
 ----------------------------------------
-Testing procurement-service in namespace inventory on port 8098
-Testing procurement-service in namespace inventory on port 8098
+Testing inventory-service in namespace inventory on port 9020
+Testing inventory-service in namespace inventory on port 9020
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -228,8 +219,8 @@ Testing procurement-service in namespace inventory on port 8098
   Health: ✅ OK
 
 ----------------------------------------
-Testing asset-service in namespace inventory on port 8099
-Testing asset-service in namespace inventory on port 8099
+Testing procurement-service in namespace inventory on port 9021
+Testing procurement-service in namespace inventory on port 9021
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -237,8 +228,8 @@ Testing asset-service in namespace inventory on port 8099
   Health: ✅ OK
 
 ----------------------------------------
-Testing event-service in namespace infrastructure on port 8103
-Testing event-service in namespace infrastructure on port 8103
+Testing asset-service in namespace inventory on port 9022
+Testing asset-service in namespace inventory on port 9022
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -246,8 +237,8 @@ Testing event-service in namespace infrastructure on port 8103
   Health: ✅ OK
 
 ----------------------------------------
-Testing notification-service in namespace infrastructure on port 8104
-Testing notification-service in namespace infrastructure on port 8104
+Testing event-service in namespace infrastructure on port 9026
+Testing event-service in namespace infrastructure on port 9026
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING
@@ -255,8 +246,17 @@ Testing notification-service in namespace infrastructure on port 8104
   Health: ✅ OK
 
 ----------------------------------------
-Testing reporting-service in namespace reporting on port 8105
-Testing reporting-service in namespace reporting on port 8105
+Testing notification-service in namespace infrastructure on port 9027
+Testing notification-service in namespace infrastructure on port 9027
+
+  Pod: ✅ RUNNING
+  Pod: ✅ RUNNING
+  Health: ✅ OK
+  Health: ✅ OK
+
+----------------------------------------
+Testing reporting-service in namespace reporting on port 9028
+Testing reporting-service in namespace reporting on port 9028
 
   Pod: ✅ RUNNING
   Pod: ✅ RUNNING

@@ -16,4 +16,4 @@ spec:
           service:
             name: event-service
             port:
-              number: 8103
+              number: 9026

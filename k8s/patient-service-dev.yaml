@@ -23,17 +23,17 @@ spec:
           image: gindho/patient-service:latest
           imagePullPolicy: Never
           ports:
-            - containerPort: 8081
+            - containerPort: 9004
               name: http
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:5432/patient_service"
+              value: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:95432/patient_service"
             - name: SPRING_DATASOURCE_USERNAME
               value: "gindho"
             - name: SPRING_DATASOURCE_PASSWORD
               value: "gindho123"
             - name: KAFKA_BOOTSTRAP_SERVERS
-              value: "kafka.infrastructure.svc.cluster.local:9092"
+              value: "kafka.infrastructure.svc.cluster.local:99092"
             - name: JWT_SECRET
               value: "gindho-development-secret-key-123456789"
             - name: SPRING_PROFILES_ACTIVE
@@ -48,13 +48,13 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8081
+              port: 9004
             initialDelaySeconds: 60
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8081
+              port: 9004
             initialDelaySeconds: 30
             periodSeconds: 10
 
@@ -69,8 +69,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8081
-      targetPort: 8081
+    - port: 9004
+      targetPort: 9004
       name: http
   selector:
     app: patient-service

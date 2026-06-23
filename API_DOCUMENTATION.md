@@ -9,21 +9,21 @@ GinDHO est composé de **30 microservices** indépendants. Chaque service a sa p
 Chaque service expose Swagger UI sur son port :
 | Service | Port | URL |
 |---------|------|-----|
-| Patient Service | 8081 | http://localhost:8081/swagger-ui.html |
-| Appointment Service | 8082 | http://localhost:8082/swagger-ui.html |
-| Medical Record Service | 8083 | http://localhost:8083/swagger-ui.html |
-| Billing Service | 8084 | http://localhost:8084/swagger-ui.html |
-| Pharmacy Service | 8085 | http://localhost:8085/swagger-ui.html |
-| Laboratory Service | 8086 | http://localhost:8086/swagger-ui.html |
-| Admission Service | 8087 | http://localhost:8087/swagger-ui.html |
-| Emergency Service | 8088 | http://localhost:8088/swagger-ui.html |
-| Authorization Service | 8089 | http://localhost:8089/swagger-ui.html |
-| Identity Service | 8090 | http://localhost:8090/swagger-ui.html |
+| Patient Service | 9004 | http://localhost:9004/swagger-ui.html |
+| Appointment Service | 9005 | http://localhost:9005/swagger-ui.html |
+| Medical Record Service | 9006 | http://localhost:9006/swagger-ui.html |
+| Billing Service | 9007 | http://localhost:9007/swagger-ui.html |
+| Pharmacy Service | 9008 | http://localhost:9008/swagger-ui.html |
+| Laboratory Service | 9009 | http://localhost:9009/swagger-ui.html |
+| Admission Service | 9010 | http://localhost:9010/swagger-ui.html |
+| Emergency Service | 9011 | http://localhost:9011/swagger-ui.html |
+| Authorization Service | 9012 | http://localhost:9012/swagger-ui.html |
+| Identity Service | 9013 | http://localhost:9013/swagger-ui.html |
 
 Ou via l'API Gateway :
 | Gateway | URL |
 |---------|-----|
-| Kong | http://localhost:8000/services/{service}/swagger-ui.html |
+| Kong | http://localhost:9002/services/{service}/swagger-ui.html |
 
 ## Authentification
 
@@ -151,7 +151,7 @@ Chaque endpoint nécessite une permission spécifique :
 ## Frontend
 
 ### React Web
-- URL: http://localhost:3000
+- URL: http://localhost:9300
 - Composants dynamiques générés à partir des fichiers de configuration UI
 - Les sections, widgets et boutons sont filtrés selon les permissions
 

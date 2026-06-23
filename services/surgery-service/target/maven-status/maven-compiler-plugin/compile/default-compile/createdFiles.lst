@@ -1,8 +1,0 @@
-com/gindho/surgery/repository/InterventionRepository.class
-com/gindho/surgery/controller/BlocController.class
-com/gindho/surgery/dto/InterventionDto$InterventionDtoBuilder.class
-com/gindho/SurgeryServiceApplication.class
-com/gindho/surgery/controller/SurgeryController.class
-com/gindho/surgery/dto/InterventionDto.class
-com/gindho/surgery/model/InterventionChirurgicale$StatutIntervention.class
-com/gindho/surgery/model/InterventionChirurgicale.class

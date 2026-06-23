@@ -9,6 +9,6 @@ spec:
     app: patient-service
   ports:
     - name: http
-      port: 8081
-      targetPort: 8081
+      port: 9004
+      targetPort: 9004
       nodePort: 31319

@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:9030}
 
 spring:
   application:
@@ -15,7 +15,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/authorization_service}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:95432/authorization_service}
     username: ${DB_USERNAME:gindho}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -33,7 +33,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:99092}
   servlet:
     multipart:
       max-file-size: 10MB

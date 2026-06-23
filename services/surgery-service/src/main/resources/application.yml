@@ -1,11 +1,11 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:9012}
 
 spring:
   application:
     name: surgery-service
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surgery_service}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:95432/surgery_service}
     username: ${DB_USERNAME:gindho}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -22,7 +22,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:99092}
 
 jwt:
   secret: ${JWT_SECRET}

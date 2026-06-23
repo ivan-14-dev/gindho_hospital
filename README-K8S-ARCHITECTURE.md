@@ -58,7 +58,7 @@ GinDHO est désormais une plateforme hospitalière 100% Kubernetes-native. Tous 
 Toutes les requêtes externes transitent par **Kong API Gateway**:
 
 ```
-Client → Kong Gateway (8000/8001) → Service Kubernetes → Database
+Client → Kong Gateway (9000/9041) → Service Kubernetes → Database
 ```
 
 Exemple:
@@ -66,7 +66,7 @@ Exemple:
 GET /api/v1/patients/123
   → Kong vérifie le JWT
   → Kong applique le rate limiting
-  → Kong route vers patient-service.patient.svc.cluster.local:8081
+  → Kong route vers patient-service.patient.svc.cluster.local:9004
   → Istio injecte le sidecar Envoy
   → patient-service interroge PostgreSQL
   → Réponse retournée au client
@@ -367,15 +367,15 @@ kubectl exec -it deploy/patient-service -n patient -- \
 
 ```bash
 kubectl exec -it deploy/patient-service -n patient -- \
-  nc -zv postgres.infrastructure.svc.cluster.local 5432
+  nc -zv postgres.infrastructure.svc.cluster.local 95432
 ```
 
 ### Kong Gateway
 
 ```bash
-kubectl port-forward -n infrastructure svc/kong-gateway 8000:8000
+kubectl port-forward -n infrastructure svc/kong-gateway 9002:9000
 curl -H "Authorization: Bearer <token>" \
-  http://localhost:8000/api/v1/patients
+  http://localhost:9002/api/v1/patients
 ```
 
 ## Structure des fichiers

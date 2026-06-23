@@ -26,13 +26,13 @@ spec:
             - name: KONG_ADMIN_ACCESS_LOG
               value: /dev/stdout
             - name: KONG_ADMIN_LISTEN
-              value: "0.0.0.0:8001"
+              value: "0.0.0.0:9041"
             - name: KONG_PROXY_LISTEN
-              value: "0.0.0.0:8000"
+              value: "0.0.0.0:9040"
           ports:
-            - containerPort: 8000
+            - containerPort: 9040
               name: proxy
-            - containerPort: 8001
+            - containerPort: 9041
               name: admin
           resources:
             requests:

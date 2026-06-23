@@ -16,4 +16,4 @@ spec:
           service:
             name: imaging-service
             port:
-              number: 8093
+              number: 9016

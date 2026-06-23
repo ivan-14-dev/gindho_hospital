@@ -6,11 +6,11 @@ global:
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['localhost:9990']
 
   - job_name: 'kong'
     static_configs:
-      - targets: ['kong:8001']
+      - targets: ['kong:9041']
 
   - job_name: 'postgres-exporter'
     static_configs:
@@ -24,18 +24,18 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets:
-          - 'patient-service:8081'
-          - 'appointment-service:8082'
-          - 'medical-record-service:8083'
-          - 'billing-service:8084'
-          - 'identity-service:8085'
-          - 'authorization-service:8086'
-          - 'notification-service:8087'
-          - 'reporting-service:8088'
-          - 'inventory-service:8089'
-          - 'pharmacy-service:8090'
-          - 'laboratory-service:8091'
-          - 'emergency-service:8092'
+          - 'patient-service:9004'
+          - 'appointment-service:9005'
+          - 'medical-record-service:9006'
+          - 'billing-service:9007'
+          - 'identity-service:9008'
+          - 'authorization-service:9009'
+          - 'notification-service:9010'
+          - 'reporting-service:9011'
+          - 'inventory-service:9012'
+          - 'pharmacy-service:9013'
+          - 'laboratory-service:9014'
+          - 'emergency-service:9015'
 
 rule_files:
   - 'alerts.yml'

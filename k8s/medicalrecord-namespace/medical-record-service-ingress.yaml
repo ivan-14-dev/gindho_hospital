@@ -16,4 +16,4 @@ spec:
           service:
             name: medical-record-service
             port:
-              number: 8083
+              number: 9006

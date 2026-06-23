@@ -31,20 +31,20 @@ public class AdminUserController {
     //    mvn -f backend/pom.xml spring-boot:run -DskipTests
     //
     // 2) Login admin (récupérer un TOKEN) :
-    //    curl -s -X POST http://localhost:8080/api/auth/login \
+    //    curl -s -X POST http://localhost:9001/api/auth/login \
     //      -H "Content-Type: application/json" \
     //      -d '{"email":"admin@gindho.com","password":"admin123"}'
     //
     // 3) Lister les users :
-    //    curl -s -H "Authorization: Bearer <TOKEN>" http://localhost:8080/api/admin/users
+    //    curl -s -H "Authorization: Bearer <TOKEN>" http://localhost:9001/api/admin/users
     //
     // 4) Changer le rôle :
     //    curl -s -X PUT -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" \
-    //      -d '{"role":"PHARMACIST"}' http://localhost:8080/api/admin/users/8/role
+    //      -d '{"role":"PHARMACIST"}' http://localhost:9001/api/admin/users/8/role
     //
     // 5) Activer / désactiver :
     //    curl -s -X PUT -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" \
-    //      -d '{"actif":false}' http://localhost:8080/api/admin/users/8/active
+    //      -d '{"actif":false}' http://localhost:9001/api/admin/users/8/active
     //
     // Note: l’accès à /api/admin/** est contrôlé dans SecurityConfig.
     private final UserService userService;

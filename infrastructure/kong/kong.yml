@@ -4,7 +4,7 @@
 # Strangler Fig migration: monolith endpoints are gradually replaced by
 # microservices.
 #
-# LOCAL DEV (Docker Compose): http://localhost:8001/api/v1/* → microservices
+# LOCAL DEV (Docker Compose): http://localhost:9041/api/v1/* → microservices
 # PRODUCTION (Kubernetes):    https://api.gindho.com/api/v1/* → microservices
 # ============================================================================
 _format_version: "3.0"
@@ -14,9 +14,9 @@ plugins:
   - name: cors
     config:
       origins:
-        - http://localhost:3000    # React dev
+        - http://localhost:9300    # React dev
         - http://localhost:5173    # Vite dev
-        - http://localhost:8001    # Kong Proxy
+        - http://localhost:9041    # Kong Proxy
         - https://*.gindho.com
       methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
       headers: [Accept, Authorization, Content-Type, X-CSRF-Token]
@@ -32,15 +32,15 @@ plugins:
 # ===========================================================================
 # UPSTREAM SERVICES (point to the correct host depending on environment)
 # ===========================================================================
-# Docker Compose: use service names directly (e.g. http://patient-service:8081)
-# Kubernetes: use the cluster DNS names (e.g. http://patient-service.patient.svc.cluster.local:8081)
+# Docker Compose: use service names directly (e.g. http://patient-service:9004)
+# Kubernetes: use the cluster DNS names (e.g. http://patient-service.patient.svc.cluster.local:9004)
 
 services:
   # ================================================================
   # 1️⃣ IDENTITY & AUTHORIZATION
   # ================================================================
   - name: identity-service
-    url: http://identity-service:8080
+    url: http://identity-service:9001
     routes:
       - name: identity-auth-route
         paths: [/api/auth]
@@ -57,7 +57,7 @@ services:
       - name: prometheus
 
   - name: authorization-service
-    url: http://authorization-service:8089
+    url: http://authorization-service:9012
     routes:
       - name: authorization-main-route
         paths: [/api/authorization, /api/authorize, /api/admin]
@@ -72,7 +72,7 @@ services:
   # 2️⃣ PATIENT DOMAIN
   # ================================================================
   - name: patient-service
-    url: http://patient-service:8081
+    url: http://patient-service:9004
     routes:
       - name: patient-crud-route
         paths: [/api/patients, /api/medecins]
@@ -84,7 +84,7 @@ services:
       - name: prometheus
 
   - name: admission-service
-    url: http://admission-service:8084
+    url: http://admission-service:9007
     routes:
       - name: admission-route
         paths: [/api/admissions, /api/hospitalisations]
@@ -96,7 +96,7 @@ services:
       - name: prometheus
 
   - name: emergency-service
-    url: http://emergency-service:8085
+    url: http://emergency-service:9008
     routes:
       - name: emergency-route
         paths: [/api/emergencies]
@@ -108,7 +108,7 @@ services:
       - name: prometheus
 
   - name: ambulance-service
-    url: http://ambulance-service:8100
+    url: http://ambulance-service:9023
     routes:
       - name: ambulance-route
         paths: [/api/ambulances]
@@ -120,7 +120,7 @@ services:
       - name: prometheus
 
   - name: ward-service
-    url: http://ward-service:8086
+    url: http://ward-service:9009
     routes:
       - name: ward-route
         paths: [/api/wards]
@@ -132,7 +132,7 @@ services:
       - name: prometheus
 
   - name: bed-service
-    url: http://bed-service:8087
+    url: http://bed-service:9010
     routes:
       - name: bed-rooms-route
         paths: [/api/rooms, /api/beds, /api/chambres, /api/lits]
@@ -147,7 +147,7 @@ services:
   # 3️⃣ APPOINTMENT & SCHEDULING
   # ================================================================
   - name: appointment-service
-    url: http://appointment-service:8082
+    url: http://appointment-service:9005
     routes:
       - name: appointment-route
         paths: [/api/appointments]
@@ -167,7 +167,7 @@ services:
       - name: prometheus
 
   - name: scheduling-service
-    url: http://scheduling-service:8102
+    url: http://scheduling-service:9025
     routes:
       - name: scheduling-route
         paths: [/api/schedules, /api/gardes]
@@ -182,7 +182,7 @@ services:
   # 4️⃣ EMR / MEDICAL RECORDS
   # ================================================================
   - name: medical-record-service
-    url: http://medical-record-service:8083
+    url: http://medical-record-service:9006
     routes:
       - name: medical-records-route
         paths: [/api/consultations, /api/medical-records, /api/nursing, /api/signes-vitaux, /api/plans-soins]
@@ -197,7 +197,7 @@ services:
   # 5️⃣ BILLING & FINANCE
   # ================================================================
   - name: billing-service
-    url: http://billing-service:8094
+    url: http://billing-service:9017
     routes:
       - name: billing-factures-route
         paths: [/api/factures]
@@ -213,7 +213,7 @@ services:
       - name: prometheus
 
   - name: payment-service
-    url: http://payment-service:8096
+    url: http://payment-service:9019
     routes:
       - name: payment-route
         paths: [/api/paiements]
@@ -225,7 +225,7 @@ services:
       - name: prometheus
 
   - name: insurance-service
-    url: http://insurance-service:8095
+    url: http://insurance-service:9018
     routes:
       - name: insurance-route
         paths: [/api/assurances]
@@ -240,7 +240,7 @@ services:
   # 6️⃣ LABORATORY & IMAGING
   # ================================================================
   - name: laboratory-service
-    url: http://laboratory-service:8092
+    url: http://laboratory-service:9015
     routes:
       - name: laboratory-route
         paths: [/api/analyses]
@@ -252,7 +252,7 @@ services:
       - name: prometheus
 
   - name: imaging-service
-    url: http://imaging-service:8093
+    url: http://imaging-service:9016
     routes:
       - name: imaging-route
         paths: [/api/imaging, /api/imagerie]
@@ -267,7 +267,7 @@ services:
   # 7️⃣ PHARMACY & PRESCRIPTIONS
   # ================================================================
   - name: prescription-service
-    url: http://prescription-service:8090
+    url: http://prescription-service:9013
     routes:
       - name: prescription-route
         paths: [/api/prescriptions]
@@ -279,7 +279,7 @@ services:
       - name: prometheus
 
   - name: pharmacy-service
-    url: http://pharmacy-service:8091
+    url: http://pharmacy-service:9014
     routes:
       - name: pharmacy-medications-route
         paths: [/api/medicaments, /api/pharmacy, /api/pharmacie]
@@ -294,7 +294,7 @@ services:
   # 8️⃣ HUMAN RESOURCES
   # ================================================================
   - name: hr-service
-    url: http://hr-service:8101
+    url: http://hr-service:9024
     routes:
       - name: hr-employees-route
         paths: [/api/hr, /api/rh]
@@ -306,7 +306,7 @@ services:
       - name: prometheus
 
   - name: scheduling-service
-    url: http://scheduling-service:8102
+    url: http://scheduling-service:9025
     routes:
       - name: scheduling-route
         paths: [/api/schedules, /api/gardes]
@@ -321,7 +321,7 @@ services:
   # 9️⃣ NOTIFICATIONS & EVENTS
   # ================================================================
   - name: notification-service
-    url: http://notification-service:8104
+    url: http://notification-service:9027
     routes:
       - name: notification-route
         paths: [/api/notifications]
@@ -333,7 +333,7 @@ services:
       - name: prometheus
 
   - name: reporting-service
-    url: http://reporting-service:8105
+    url: http://reporting-service:9028
     routes:
       - name: reporting-route
         paths: [/api/reports, /api/dashboard]
@@ -345,7 +345,7 @@ services:
       - name: prometheus
 
   - name: audit-service
-    url: http://audit-service:8106
+    url: http://audit-service:9029
     routes:
       - name: audit-route
         paths: [/api/audit, /api/audit-logs]
@@ -356,7 +356,7 @@ services:
       - name: prometheus
 
   - name: event-service
-    url: http://event-service:8103
+    url: http://event-service:9026
     routes:
       - name: event-route
         paths: [/api/events, /api/evenements]
@@ -370,7 +370,7 @@ services:
   # 1️⃣1️⃣ INVENTORY & PROCUREMENT
   # ================================================================
   - name: inventory-service
-    url: http://inventory-service:8097
+    url: http://inventory-service:9020
     routes:
       - name: inventory-route
         paths: [/api/inventory, /api/stocks]
@@ -382,7 +382,7 @@ services:
       - name: prometheus
 
   - name: procurement-service
-    url: http://procurement-service:8098
+    url: http://procurement-service:9021
     routes:
       - name: procurement-route
         paths: [/api/procurements]
@@ -394,7 +394,7 @@ services:
       - name: prometheus
 
   - name: asset-service
-    url: http://asset-service:8099
+    url: http://asset-service:9022
     routes:
       - name: asset-route
         paths: [/api/assets, /api/equipements]
@@ -409,7 +409,7 @@ services:
   # 1️⃣2️⃣ SURGERY & ROUNDS
   # ================================================================
   - name: surgery-service
-    url: http://surgery-service:8089
+    url: http://surgery-service:9012
     routes:
       - name: surgery-route
         paths: [/api/surgeries, /api/programmes-operatoires, /api/bloc]
@@ -421,7 +421,7 @@ services:
       - name: prometheus
 
   - name: round-service
-    url: http://round-service:8088
+    url: http://round-service:9011
     routes:
       - name: round-route
         paths: [/api/rounds, /api/rondes]

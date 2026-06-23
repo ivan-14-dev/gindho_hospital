@@ -19,7 +19,7 @@ spec:
       - name: notification-service
         image: gindho/notification-service:latest
         ports:
-        - containerPort: 8104
+        - containerPort: 9027
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8104
+            port: 9027
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8104
+            port: 9027
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: notification-service
   ports:
-  - port: 8104
-    targetPort: 8104
+  - port: 9027
+    targetPort: 9027
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: notification-service-config
   namespace: notification
 data:
-  database_url: "jdbc:postgresql://postgres.notification.svc.cluster.local:5432/notification_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.notification.svc.cluster.local:95432/notification_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

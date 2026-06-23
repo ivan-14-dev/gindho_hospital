@@ -16,4 +16,4 @@ spec:
           service:
             name: notification-service
             port:
-              number: 8104
+              number: 9027

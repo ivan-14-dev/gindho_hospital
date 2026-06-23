@@ -19,7 +19,7 @@ spec:
       - name: appointment-service
         image: gindho/appointment-service:latest
         ports:
-        - containerPort: 8082
+        - containerPort: 9005
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
@@ -49,13 +49,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8082
+            port: 9005
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 8082
+            port: 9005
           initialDelaySeconds: 20
           periodSeconds: 5
         resources:
@@ -75,8 +75,8 @@ spec:
   selector:
     app: appointment-service
   ports:
-  - port: 8082
-    targetPort: 8082
+  - port: 9005
+    targetPort: 9005
     name: http
   type: ClusterIP
 ---
@@ -86,8 +86,8 @@ metadata:
   name: appointment-service-config
   namespace: appointment
 data:
-  database_url: "jdbc:postgresql://postgres.appointment.svc.cluster.local:5432/appointment_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
+  database_url: "jdbc:postgresql://postgres.appointment.svc.cluster.local:95432/appointment_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
 ---
 apiVersion: v1
 kind: Secret

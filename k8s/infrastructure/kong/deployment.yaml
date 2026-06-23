@@ -34,18 +34,18 @@ spec:
           value: /dev/stderr
         - name: KONG_ADMIN_ERROR_LOG
           value: /dev/stderr
-        - name: KONG_ADMIN_LISTEN
-          value: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
-        - name: KONG_PROXY_LISTEN
-          value: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
+         - name: KONG_ADMIN_LISTEN
+           value: "0.0.0.0:9041, 0.0.0.0:9444 ssl"
+         - name: KONG_PROXY_LISTEN
+           value: "0.0.0.0:9040, 0.0.0.0:9443 ssl"
         ports:
-        - containerPort: 8000
+        - containerPort: 9040
           name: proxy
-        - containerPort: 8443
+        - containerPort: 9443
           name: proxy-ssl
-        - containerPort: 8001
+        - containerPort: 9041
           name: admin
-        - containerPort: 8444
+        - containerPort: 9444
           name: admin-ssl
         volumeMounts:
         - name: kong-config
@@ -60,13 +60,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /status
-            port: 8001
+            port: 9041
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /status
-            port: 8001
+            port: 9041
           initialDelaySeconds: 10
           periodSeconds: 5
       volumes:
@@ -84,17 +84,17 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
-    targetPort: 8000
+  - port: 9042
+    targetPort: 9040
     name: proxy
-  - port: 443
-    targetPort: 8443
+  - port: 9443
+    targetPort: 9443
     name: proxy-ssl
-  - port: 8001
-    targetPort: 8001
+  - port: 9041
+    targetPort: 9041
     name: admin
-  - port: 8444
-    targetPort: 8444
+  - port: 9444
+    targetPort: 9444
     name: admin-ssl
   selector:
     app: kong-gateway

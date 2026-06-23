@@ -20,20 +20,15 @@ clean() {
 }
 
 build() {
-    log "Building backend and all microservices..."
+    log "Building all microservices..."
     clean
     log "Building microservices (reactor build, tests skipped)..."
     mvn clean install -Dmaven.test.skip=true -f pom.xml
-    log "Building backend..."
-    mvn clean package -Dmaven.test.skip=true -f services/backend-service/pom.xml
     log "Build complete."
 }
 
 build_docker() {
     log "Building Docker images..."
-    # Build monolithic backend image
-    log "Building backend..."
-    docker build -t "gindho/backend:latest" ./backend
 
     # Build microservice images
     for svc in services/*/; do
@@ -176,7 +171,7 @@ info() {
     echo ""
     echo "Commands:"
     echo "  ./deploy.sh local       - Start infra with Docker + run services on host"
-    echo "  ./deploy.sh docker-all  - Build and start everything (infra + backend + services) in Docker"
+    echo "  ./deploy.sh docker-all  - Build and start everything (infra + services) in Docker"
     echo "  ./deploy.sh k8s         - Deploy to Kubernetes"
     echo "  ./deploy.sh build       - Build all JARs"
     echo "  ./deploy.sh docker      - Build all Docker images"
@@ -193,7 +188,7 @@ case "${1:-help}" in
     docker-all)
         build
         build_docker
-        log "Starting all containers (infra + backend + services) via Docker Compose..."
+        log "Starting all containers (infra + services) via Docker Compose..."
         docker compose -f docker/docker-compose.yml --env-file .env --profile all up -d
         ;;
     k8s) deploy_k8s ;;

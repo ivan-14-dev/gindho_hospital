@@ -14,8 +14,8 @@ Microservices hospitaliers - Architecture complète avec 31 services indépendan
 | Service | Port externe | Port interne |
 |---------|-------------|--------------|
 | PostgreSQL | 5435 | 95432 |
-| Keycloak | 9004 | 9001 |
-| Kong Proxy | 9041 | 9000 |
+| Keycloak | 9001 | 9001 |
+| Kong Proxy | 9042 | 9040 |
 | Kong Admin | 8002 | 9041 |
 | Kafka | 9094 | 99092 |
 | MongoDB | 97017 | 97017 |
@@ -124,12 +124,12 @@ kubectl apply -f k8s/infrastructure/loki/
 
 ```bash
 # Port-forward pour accès local
-kubectl port-forward -n infrastructure svc/keycloak 9004:9001
-kubectl port-forward -n infrastructure svc/kong 9041:9000
+kubectl port-forward -n infrastructure svc/keycloak 9001:9001
+kubectl port-forward -n infrastructure svc/kong 9042:9040
 kubectl port-forward -n monitoring svc/grafana 3001:9300
 
 # Health check
-curl http://localhost:9041/api/v1/patients
+curl http://localhost:9000/actuator/health
 ```
 
 ## Structure
@@ -163,6 +163,7 @@ hospital/
 
 ## Support
 
-- Keycloak : http://localhost:9004 (admin/admin_dev_2024)
-- Kong Admin API : http://localhost:8002
+- Keycloak : http://localhost:9001 (admin/admin_dev_2024)
+- Kong Admin API : http://localhost:9041
+- API Gateway : http://localhost:9000
 - Grafana : http://localhost:3001 (admin/admin_dev_2024)

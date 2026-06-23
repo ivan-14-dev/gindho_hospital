@@ -114,8 +114,9 @@ services:
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:9041
+      KONG_PROXY_LISTEN: 0.0.0.0:9040
     ports:
-      - "${KONG_PROXY_PORT:-9000}:9000"
+      - "${KONG_PROXY_PORT:-9042}:9040"
       - "${KONG_ADMIN_PORT:-9041}:9041"
     volumes:
       - ../infrastructure/kong/kong.yml:/etc/kong/kong.yml:ro
@@ -201,7 +202,7 @@ services:
        kafka: { condition: service_started }
        keycloak: { condition: service_healthy }
      healthcheck:
-       test: ["CMD-SHELL", "curl -f http://localhost:9001/actuator/health || exit 1"]
+       test: ["CMD-SHELL", "curl -f http://localhost:9000/actuator/health || exit 1"]
        interval: 30s
        timeout: 10s
        retries: 3
@@ -242,15 +243,15 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-api-gateway
     profiles: [services, all]
-    ports: ["9001:9001"]
+    ports: ["9000:9000"]
     environment:
-      - PORT=9001
+      - PORT=9000
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9001/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -73,7 +73,7 @@ deploy_k8s() {
     log "Deploying to Kubernetes..."
 
     # Create namespaces
-    for ns in patient appointment emr laboratory pharmacy billing inventory hr reporting monitoring security infrastructure; do
+    for ns in patient appointment medicalrecord laboratory pharmacy billing inventory hr reporting monitoring security infrastructure admission ambulance apigateway asset audit authorization bed emergency event identity imaging insurance notification payment prescription procurement round scheduling surgery ward; do
         kubectl create namespace "$ns" --dry-run=client -o yaml | kubectl apply -f -
     done
 
@@ -92,16 +92,15 @@ deploy_k8s() {
     # Deploy monitoring
     kubectl apply -f k8s/monitoring -R 2>/dev/null || true
 
-    # Deploy business services
-    kubectl apply -f k8s/patient-namespace -R
-    kubectl apply -f k8s/appointment-namespace -R
-    kubectl apply -f k8s/medicalrecord-namespace -R
-    kubectl apply -f k8s/laboratory-namespace -R
-    kubectl apply -f k8s/pharmacy-namespace -R
-    kubectl apply -f k8s/billing-namespace -R
-    kubectl apply -f k8s/inventory-namespace -R
-    kubectl apply -f k8s/hr-namespace -R
-    kubectl apply -f k8s/reporting-namespace -R
+    # Deploy business services (auto-discover all non-empty namespace dirs)
+    for ns_dir in k8s/*-namespace/; do
+        [ -d "$ns_dir" ] || continue
+        [ "$(basename "$ns_dir")" = "infrastructure-namespace" ] && continue
+        files=$(find "$ns_dir" -type f | wc -l)
+        [ "$files" -gt 0 ] || continue
+        log "Deploying $(basename "$ns_dir")..."
+        kubectl apply -f "$ns_dir" -R 2>/dev/null || true
+    done
 
     log "Kubernetes deployment complete."
     log "Kong ingress available at: http://localhost:8000"

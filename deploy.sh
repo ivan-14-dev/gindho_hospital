@@ -84,7 +84,7 @@ deploy_k8s() {
     fi
 
     # Install Strimzi Kafka Operator (for KafkaTopic CRD)
-    log_info "Installing Strimzi Kafka Operator..."
+    log "Installing Strimzi Kafka Operator..."
     helm repo add strimzi https://strimzi.io/charts/ 2>/dev/null || true
     helm repo update
     helm upgrade --install strimzi-kafka-operator strimzi/strimzi-kafka-operator \
@@ -93,7 +93,7 @@ deploy_k8s() {
         --wait --timeout 5m
 
     # Install Prometheus Operator (kube-prometheus-stack for PrometheusRule, ServiceMonitor, etc.)
-    log_info "Installing Prometheus Operator..."
+    log "Installing Prometheus Operator..."
     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts 2>/dev/null || true
     helm repo update
     helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack \

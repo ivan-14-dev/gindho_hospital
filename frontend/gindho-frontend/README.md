@@ -48,8 +48,8 @@
                      │ HTTPS/JWT
                      ▼
 ┌─────────────────────────────────────────────────────────┐
-│              Kong API Gateway (K8s Ingress)              │
-│                    Port: 9001                            │
+│              API Gateway (K8s Ingress)              │
+│                    Port: 9000                            │
 └────────────────────┬────────────────────────────────────┘
                      │
         ┌────────────┼────────────┐
@@ -189,8 +189,8 @@ Le frontend sera accessible sur `http://localhost:9300`
 
 ```env
 # API
-VITE_API_URL=http://localhost:9001
-VITE_KEYCLOAK_URL=http://localhost:9004
+VITE_GATEWAY_URL=http://localhost:9000
+VITE_KEYCLOAK_URL=http://localhost:9001
 VITE_KEYCLOAK_REALM=gindho
 VITE_KEYCLOAK_CLIENT_ID=gindho-frontend
 

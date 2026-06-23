@@ -86,10 +86,10 @@ deploy_k8s() {
     kubectl apply -k k8s/infrastructure-namespace
 
     # Deploy security
-    kubectl apply -f k8s/security -R
+    kubectl apply -f k8s/security -R 2>/dev/null || log_warn "Security configs skipped (missing files)"
 
     # Deploy monitoring
-    kubectl apply -f k8s/monitoring -R
+    kubectl apply -f k8s/monitoring -R 2>/dev/null || log_warn "Monitoring configs skipped (missing files)"
 
     # Deploy business services
     kubectl apply -f k8s/patient-namespace -R

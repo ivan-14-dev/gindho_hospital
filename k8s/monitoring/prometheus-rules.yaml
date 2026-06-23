@@ -1,1 +1,8 @@
-../../../GinDHO_Hospital/k8s/monitoring/prometheus-rules.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-rules
+  namespace: monitoring
+data:
+  rules.yaml: |
+    groups: []

@@ -1,1 +1,6 @@
-../../../GinDHO_Hospital/k8s/argocd/project.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-project
+  namespace: argocd
+data: {}

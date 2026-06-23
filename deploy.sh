@@ -33,7 +33,7 @@ build_docker() {
     # Build setup-service first (browser wizard, MUST be first)
     if [ -f "services/setup-service/Dockerfile" ]; then
         log "Building setup-service..."
-        (cd services/setup-service && docker build -t "gindho/setup-service:latest" .)
+        docker build -t "gindho/setup-service:latest" -f services/setup-service/Dockerfile .
     fi
 
     # Build microservice images
@@ -74,10 +74,13 @@ deploy_local() {
 deploy_k8s() {
     log "Deploying to Kubernetes..."
 
-    # Build Docker images first (setup-service + all services)
+    # 1. Build all JARs first (reactor Maven from root, so parent POM is resolved)
+    build
+
+    # 2. Build Docker images (setup-service + all services)
     build_docker
 
-    # Load images into k3s containerd
+    # 3. Load images into k3s containerd
     log "Loading images into k3s..."
     for img in $(docker images --format '{{.Repository}}:{{.Tag}}' | grep gindho); do
         sudo docker save "$img" | sudo k3s ctr images import - 2>/dev/null || true

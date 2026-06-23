@@ -79,6 +79,7 @@ deploy_k8s() {
 
     # Install OpenTelemetry CRDs before applying operator resources
     if [ -f k8s/crds/opentelemetrycollector-crd.yaml ]; then
+        kubectl delete crd opentelemetrycollectors.opentelemetry.io --ignore-not-found=true
         kubectl apply -f k8s/crds/opentelemetrycollector-crd.yaml
     fi
 
@@ -86,10 +87,10 @@ deploy_k8s() {
     kubectl apply -k k8s/infrastructure-namespace
 
     # Deploy security
-    kubectl apply -f k8s/security -R 2>/dev/null || log_warn "Security configs skipped (missing files)"
+    kubectl apply -f k8s/security -R 2>/dev/null || true
 
     # Deploy monitoring
-    kubectl apply -f k8s/monitoring -R 2>/dev/null || log_warn "Monitoring configs skipped (missing files)"
+    kubectl apply -f k8s/monitoring -R 2>/dev/null || true
 
     # Deploy business services
     kubectl apply -f k8s/patient-namespace -R

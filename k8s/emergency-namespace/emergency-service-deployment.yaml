@@ -86,8 +86,8 @@ metadata:
   name: emergency-service-config
   namespace: emergency
 data:
-  database_url: "jdbc:postgresql://postgres.emergency.svc.cluster.local:95432/emergency_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.emergency.svc.cluster.local:5432/emergency_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

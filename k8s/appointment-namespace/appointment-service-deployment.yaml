@@ -86,8 +86,8 @@ metadata:
   name: appointment-service-config
   namespace: appointment
 data:
-  database_url: "jdbc:postgresql://postgres.appointment.svc.cluster.local:95432/appointment_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.appointment.svc.cluster.local:5432/appointment_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

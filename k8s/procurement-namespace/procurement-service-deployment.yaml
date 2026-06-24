@@ -86,8 +86,8 @@ metadata:
   name: procurement-service-config
   namespace: procurement
 data:
-  database_url: "jdbc:postgresql://postgres.procurement.svc.cluster.local:95432/procurement_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.procurement.svc.cluster.local:5432/procurement_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

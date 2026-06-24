@@ -86,8 +86,8 @@ metadata:
   name: bed-service-config
   namespace: bed
 data:
-  database_url: "jdbc:postgresql://postgres.bed.svc.cluster.local:95432/bed_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.bed.svc.cluster.local:5432/bed_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

@@ -86,8 +86,8 @@ metadata:
   name: admission-service-config
   namespace: admission
 data:
-  database_url: "jdbc:postgresql://postgres.admission.svc.cluster.local:95432/admission_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.admission.svc.cluster.local:5432/admission_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

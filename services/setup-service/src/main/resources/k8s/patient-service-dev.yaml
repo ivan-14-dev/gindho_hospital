@@ -27,13 +27,13 @@ spec:
               name: http
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:95432/patient_service"
+              value: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:5432/patient_service"
             - name: SPRING_DATASOURCE_USERNAME
               value: "gindho"
             - name: SPRING_DATASOURCE_PASSWORD
               value: "gindho123"
             - name: KAFKA_BOOTSTRAP_SERVERS
-              value: "kafka.infrastructure.svc.cluster.local:99092"
+              value: "kafka.infrastructure.svc.cluster.local:9092"
             - name: JWT_SECRET
               value: "gindho-development-secret-key-123456789"
             - name: SPRING_PROFILES_ACTIVE

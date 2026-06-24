@@ -31,7 +31,7 @@ spec:
             --cache-stack=jpa \
             --db=postgres \
             --db-url-host=postgres.infrastructure.svc.cluster.local \
-            --db-url-port=95432 \
+            --db-url-port=5432 \
             --db-username=$(KEYCLOAK_DB_USER) \
             --db-password=$(KEYCLOAK_DB_PASSWORD) \
             --db-database=keycloak

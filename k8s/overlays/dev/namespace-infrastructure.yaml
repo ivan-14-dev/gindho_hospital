@@ -54,7 +54,7 @@ spec:
         - name: postgres
           image: postgres:15-alpine
           ports:
-            - containerPort: 95432
+            - containerPort: 5432
           env:
             - name: POSTGRES_USER
               value: "gindho"
@@ -79,7 +79,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 95432
+    - port: 5432
   selector:
     app: postgres
 
@@ -103,7 +103,7 @@ spec:
         - name: redis
           image: redis:7-alpine
           ports:
-            - containerPort: 96379
+            - containerPort: 6379
           resources:
             requests:
               memory: "64Mi"
@@ -120,7 +120,7 @@ metadata:
   namespace: infrastructure
 spec:
   ports:
-    - port: 96379
+    - port: 6379
   selector:
     app: redis
 
@@ -144,14 +144,14 @@ spec:
         - name: kafka
           image: bitnami/kafka:3.5
           ports:
-            - containerPort: 99092
+            - containerPort: 9092
           env:
             - name: KAFKA_CFG_PROCESS_ROLES
               value: "broker,controller"
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTING_ENABLED
               value: "true"
             - name: KAFKA_CFG_LISTENERS
-              value: "PLAINTEXT://:99092"
+              value: "PLAINTEXT://:9092"
             - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
               value: "true"
           resources:
@@ -170,7 +170,7 @@ metadata:
   namespace: infrastructure
 spec:
   ports:
-    - port: 99092
+    - port: 9092
   selector:
     app: kafka
 

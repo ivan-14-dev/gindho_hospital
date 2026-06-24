@@ -14,9 +14,9 @@ service:
 configMap:
   name: medical-record-service-config
   data:
-    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:95432/medical_record_service"
-    SPRING_DATA_MONGODB_URI: "mongodb://mongodb.infrastructure.svc.cluster.local:97017/medical_record_service"
-    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:99092"
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:5432/medical_record_service"
+    SPRING_DATA_MONGODB_URI: "mongodb://mongodb.infrastructure.svc.cluster.local:27017/medical_record_service"
+    KAFKA_BOOTSTRAP_SERVERS: "kafka.infrastructure.svc.cluster.local:9092"
     MANAGEMENT_ENDPOINTS_WEB_EXPOSE_INCLUDE: "health,info,prometheus,metrics"
 secrets:
   db_username:

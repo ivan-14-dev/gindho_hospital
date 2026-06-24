@@ -37,7 +37,7 @@ spec:
               app: postgres
       ports:
         - protocol: TCP
-          port: 95432
+          port: 5432
     - to:
         - namespaceSelector:
             matchLabels:
@@ -47,7 +47,7 @@ spec:
               app: redis
       ports:
         - protocol: TCP
-          port: 96379
+          port: 6379
     - to:
         - namespaceSelector:
             matchLabels:
@@ -57,6 +57,6 @@ spec:
               app: kafka
       ports:
         - protocol: TCP
-          port: 99092
+          port: 9092
     {{- end }}
 {{- end }}

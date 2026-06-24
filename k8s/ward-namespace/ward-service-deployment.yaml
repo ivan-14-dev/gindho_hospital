@@ -86,8 +86,8 @@ metadata:
   name: ward-service-config
   namespace: ward
 data:
-  database_url: "jdbc:postgresql://postgres.ward.svc.cluster.local:95432/ward_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.ward.svc.cluster.local:5432/ward_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

@@ -33,7 +33,9 @@ build_docker() {
     # Build setup-service first (browser wizard, MUST be first)
     if [ -f "services/setup-service/Dockerfile" ]; then
         log "Building setup-service..."
-        docker build -t "gindho/setup-service:latest" -f services/setup-service/Dockerfile .
+        docker build -t "gindho/setup-service:latest" \
+            -f services/setup-service/Dockerfile \
+            .
     fi
 
     # Build microservice images

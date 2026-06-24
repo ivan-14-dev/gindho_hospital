@@ -70,4 +70,10 @@ public class SetupRequest {
     @NotBlank(message = "Le mot de passe de la base de données est obligatoire")
     @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères")
     private String databasePassword;
+
+    private String keycloakUrl;
+    private String keycloakAdminUsername;
+    private String keycloakAdminPassword;
+    private String frontendUrl;
+    private java.util.List<String> services;
 }

@@ -30,7 +30,7 @@ build() {
 build_docker() {
     log "Building Docker images..."
 
-    # Build setup-service first (browser wizard, MUST be first)
+    # Build setup-service Docker image (JAR was already built by build())
     if [ -f "services/setup-service/Dockerfile" ]; then
         log "Building setup-service Docker image..."
         docker build -t "gindho/setup-service:latest" \

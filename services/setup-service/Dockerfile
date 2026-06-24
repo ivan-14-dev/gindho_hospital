@@ -6,6 +6,6 @@ RUN apk add --no-cache curl ca-certificates && \
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
     rm kubectl
 
-COPY target/setup-service-1.0.0.jar app.jar
+COPY services/setup-service/target/setup-service-1.0.0.jar app.jar
 EXPOSE 9002
 ENTRYPOINT ["java", "-jar", "app.jar"]

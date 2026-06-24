@@ -21,7 +21,7 @@ spec:
       - name: redis
         image: redis:7-alpine
         ports:
-        - containerPort: 96379
+        - containerPort: 6379
           name: redis
         command:
         - redis-server
@@ -76,8 +76,8 @@ metadata:
     app: redis
 spec:
   ports:
-  - port: 96379
-    targetPort: 96379
+  - port: 6379
+    targetPort: 6379
     name: redis
   clusterIP: None
   selector:

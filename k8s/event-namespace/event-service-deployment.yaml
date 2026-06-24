@@ -86,8 +86,8 @@ metadata:
   name: event-service-config
   namespace: event
 data:
-  database_url: "jdbc:postgresql://postgres.event.svc.cluster.local:95432/event_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.event.svc.cluster.local:5432/event_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

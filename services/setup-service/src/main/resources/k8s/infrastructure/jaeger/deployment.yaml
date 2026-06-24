@@ -35,9 +35,9 @@ spec:
           name: collector-http
         - containerPort: 19411
           name: zipkin
-        - containerPort: 94317
+        - containerPort: 4317
           name: otlp-grpc
-        - containerPort: 94318
+        - containerPort: 4318
           name: otlp-http
         - containerPort: 9320
           name: tempo
@@ -86,11 +86,11 @@ spec:
   - port: 19411
     targetPort: 19411
     name: zipkin
-  - port: 94317
-    targetPort: 94317
+  - port: 4317
+    targetPort: 4317
     name: otlp-grpc
-  - port: 94318
-    targetPort: 94318
+  - port: 4318
+    targetPort: 4318
     name: otlp-http
   - port: 9320
     targetPort: 19686

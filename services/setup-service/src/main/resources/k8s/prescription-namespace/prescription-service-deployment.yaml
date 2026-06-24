@@ -86,8 +86,8 @@ metadata:
   name: prescription-service-config
   namespace: prescription
 data:
-  database_url: "jdbc:postgresql://postgres.prescription.svc.cluster.local:95432/prescription_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.prescription.svc.cluster.local:5432/prescription_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

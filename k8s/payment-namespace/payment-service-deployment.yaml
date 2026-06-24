@@ -86,8 +86,8 @@ metadata:
   name: payment-service-config
   namespace: payment
 data:
-  database_url: "jdbc:postgresql://postgres.payment.svc.cluster.local:95432/payment_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.payment.svc.cluster.local:5432/payment_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

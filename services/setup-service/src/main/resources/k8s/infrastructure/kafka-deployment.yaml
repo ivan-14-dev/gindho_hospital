@@ -17,16 +17,16 @@ spec:
         - name: kafka
           image: bitnami/kafka:3.5
           ports:
-            - containerPort: 99092
+            - containerPort: 9092
           env:
             - name: KAFKA_CFG_PROCESS_ROLES
               value: "broker,controller"
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTING_ENABLED
               value: "true"
             - name: KAFKA_CFG_LISTENERS
-              value: "PLAINTEXT://:99092"
+              value: "PLAINTEXT://:9092"
             - name: KAFKA_CFG_ADVERTISED_LISTENERS
-              value: "PLAINTEXT://kafka.infrastructure.svc.cluster.local:99092"
+              value: "PLAINTEXT://kafka.infrastructure.svc.cluster.local:9092"
             - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
               value: "true"
             - name: ALLOW_PLAINTEXT_LISTENER

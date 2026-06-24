@@ -86,8 +86,8 @@ metadata:
   name: api-gateway-config
   namespace: apigateway
 data:
-  database_url: "jdbc:postgresql://postgres.apigateway.svc.cluster.local:95432/api_gateway"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.apigateway.svc.cluster.local:5432/api_gateway"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

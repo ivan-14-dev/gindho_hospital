@@ -4,7 +4,7 @@ metadata:
   name: setup-service-config
   namespace: setup
 data:
-  database_url: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:95432/gindho_setup?ssl=false"
-  kafka_servers: "kafka.infrastructure.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.infrastructure.svc.cluster.local:5432/gindho_setup?ssl=false"
+  kafka_servers: "kafka.infrastructure.svc.cluster.local:9092"
   keycloak_url: "http://keycloak.infrastructure.svc.cluster.local:9001"
   keycloak_realm: "gindho"

@@ -14,7 +14,7 @@ spec:
       otlp:
         protocols:
           grpc:
-            endpoint: 0.0.0.0:94317
+            endpoint: 0.0.0.0:4317
     processors:
       batch:
         timeout: 1s
@@ -51,7 +51,7 @@ spec:
         - name: jaeger
           image: jaegertracing/all-in-one:latest
           ports:
-            - containerPort: 94317
+            - containerPort: 4317
               name: otlp-grpc
             - containerPort: 19686
               name: ui
@@ -69,8 +69,8 @@ spec:
     app: jaeger
   ports:
     - name: otlp-grpc
-      port: 94317
-      targetPort: 94317
+      port: 4317
+      targetPort: 4317
     - name: ui
       port: 19686
       targetPort: 19686

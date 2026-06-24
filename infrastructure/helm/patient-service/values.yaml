@@ -21,8 +21,8 @@ service:
 configMap:
   name: patient-service-config
   data:
-    database_url: "jdbc:postgresql://postgres.patient.svc.cluster.local:95432/patient_service"
-    kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+    database_url: "jdbc:postgresql://postgres.patient.svc.cluster.local:5432/patient_service"
+    kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 
 # Secret references
 secrets:

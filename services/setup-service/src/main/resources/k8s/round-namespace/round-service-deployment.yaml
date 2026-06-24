@@ -86,8 +86,8 @@ metadata:
   name: round-service-config
   namespace: round
 data:
-  database_url: "jdbc:postgresql://postgres.round.svc.cluster.local:95432/round_service"
-  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:99092"
+  database_url: "jdbc:postgresql://postgres.round.svc.cluster.local:5432/round_service"
+  kafka_servers: "kafka.infrastructure-namespace.svc.cluster.local:9092"
 ---
 apiVersion: v1
 kind: Secret

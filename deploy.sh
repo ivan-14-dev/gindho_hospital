@@ -32,10 +32,12 @@ build_docker() {
 
     # Build setup-service first (browser wizard, MUST be first)
     if [ -f "services/setup-service/Dockerfile" ]; then
-        log "Building setup-service..."
-        docker build -t "gindho/setup-service:latest" \
-            -f services/setup-service/Dockerfile \
-            .
+        log "Pre-building setup-service JAR on host (reactor Maven)..."
+        mvn -f pom.xml -pl services/setup-service -am clean package \
+            -DskipTests -Dmaven.test.skip=true -B
+
+        log "Building setup-service Docker image..."
+        docker build -t "gindho/setup-service:latest" -f services/setup-service/Dockerfile .
     fi
 
     # Build microservice images

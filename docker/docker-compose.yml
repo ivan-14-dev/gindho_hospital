@@ -173,12 +173,12 @@ services:
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
 
-  # ============================================================================
+# ============================================================================
   # ALL 31 MICROSERVICES
   # ============================================================================
 
-# Core Auth
-   identity-service:
+  # Core Auth
+  identity-service:
      build:
        context: ../services/identity-service
        dockerfile: Dockerfile

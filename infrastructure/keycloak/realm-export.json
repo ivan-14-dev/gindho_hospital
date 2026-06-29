@@ -4,7 +4,6 @@
   "enabled": true,
   "sslRequired": "external",
   "accessTokenLifespan": 3600,
-  "refreshTokenLifespan": 86400,
   "clients": [
     {
       "clientId": "gindho-backend",

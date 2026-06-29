@@ -1,16 +1,20 @@
 name: gindho
 
 services:
-  # Infrastructure
+  # ============================================================================
+  # INFRASTRUCTURE
+  # ============================================================================
+
   postgres:
     image: postgres:16-alpine
     container_name: gindho-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-gindho}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-gindho123}
       POSTGRES_DB: ${POSTGRES_DB:-gindho}
+      POSTGRES_MAX_CONNECTIONS: 200
     ports:
-      - "${POSTGRES_PORT:-95432}:95432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./postgres-init/init-dbs.sh:/docker-entrypoint-initdb.d/init-dbs.sh
@@ -24,30 +28,41 @@ services:
     image: mongo:7
     container_name: gindho-mongodb
     ports:
-      - "${MONGO_PORT:-97017}:97017"
+      - "${MONGO_PORT:-37017}:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-gindho}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-gindho123}
     volumes:
       - mongodb-data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --eval 'db.adminCommand(\"ping\")' --quiet || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
 
   redis:
     image: redis:7-alpine
     container_name: gindho-redis
     ports:
-      - "${REDIS_PORT:-96379}:96379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Kafka
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     container_name: gindho-zookeeper
     environment:
-      ZOOKEEPER_CLIENT_PORT: 92181
+      ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "92181:92181"
+      - "2181:2181"
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -55,12 +70,12 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "${KAFKA_PORT:-99092}:99092"
+      - "${KAFKA_PORT:-9092}:9092"
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:921811
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:99092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:99092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -74,13 +89,13 @@ services:
     command: start-dev --import-realm
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloak-db:95432/keycloak
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
       KC_DB_USERNAME: ${KC_DB_USERNAME:-keycloak}
-      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD:-keycloak123}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin123}
     ports:
-      - "${KEYCLOAK_PORT:-9001}:9001"
+      - "${KEYCLOAK_PORT:-8080}:8080"
     volumes:
       - ../infrastructure/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     depends_on:
@@ -93,7 +108,7 @@ services:
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: ${KC_DB_USERNAME:-keycloak}
-      POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
+      POSTGRES_PASSWORD: ${KC_DB_PASSWORD:-keycloak123}
     volumes:
       - keycloak-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -102,7 +117,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # Kong API Gateway
+  # Kong API Gateway (DB-less mode)
   kong:
     image: kong:3.6
     container_name: gindho-kong
@@ -113,25 +128,20 @@ services:
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_LISTEN: 0.0.0.0:9041
-      KONG_PROXY_LISTEN: 0.0.0.0:9040
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_PROXY_LISTEN: 0.0.0.0:8000
     ports:
-      - "${KONG_PROXY_PORT:-9042}:9040"
-      - "${KONG_ADMIN_PORT:-9041}:9041"
+      - "${KONG_PROXY_PORT:-8000}:8000"
+      - "${KONG_ADMIN_PORT:-8001}:8001"
     volumes:
       - ../infrastructure/kong/kong.yml:/etc/kong/kong.yml:ro
-    depends_on:
-      postgres:
-        condition: service_healthy
-      kafka:
-        condition: service_started
 
   # Observability
   prometheus:
     image: prom/prometheus:v2.48.0
     container_name: gindho-prometheus
     ports:
-      - "${PROMETHEUS_PORT:-9990}:9990"
+      - "${PROMETHEUS_PORT:-9090}:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     depends_on:
@@ -141,10 +151,10 @@ services:
     image: grafana/grafana:10.2.2
     container_name: gindho-grafana
     ports:
-      - "${GRAFANA_PORT:-9300}:9300"
+      - "${GRAFANA_PORT:-3000}:3000"
     environment:
       GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
     depends_on:
       - prometheus
 
@@ -152,79 +162,79 @@ services:
     image: jaegertracing/all-in-one:1.52
     container_name: gindho-jaeger
     ports:
-      - "${JAEGER_UI_PORT:-19686}:19686"
-      - "${JAEGER_OTLP_GRPC_PORT:-94317}:94317"
-      - "${JAEGER_OTLP_HTTP_PORT:-94318}:94318"
+      - "${JAEGER_UI_PORT:-16686}:16686"
+      - "${JAEGER_OTLP_GRPC_PORT:-4317}:4317"
+      - "${JAEGER_OTLP_HTTP_PORT:-4318}:4318"
 
   loki:
     image: grafana/loki:2.9.2
     container_name: gindho-loki
     ports:
-      - "${LOKI_PORT:-9310}:9310"
+      - "${LOKI_PORT:-3100}:3100"
 
   minio:
     image: minio/minio:latest
     container_name: gindho-minio
     command: server /data --console-address ":9001"
     ports:
-      - "9002:9002"
+      - "9000:9000"
       - "9001:9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
 
-# ============================================================================
+  # ============================================================================
   # ALL 31 MICROSERVICES
   # ============================================================================
 
   # Core Auth
   identity-service:
-     build:
-       context: ../services/identity-service
-       dockerfile: Dockerfile
-     container_name: gindho-identity-service
-     profiles: [services, all]
-     ports: ["8111:9001"]
-     environment:
-       - PORT=9001
-       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/identity_service
-       - DB_USERNAME=${DB_USERNAME:-gindho}
-       - DB_PASSWORD=${DB_PASSWORD}
-       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-       - JWT_SECRET=${JWT_SECRET}
-       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-       - KEYCLOAK_URL=http://keycloak:9001
-       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:9001
-       - KEYCLOAK_CLIENT_ID=gindho-client
-       - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET:-test-secret}
-     depends_on:
-       postgres: { condition: service_healthy }
-       kafka: { condition: service_started }
-       keycloak: { condition: service_healthy }
-     healthcheck:
-       test: ["CMD-SHELL", "curl -f http://localhost:9000/actuator/health || exit 1"]
-       interval: 30s
-       timeout: 10s
-       retries: 3
-       start_period: 40s
-
-   authorization-service:
-     build:
-       context: ../services/authorization-service
-       dockerfile: Dockerfile
-     container_name: gindho-authorization-service
-     profiles: [services, all]
-     ports: ["9003:9012"]
+    build:
+      context: ../services/identity-service
+      dockerfile: Dockerfile
+    container_name: gindho-identity-service
+    profiles: [services, all]
+    ports: ["9041:9001"]
     environment:
-      - PORT=9012
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/authorization_service
+      - SERVER_PORT=9001
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/identity_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080
+      - KEYCLOAK_CLIENT_ID=gindho-client
+      - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET:-test-secret}
+    depends_on:
+      postgres: { condition: service_healthy }
+      kafka: { condition: service_started }
+      keycloak: { condition: service_started }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9001/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  authorization-service:
+    build:
+      context: ../services/authorization-service
+      dockerfile: Dockerfile
+    container_name: gindho-authorization-service
+    profiles: [services, all]
+    ports: ["9042:9012"]
+    environment:
+      - SERVER_PORT=9012
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/authorization_service
+      - DB_USERNAME=${DB_USERNAME:-gindho}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - REDIS_HOST=redis
-      - REDIS_PORT=96379
+      - REDIS_PORT=6379
     depends_on:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
@@ -243,15 +253,15 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-api-gateway
     profiles: [services, all]
-    ports: ["9000:9000"]
+    ports: ["8081:8080"]
     environment:
-      - PORT=9000
+      - SERVER_PORT=8080
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
     depends_on:
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9000/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "wget -q -O- http://localhost:8080/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -266,12 +276,12 @@ services:
     profiles: [services, all]
     ports: ["9004:9004"]
     environment:
-      - PORT=9004
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/patient_service
+      - SERVER_PORT=9004
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/patient_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -291,12 +301,12 @@ services:
     profiles: [services, all]
     ports: ["9005:9005"]
     environment:
-      - PORT=9005
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/appointment_service
+      - SERVER_PORT=9005
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/appointment_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -316,14 +326,14 @@ services:
     profiles: [services, all]
     ports: ["9006:9006"]
     environment:
-      - PORT=9006
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/medical_record_service
+      - SERVER_PORT=9006
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/medical_record_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - MONGODB_URI=mongodb://${MONGO_USERNAME:-gindho}:${MONGO_PASSWORD}@mongodb:97017/medical_record_db?authSource=admin
+      - MONGODB_URI=mongodb://${MONGO_USERNAME:-gindho}:${MONGO_PASSWORD:-gindho123}@mongodb:27017/medical_record_db?authSource=admin
     depends_on:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
@@ -343,12 +353,12 @@ services:
     profiles: [services, all]
     ports: ["9007:9007"]
     environment:
-      - PORT=9007
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/admission_service
+      - SERVER_PORT=9007
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/admission_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -368,12 +378,12 @@ services:
     profiles: [services, all]
     ports: ["9008:9008"]
     environment:
-      - PORT=9008
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/emergency_service
+      - SERVER_PORT=9008
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/emergency_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -394,12 +404,12 @@ services:
     profiles: [services, all]
     ports: ["9009:9009"]
     environment:
-      - PORT=9009
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/ward_service
+      - SERVER_PORT=9009
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ward_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -419,12 +429,12 @@ services:
     profiles: [services, all]
     ports: ["9010:9010"]
     environment:
-      - PORT=9010
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/bed_service
+      - SERVER_PORT=9010
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bed_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -436,27 +446,27 @@ services:
       retries: 3
       start_period: 40s
 
-# Surgery & Rounds
-   surgery-service:
-     build:
-       context: ../services/surgery-service
-       dockerfile: Dockerfile
-     container_name: gindho-surgery-service
-     profiles: [services, all]
-     ports: ["8112:9012"]
+  # Surgery & Rounds
+  surgery-service:
+    build:
+      context: ../services/surgery-service
+      dockerfile: Dockerfile
+    container_name: gindho-surgery-service
+    profiles: [services, all]
+    ports: ["9031:9011"]
     environment:
-      - PORT=9012
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/surgery_service
+      - SERVER_PORT=9011
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/surgery_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9012/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9011/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -468,20 +478,20 @@ services:
       dockerfile: Dockerfile
     container_name: gindho-round-service
     profiles: [services, all]
-    ports: ["9011:9011"]
+    ports: ["9012:9012"]
     environment:
-      - PORT=9011
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/round_service
+      - SERVER_PORT=9012
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/round_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
       kafka: { condition: service_started }
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9011/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9012/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -496,12 +506,12 @@ services:
     profiles: [services, all]
     ports: ["9014:9014"]
     environment:
-      - PORT=9014
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/pharmacy_service
+      - SERVER_PORT=9014
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/pharmacy_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -521,12 +531,12 @@ services:
     profiles: [services, all]
     ports: ["9013:9013"]
     environment:
-      - PORT=9013
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/prescription_service
+      - SERVER_PORT=9013
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/prescription_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -547,12 +557,12 @@ services:
     profiles: [services, all]
     ports: ["9015:9015"]
     environment:
-      - PORT=9015
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/laboratory_service
+      - SERVER_PORT=9015
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/laboratory_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - HL7_LISTENER_PORT=2575
     depends_on:
@@ -573,14 +583,14 @@ services:
     profiles: [services, all]
     ports: ["9016:9016"]
     environment:
-      - PORT=9016
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/imaging_service
+      - SERVER_PORT=9016
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/imaging_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - MINIO_ENDPOINT=http://minio:9002
+      - MINIO_ENDPOINT=http://minio:9000
       - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-minioadmin}
       - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-minioadmin}
     depends_on:
@@ -602,12 +612,12 @@ services:
     profiles: [services, all]
     ports: ["9017:9017"]
     environment:
-      - PORT=9017
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/billing_service
+      - SERVER_PORT=9017
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/billing_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -627,12 +637,12 @@ services:
     profiles: [services, all]
     ports: ["9018:9018"]
     environment:
-      - PORT=9018
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/insurance_service
+      - SERVER_PORT=9018
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/insurance_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -652,12 +662,12 @@ services:
     profiles: [services, all]
     ports: ["9019:9019"]
     environment:
-      - PORT=9019
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/payment_service
+      - SERVER_PORT=9019
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/payment_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -678,12 +688,12 @@ services:
     profiles: [services, all]
     ports: ["9020:9020"]
     environment:
-      - PORT=9020
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/inventory_service
+      - SERVER_PORT=9020
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/inventory_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -703,12 +713,12 @@ services:
     profiles: [services, all]
     ports: ["9021:9021"]
     environment:
-      - PORT=9021
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/procurement_service
+      - SERVER_PORT=9021
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/procurement_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -728,12 +738,12 @@ services:
     profiles: [services, all]
     ports: ["9022:9022"]
     environment:
-      - PORT=9022
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/asset_service
+      - SERVER_PORT=9022
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/asset_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -753,12 +763,12 @@ services:
     profiles: [services, all]
     ports: ["9023:9023"]
     environment:
-      - PORT=9023
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/ambulance_service
+      - SERVER_PORT=9023
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ambulance_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -779,12 +789,12 @@ services:
     profiles: [services, all]
     ports: ["9024:9024"]
     environment:
-      - PORT=9024
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/hr_service
+      - SERVER_PORT=9024
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/hr_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -804,12 +814,12 @@ services:
     profiles: [services, all]
     ports: ["9025:9025"]
     environment:
-      - PORT=9025
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/scheduling_service
+      - SERVER_PORT=9025
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/scheduling_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -830,12 +840,12 @@ services:
     profiles: [services, all]
     ports: ["9026:9026"]
     environment:
-      - PORT=9026
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/event_service
+      - SERVER_PORT=9026
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/event_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -855,12 +865,12 @@ services:
     profiles: [services, all]
     ports: ["9027:9027"]
     environment:
-      - PORT=9027
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/notification_service
+      - SERVER_PORT=9027
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/notification_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - NOTIFICATION_EMAIL_ENABLED=true
       - NOTIFICATION_SMS_ENABLED=true
@@ -888,12 +898,12 @@ services:
     profiles: [services, all]
     ports: ["9028:9028"]
     environment:
-      - PORT=9028
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/reporting_service
+      - SERVER_PORT=9028
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/reporting_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -913,12 +923,12 @@ services:
     profiles: [services, all]
     ports: ["9029:9029"]
     environment:
-      - PORT=9029
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:95432/audit_service
+      - SERVER_PORT=9029
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/audit_service
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       postgres: { condition: service_healthy }
@@ -936,49 +946,49 @@ services:
       context: ../services/setup-service
       dockerfile: Dockerfile
     container_name: gindho-setup-service
-    ports: ["9002:9002"]
+    profiles: [setup, all]
+    ports: ["9030:9030"]
     environment:
-      - SERVER_PORT=9002
+      - SERVER_PORT=9030
       - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
         condition: service_started
-    profiles: [setup, all]
 
   # Monolith (legacy - sera retiré en Phase 8)
-  backend:
-    build:
-      context: ../services/backend-service
-      dockerfile: Dockerfile
-    container_name: gindho-backend
-    profiles: [legacy, all]
-    ports: ["9002:9002"]
-    environment:
-      - DB_URL=jdbc:postgresql://postgres:95432/gindho
-      - DB_USERNAME=${DB_USERNAME:-gindho}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - JWT_SECRET=${JWT_SECRET}
-      - server.port=9002
-      - spring.datasource.url=jdbc:postgresql://postgres:95432/gindho
-      - spring.datasource.username=${DB_USERNAME:-gindho}
-      - spring.datasource.password=${DB_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
-      - MAIL_PORT=${MAIL_PORT:-587}
-      - MAIL_USERNAME=${MAIL_USERNAME:-}
-      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
-    depends_on:
-      postgres: { condition: service_healthy }
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9002/actuator/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 90s
+#   backend:c
+#     build:
+#       context: ../backend
+#       dockerfile: Dockerfile
+#     container_name: gindho-backend
+#     profiles: [legacy]
+#     ports: ["9002:9002"]
+#     environment:
+#       - SERVER_PORT=9002
+#       - DB_URL=jdbc:postgresql://postgres:5432/gindho
+#       - DB_USERNAME=${DB_USERNAME:-gindho}
+#       - DB_PASSWORD=${DB_PASSWORD:-gindho123}
+#       - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
+#       - spring.datasource.url=jdbc:postgresql://postgres:5432/gindho
+#       - spring.datasource.username=${DB_USERNAME:-gindho}
+#       - spring.datasource.password=${DB_PASSWORD:-gindho123}
+#       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#       - MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
+#       - MAIL_PORT=${MAIL_PORT:-587}
+#       - MAIL_USERNAME=${MAIL_USERNAME:-}
+#       - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+#     depends_on:
+#       postgres: { condition: service_healthy }
+#     healthcheck:
+#       test: ["CMD-SHELL", "curl -f http://localhost:9002/actuator/health || exit 1"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 5
+#       start_period: 90s
 
 volumes:
   postgres-data:

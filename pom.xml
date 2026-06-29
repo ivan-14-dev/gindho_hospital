@@ -31,7 +31,6 @@
         <module>services/procurement-service</module>
         <module>services/asset-service</module>
         <module>services/ambulance-service</module>
-        <module>services/backend-service</module>
         <module>services/hr-service</module>
         <module>services/scheduling-service</module>
         <module>services/event-service</module>

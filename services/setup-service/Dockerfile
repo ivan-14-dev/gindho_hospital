@@ -1,4 +1,5 @@
 FROM eclipse-temurin:21-jre-alpine
+RUN apk add --no-cache curl
 WORKDIR /app
 
 RUN apk add --no-cache curl ca-certificates && \
@@ -6,6 +7,6 @@ RUN apk add --no-cache curl ca-certificates && \
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
     rm kubectl
 
-COPY services/setup-service/target/setup-service-1.0.0.jar app.jar
-EXPOSE 9002
+COPY target/*.jar app.jar
+EXPOSE 9030
 ENTRYPOINT ["java", "-jar", "app.jar"]

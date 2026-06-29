@@ -30,13 +30,9 @@ build() {
 build_docker() {
     log "Building Docker images..."
 
-    # Build setup-service Docker image (JAR was already built by build())
-    if [ -f "services/setup-service/Dockerfile" ]; then
-        log "Building setup-service Docker image..."
-        docker build -t "gindho/setup-service:latest" \
-            -f services/setup-service/Dockerfile \
-            "$(pwd)"
-    fi
+    # Build setup-service Docker image
+    log "Building setup-service Docker image..."
+    (cd services/setup-service && docker build -t "gindho/setup-service:latest" .)
 
     # Build microservice images
     for svc in services/*/; do
@@ -145,7 +141,20 @@ teardown() {
     kubectl delete ns patient appointment medicalrecord laboratory pharmacy billing inventory hr reporting monitoring security infrastructure admission ambulance apigateway asset audit authorization bed emergency event identity imaging insurance notification payment prescription procurement round scheduling surgery ward setup --timeout=60s || true
     kubectl delete crd opentelemetrycollectors.opentelemetry.io --ignore-not-found=true || true
     helm list -A 2>/dev/null | awk 'NR>1 {print "helm uninstall " $1 " -n " $2}' | bash 2>/dev/null || true
-    log "Teardown complete."
+    log "Teardown complete for kubernetes"
+}
+
+
+stop_docker() {
+    log "Stopping GinDHO deployment..."
+
+    docker compose \
+        -f docker/docker-compose.yml \
+        --env-file .env \
+        --profile all \
+        stop
+
+    log "GinDHO deployment stopped."
 }
 
 info() {
@@ -205,6 +214,8 @@ info() {
     echo "  ./deploy.sh build       - Build all JARs"
     echo "  ./deploy.sh docker      - Build all Docker images"
     echo "  ./deploy.sh all         - Build + Deploy locally"
+    echo "  ./deploy.sh stop-docker - Stop Deploiement of Docker"
+    echo "  ./deploy.sh teardown    - Stop Deploiement of Kubernetes"
     echo ""
 }
 
@@ -222,11 +233,12 @@ case "${1:-help}" in
         ;;
     k8s) deploy_k8s ;;
     teardown) teardown ;;
+    stop-docker) stop_docker ;;
     all)
         build
         build_docker
         deploy_local
         ;;
     info|help) info ;;
-    *) err "Usage: $0 {clean|build|docker|local|docker-all|k8s|teardown|all|info}" ;;
+    *) err "Usage: $0 {clean|build|docker|local|docker-all|k8s|teardown|stop-docker|all|info}" ;;
 esac

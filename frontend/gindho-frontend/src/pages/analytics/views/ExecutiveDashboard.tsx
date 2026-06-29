@@ -4,6 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { KPICard } from '../components/KPICard';
 import { ChartCard } from '../components/ChartCard';
 import { FilterBar } from '../components/FilterBar';
+import {
+  LineChartComponent, BarChartComponent, MultiLineChartComponent, AreaChartComponent
+} from '../components/Charts';
 import { apiClient } from '@/lib/api-client';
 import {
   Users, Stethoscope, Building2, LogOut, Bed, BarChart3,
@@ -43,6 +46,25 @@ export function ExecutiveDashboard() {
         },
       });
       return response.data || {};
+    },
+  });
+
+  const { data: chartData = {} } = useQuery({
+    queryKey: ['executive-charts', dateRange, period],
+    queryFn: async () => {
+      const response = await apiClient.get('/analytics-service/executive-charts', {
+        params: {
+          startDate: dateRange.start,
+          endDate: dateRange.end,
+          period,
+        },
+      });
+      return response.data || {
+        patientsEvolution: [],
+        revenueExpense: [],
+        serviceDistribution: [],
+        bedOccupancy: [],
+      };
     },
   });
 
@@ -183,49 +205,77 @@ export function ExecutiveDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ChartCard
-          title="Évolution des Patients"
-          icon={Users}
-          subtitle="Données mensuelles"
-          isLoading={isLoading}
-        >
-          <div className="h-64 flex items-center justify-center text-muted-foreground">
-            <p>Graphique - Intégration Recharts</p>
-          </div>
-        </ChartCard>
+        <div>
+          {chartData.patientsEvolution && chartData.patientsEvolution.length > 0 ? (
+            <LineChartComponent
+              title="Évolution des Patients"
+              data={chartData.patientsEvolution}
+              icon={<Users className="h-4 w-4 text-blue-600" />}
+              height={300}
+            />
+          ) : (
+            <ChartCard title="Évolution des Patients" icon={Users} isLoading={isLoading}>
+              <div className="h-64 flex items-center justify-center text-muted-foreground">
+                Chargement des données...
+              </div>
+            </ChartCard>
+          )}
+        </div>
 
-        <ChartCard
-          title="Revenus vs Dépenses"
-          icon={DollarSign}
-          subtitle="Comparaison mensuelle"
-          isLoading={isLoading}
-        >
-          <div className="h-64 flex items-center justify-center text-muted-foreground">
-            <p>Graphique - Intégration Recharts</p>
-          </div>
-        </ChartCard>
+        <div>
+          {chartData.revenueExpense && chartData.revenueExpense.length > 0 ? (
+            <MultiLineChartComponent
+              title="Revenus vs Dépenses"
+              data={chartData.revenueExpense}
+              dataKeys={[
+                { key: 'revenue', color: '#10b981' },
+                { key: 'expenses', color: '#ef4444' },
+              ]}
+              icon={<DollarSign className="h-4 w-4 text-orange-600" />}
+              height={300}
+            />
+          ) : (
+            <ChartCard title="Revenus vs Dépenses" icon={DollarSign} isLoading={isLoading}>
+              <div className="h-64 flex items-center justify-center text-muted-foreground">
+                Chargement des données...
+              </div>
+            </ChartCard>
+          )}
+        </div>
 
-        <ChartCard
-          title="Répartition par Service"
-          icon={Building2}
-          subtitle="Distribution des patients"
-          isLoading={isLoading}
-        >
-          <div className="h-64 flex items-center justify-center text-muted-foreground">
-            <p>Graphique - Intégration Recharts</p>
-          </div>
-        </ChartCard>
+        <div>
+          {chartData.serviceDistribution && chartData.serviceDistribution.length > 0 ? (
+            <BarChartComponent
+              title="Répartition par Service"
+              data={chartData.serviceDistribution}
+              icon={<Building2 className="h-4 w-4 text-red-600" />}
+              height={300}
+            />
+          ) : (
+            <ChartCard title="Répartition par Service" icon={Building2} isLoading={isLoading}>
+              <div className="h-64 flex items-center justify-center text-muted-foreground">
+                Chargement des données...
+              </div>
+            </ChartCard>
+          )}
+        </div>
 
-        <ChartCard
-          title="Occupation des Lits"
-          icon={Bed}
-          subtitle="État actuel par service"
-          isLoading={isLoading}
-        >
-          <div className="h-64 flex items-center justify-center text-muted-foreground">
-            <p>Graphique - Intégration Recharts</p>
-          </div>
-        </ChartCard>
+        <div>
+          {chartData.bedOccupancy && chartData.bedOccupancy.length > 0 ? (
+            <AreaChartComponent
+              title="Occupation des Lits"
+              data={chartData.bedOccupancy}
+              icon={<Bed className="h-4 w-4 text-green-600" />}
+              height={300}
+            />
+          ) : (
+            <ChartCard title="Occupation des Lits" icon={Bed} isLoading={isLoading}>
+              <div className="h-64 flex items-center justify-center text-muted-foreground">
+                Chargement des données...
+              </div>
+            </ChartCard>
+          )}
+        </div>
       </div>
     </div>
   );

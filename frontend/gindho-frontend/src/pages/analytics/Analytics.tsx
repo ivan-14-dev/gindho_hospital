@@ -7,6 +7,17 @@ import { ActivityView } from './views/ActivityView';
 import { FinanceView } from './views/FinanceView';
 import { PharmacyView } from './views/PharmacyView';
 import { LaboratoryView } from './views/LaboratoryView';
+import { PatientsView } from './views/PatientsView';
+import { ConsultationsView } from './views/ConsultationsView';
+import { HospitalizationsView } from './views/HospitalizationsView';
+import { SurgeryView } from './views/SurgeryView';
+import { ImagingView } from './views/ImagingView';
+import { BloodBankView } from './views/BloodBankView';
+import { HRView } from './views/HRView';
+import { QualityView } from './views/QualityView';
+import { EpidemiologyView } from './views/EpidemiologyView';
+import { SatisfactionView } from './views/SatisfactionView';
+import { ReportsView } from './views/ReportsView';
 
 export default function Analytics() {
   const [currentSection, setCurrentSection] = useState('executive');
@@ -24,27 +35,29 @@ export default function Analytics() {
       case 'laboratory':
         return <LaboratoryView />;
       case 'patients':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Patients - Sous développement</h2></div>;
+        return <PatientsView />;
       case 'consultations':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Consultations - Sous développement</h2></div>;
+        return <ConsultationsView />;
       case 'hospitalizations':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Hospitalisations - Sous développement</h2></div>;
+        return <HospitalizationsView />;
       case 'surgery':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Bloc Opératoire - Sous développement</h2></div>;
+        return <SurgeryView />;
       case 'imaging':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Radiologie - Sous développement</h2></div>;
+        return <ImagingView />;
       case 'blood':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Banque de Sang - Sous développement</h2></div>;
+        return <BloodBankView />;
       case 'hr':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Ressources Humaines - Sous développement</h2></div>;
+        return <HRView />;
       case 'quality':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Qualité des Soins - Sous développement</h2></div>;
+        return <QualityView />;
       case 'epidemiology':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Épidémiologie - Sous développement</h2></div>;
+        return <EpidemiologyView />;
       case 'satisfaction':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Satisfaction - Sous développement</h2></div>;
+        return <SatisfactionView />;
       case 'reports':
-        return <div className="p-6"><h2 className="text-2xl font-bold">Rapports - Sous développement</h2></div>;
+        return <ReportsView />;
+      case 'finance':
+        return <FinanceView />;
       default:
         return <ExecutiveDashboard />;
     }

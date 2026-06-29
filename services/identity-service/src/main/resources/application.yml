@@ -1,13 +1,13 @@
 server:
-  port: ${PORT:9001}
+  port: ${SERVER_PORT:-9001}
 
 spring:
   application:
     name: identity-service
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:95432/identity_service?ssl=true&sslmode=require}
-    username: ${DB_USERNAME:gindho}
-    password: ${DB_PASSWORD:gindho123}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/identity_service}
+    username: ${DB_USERNAME:-gindho}
+    password: ${DB_PASSWORD:-gindho123}
     driver-class-name: org.postgresql.Driver
     hikari:
       initialization-fail-timeout: 60000
@@ -23,15 +23,15 @@ spring:
         format_sql: false
 
 jwt:
-  secret: ${JWT_SECRET:default-secret-change-me}
+  secret: ${JWT_SECRET:mySecretKeyForJWTTokenGeneration1234567890}
   issuer: https://gindho-keycloak.apps.gindho.com/realms/gindho
   audience: gindho-patient,gindho-billing,gindho-appointments
 
 keycloak:
   realm: gindho
-  url: ${KEYCLOAK_URL:https://gindho-keycloak.apps.gindho.com}
+  url: ${KEYCLOAK_URL:http://localhost:8080}
   auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:${keycloak.url}}
-  client-id: ${KEYCLOAK_CLIENT_ID:gindho-client}
+  client-id: ${KEYCLOAK_CLIENT_ID:gindho-frontend}
   resource: ${KEYCLOAK_RESOURCE:${keycloak.client-id}}
   client-secret: ${KEYCLOAK_CLIENT_SECRET:test-secret}
   ssl-required: external
@@ -39,7 +39,7 @@ keycloak:
 security:
   web:
     cors:
-      allowed-origins: "https://gindho-app.gindho.com,https://localhost:9300"
+      allowed-origins: "http://localhost:9300,http://localhost:5173,http://localhost:9041,http://localhost:8000,https://*.gindho.com"
       allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
       allowed-headers: "*"
 

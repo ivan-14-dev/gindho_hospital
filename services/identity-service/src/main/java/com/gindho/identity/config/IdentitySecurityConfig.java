@@ -23,7 +23,7 @@ public class IdentitySecurityConfig {
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
-                                .decoder(JwtDecoders.fromIssuerUri("http://localhost:8080/realms/gindho"))));
+                                .decoder(JwtDecoders.fromIssuerLocation("http://localhost:8080/realms/gindho"))));
         return http.build();
 }
 }

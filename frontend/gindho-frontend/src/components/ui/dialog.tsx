@@ -1,13 +1,34 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-interface DialogProps {
+interface DialogContextType {
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  setOpen: (open: boolean) => void;
+}
+
+const DialogContext = React.createContext<DialogContextType | null>(null);
+
+interface DialogProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   children: React.ReactNode;
 }
 
-export function Dialog({ open, onOpenChange, children }: DialogProps) {
+export function Dialog({ open: openProp, onOpenChange, children }: DialogProps) {
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const isControlled = openProp !== undefined;
+  const open = isControlled ? (openProp ?? false) : internalOpen;
+
+  const setOpen = React.useCallback(
+    (next: boolean) => {
+      if (!isControlled) {
+        setInternalOpen(next);
+      }
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange],
+  );
+
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -17,16 +38,10 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
     };
   }, [open]);
 
-  if (!open) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      onClick={() => onOpenChange(false)}
-    >
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
-      <div onClick={(e) => e.stopPropagation()}>{children}</div>
-    </div>
+    <DialogContext.Provider value={{ open, setOpen }}>
+      {children}
+    </DialogContext.Provider>
   );
 }
 
@@ -35,15 +50,25 @@ export function DialogContent({
   children,
   ...props
 }: React.ComponentProps<"div">) {
+  const ctx = React.useContext(DialogContext);
+  if (!ctx?.open) return null;
+
   return (
     <div
-      className={cn(
-        "relative z-50 bg-background rounded-lg border p-6 shadow-lg w-full max-w-lg",
-        className,
-      )}
-      {...props}
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      onClick={() => ctx.setOpen(false)}
     >
-      {children}
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+      <div
+        className={cn(
+          "relative z-50 bg-background rounded-lg border p-6 shadow-lg w-full max-w-lg",
+          className,
+        )}
+        onClick={(e) => e.stopPropagation()}
+        {...props}
+      >
+        {children}
+      </div>
     </div>
   );
 }
@@ -75,12 +100,38 @@ export function DialogDescription({
   );
 }
 
+interface DialogTriggerProps {
+  asChild?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
 export function DialogTrigger({
+  asChild,
   className,
-  ...props
-}: React.ComponentProps<"button">) {
+  children,
+  onClick,
+}: DialogTriggerProps) {
+  const ctx = React.useContext(DialogContext);
+
+  const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    onClick?.(event);
+    ctx?.setOpen(true);
+  };
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children as React.ReactElement<{ onClick?: React.MouseEventHandler<HTMLElement> }>, {
+      onClick: (event: React.MouseEvent<HTMLElement>) => {
+        (children as React.ReactElement<{ onClick?: React.MouseEventHandler<HTMLElement> }>).props.onClick?.(event);
+        ctx?.setOpen(true);
+      },
+    });
+  }
+
   return (
     <button
+      type="button"
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium",
         "ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2",
@@ -88,7 +139,9 @@ export function DialogTrigger({
         "bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2",
         className,
       )}
-      {...props}
-    />
+      onClick={handleClick}
+    >
+      {children}
+    </button>
   );
 }

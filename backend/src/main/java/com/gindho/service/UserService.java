@@ -198,6 +198,11 @@ public class UserService {
                 .toList();
     }
 
+    public org.springframework.data.domain.Page<UserDto> getAllUsers(org.springframework.data.domain.Pageable pageable) {
+        return userRepository.findAllWithPermissions(pageable)
+                .map(this::convertToDto);
+    }
+
     public void resetPassword(String email) {
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));

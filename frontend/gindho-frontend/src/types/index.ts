@@ -1,6 +1,19 @@
 // ===== AUTHENTICATION & USERS =====
 export type UserRole = 'ADMIN' | 'DOCTOR' | 'NURSE' | 'PATIENT' | 'HR' | 'PHARMACIST' | 'RADIOLOGIST' | 'RECEPTIONIST' | 'ACCOUNTANT' | 'LABORATORY_TECHNICIAN';
 
+/** Navigation / dashboard role identifier (includes legacy backend role names). */
+export type Role =
+  | UserRole
+  | 'SUPER_ADMIN'
+  | 'MEDECIN'
+  | 'RECEPTION'
+  | 'LABORATORY'
+  | 'ACCOUNTING'
+  | 'URGENCY'
+  | 'HOSPITALIZATION_SERVICE'
+  | 'UTILISATEUR_SECONDAIRE'
+  | string;
+
 export interface Permission {
   id: string;
   name: string;
@@ -99,7 +112,7 @@ export interface Appointment {
   raison?: string;
   motif?: string;
   notes?: string;
-  status?: 'active' | 'inactive' | 'discharged';
+  status?: 'active' | 'inactive' | 'discharged' | 'COMPLETED' | 'IN_PROGRESS' | 'SCHEDULED' | 'CONFIRMED' | 'CANCELLED';
   resultat?: string;
   dureeMinutes?: number;
   departement?: string;

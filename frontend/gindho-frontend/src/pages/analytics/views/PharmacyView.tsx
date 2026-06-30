@@ -12,7 +12,7 @@ export function PharmacyView() {
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: pharmacyData, isLoading } = useQuery({
+  const { data: _, isLoading } = useQuery({
     queryKey: ['pharmacy-data', dateRange, period, filters],
     queryFn: async () => {
       const start = String(dateRange.start);
@@ -23,7 +23,7 @@ export function PharmacyView() {
         period: period,
         ...filters,
       });
-      const response = await apiClient.get(`/analytics-service/pharmacy?${params.toString()}`);
+      const response = await apiClient.get<{ data?: Record<string, unknown> }>(`/analytics-service/pharmacy?${params.toString()}`);
       return response.data || {};
     },
   });

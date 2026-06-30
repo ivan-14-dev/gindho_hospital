@@ -6,7 +6,7 @@ import { ChartCard } from '../components/ChartCard';
 import { FilterBar } from '../components/FilterBar';
 import { apiClient } from '@/lib/api-client';
 import {
-  Activity, TrendingUp, Calendar, Clock, AlertCircle, CheckCircle2
+  Activity, TrendingUp, Calendar, AlertCircle, CheckCircle2
 } from 'lucide-react';
 
 export function ActivityView() {
@@ -14,7 +14,7 @@ export function ActivityView() {
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: activityData, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ['activity-data', dateRange, period, filters],
     queryFn: async () => {
       const response = await apiClient.get('/analytics-service/activity', {

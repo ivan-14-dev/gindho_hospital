@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Clock, Users, AlertCircle, LogIn, PhoneOff } from 'lucide-react';
+import { AlertCircle, LogIn } from 'lucide-react';
 import type { Employee, User } from '@/types';
 
 function EmployeeCard({ employee }: { employee: Employee }) {
@@ -91,7 +91,9 @@ function EmployeeCard({ employee }: { employee: Employee }) {
   );
 }
 
-function DoctorCard({ doctor }: { doctor: User }) {
+type DoctorSummary = Pick<User, 'id'> & Partial<Pick<User, 'nom' | 'prenom' | 'specialite' | 'department' | 'role' | 'email' | 'telephone' | 'numeroLicence'>>;
+
+function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
   return (
     <Card>
       <CardHeader className="pb-3">
@@ -138,11 +140,11 @@ export function HRManagementPage() {
     emp.poste?.toLowerCase().includes(search.toLowerCase())
   ) || [];
 
-  const filteredDoctors = doctors?.filter?.((doc) =>
-    doc.nom.toLowerCase().includes(search.toLowerCase()) ||
-    doc.prenom.toLowerCase().includes(search.toLowerCase())
-  ) || (Array.isArray(doctors?.content) ? doctors.content.filter((doc: any) =>
-    doc.nom.toLowerCase().includes(search.toLowerCase())
+  const filteredDoctors = doctors?.filter?.((doc: { nom?: string; prenom?: string; specialite?: string }) =>
+    doc.nom?.toLowerCase().includes(search.toLowerCase()) ||
+    doc.prenom?.toLowerCase().includes(search.toLowerCase())
+  ) || (Array.isArray(doctors?.content) ? doctors.content.filter((doc: { nom?: string; prenom?: string; specialite?: string }) =>
+    doc.nom?.toLowerCase().includes(search.toLowerCase())
   ) : []);
 
   const stats = {
@@ -259,7 +261,7 @@ export function HRManagementPage() {
             </Card>
           ) : filteredDoctors.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredDoctors.map((doc) => (
+              {filteredDoctors.map((doc: { id: string; nom?: string; prenom?: string; specialite?: string }) => (
                 <DoctorCard key={doc.id} doctor={doc} />
               ))}
             </div>

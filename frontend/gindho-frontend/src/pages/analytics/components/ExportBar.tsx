@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Download, Share2, Printer } from 'lucide-react';
-import { ExportService, ExportData } from '../utils/exportService';
+import { ExportService, type ExportData } from '../utils/exportService';
 import {
   DropdownMenu,
   DropdownMenuContent,

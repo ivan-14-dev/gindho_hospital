@@ -1,18 +1,24 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { KPICard } from '../components/KPICard';
-import { BarChartComponent, LineChartComponent } from '../components/Charts';
 import { FilterBar } from '../components/FilterBar';
 import { apiClient } from '@/lib/api-client';
 import { Users, TrendingUp, Clock, Award } from 'lucide-react';
 import { useState } from 'react';
+
+interface HRMetrics {
+  totalStaff?: number;
+  attendance?: number;
+  turnoverRate?: number;
+  satisfaction?: number;
+}
 
 export function HRView() {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-06-30' });
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: metrics = {} } = useQuery({
+  const { data: metrics = {} as HRMetrics } = useQuery<HRMetrics>({
     queryKey: ['hr-metrics', dateRange, period, filters],
     queryFn: async () => {
       const response = await apiClient.get('/analytics-service/hr-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });

@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Filter, X, Download } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface FilterBarProps {
   dateRange: { start: string; end: string };

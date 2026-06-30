@@ -4,12 +4,9 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Send, Bot, User, Lightbulb, Activity, TrendingUp } from 'lucide-react';
+import { Send, Bot, User, Lightbulb } from 'lucide-react';
 import { apiClient } from '@/lib/api-client';
 
 interface AIMessage {
@@ -20,10 +17,15 @@ interface AIMessage {
   suggestions?: string[];
 }
 
-interface AIAnalysis {
-  type: string;
-  result: string;
-  confidence: number;
+interface AICase {
+  id: string;
+  title: string;
+  status: string;
+}
+
+interface AIAnalyzeResponse {
+  analysis?: string;
+  result?: string;
   recommendations?: string[];
 }
 
@@ -39,24 +41,24 @@ export default function AIAssistant() {
   const [input, setInput] = useState('');
   const [selectedCase, setSelectedCase] = useState<string | null>(null);
 
-  const { data: recentCases = [], isLoading: casesLoading } = useQuery({
+  const { data: recentCases = [], isLoading: casesLoading } = useQuery<AICase[]>({
     queryKey: ['ai-cases'],
     queryFn: async () => {
-      const response = await apiClient.get('/ai-service/cases');
-      return response.data || [];
+      const response = await apiClient.get<AICase[]>('/ai-service/cases');
+      return response || [];
     },
   });
 
   const sendMessageMutation = useMutation({
     mutationFn: async (messageText: string) => {
-      const response = await apiClient.post('/ai-service/analyze', {
+      const response = await apiClient.post<AIAnalyzeResponse>('/ai-service/analyze', {
         query: messageText,
         context: selectedCase,
         timestamp: new Date().toISOString(),
       });
-      return response.data;
+      return response;
     },
-    onSuccess: (data) => {
+    onSuccess: (data: AIAnalyzeResponse) => {
       const userMessage: AIMessage = {
         id: Date.now().toString(),
         role: 'user',
@@ -139,7 +141,7 @@ export default function AIAssistant() {
               ) : recentCases.length === 0 ? (
                 <p className="text-sm text-muted-foreground">Aucun cas disponible</p>
               ) : (
-                recentCases.map((caseItem: any) => (
+                recentCases.map((caseItem) => (
                   <div
                     key={caseItem.id}
                     onClick={() => setSelectedCase(caseItem.id)}

@@ -8,6 +8,7 @@ import {
   LineChartComponent, BarChartComponent, MultiLineChartComponent, AreaChartComponent
 } from '../components/Charts';
 import { apiClient } from '@/lib/api-client';
+import type { ApiResponse } from '@/types';
 import {
   Users, Stethoscope, Building2, LogOut, Bed, BarChart3,
   TrendingUp, DollarSign, Heart, Clock, Smile
@@ -29,15 +30,22 @@ interface ExecutiveMetrics {
   satisfaction: number;
 }
 
+interface ExecutiveChartData {
+  patientsEvolution?: unknown[];
+  revenueExpense?: unknown[];
+  serviceDistribution?: unknown[];
+  bedOccupancy?: unknown[];
+}
+
 export function ExecutiveDashboard() {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-06-30' });
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: metrics = {} as ExecutiveMetrics, isLoading } = useQuery({
+  const { data: metrics = {} as ExecutiveMetrics, isLoading } = useQuery<ExecutiveMetrics>({
     queryKey: ['executive-metrics', dateRange, period, filters],
-    queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/executive-metrics', {
+    queryFn: async (): Promise<ExecutiveMetrics> => {
+      const response = await apiClient.get<ApiResponse<ExecutiveMetrics>>('/analytics-service/executive-metrics', {
         params: {
           startDate: dateRange.start,
           endDate: dateRange.end,
@@ -45,21 +53,21 @@ export function ExecutiveDashboard() {
           ...filters,
         },
       });
-      return response.data || {};
+      return response.data ?? ({} as ExecutiveMetrics);
     },
   });
 
-  const { data: chartData = {} } = useQuery({
+  const { data: chartData = {} as ExecutiveChartData } = useQuery<ExecutiveChartData>({
     queryKey: ['executive-charts', dateRange, period],
-    queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/executive-charts', {
+    queryFn: async (): Promise<ExecutiveChartData> => {
+      const response = await apiClient.get<ApiResponse<ExecutiveChartData>>('/analytics-service/executive-charts', {
         params: {
           startDate: dateRange.start,
           endDate: dateRange.end,
           period,
         },
       });
-      return response.data || {
+      return response.data ?? {
         patientsEvolution: [],
         revenueExpense: [],
         serviceDistribution: [],

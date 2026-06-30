@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import {
-  BarChart3, LineChart, PieChart, Users, Stethoscope, Building2, Pill, Beaker,
-  Microscope, Droplet, Heart, DollarSign, UserCheck, TrendingUp, AlertCircle,
-  FileText, ChevronLeft, ChevronRight
+  BarChart3, Users, Stethoscope, Building2, Pill, Beaker,
+  Microscope, Droplet, Heart, DollarSign, UserCheck, TrendingUp,
+  FileText, ChevronLeft, ChevronRight, Activity, CheckCircle2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -41,8 +40,6 @@ const navItems: NavItem[] = [
   { id: 'satisfaction', label: 'Satisfaction', icon: Heart, color: 'text-rose-600' },
   { id: 'reports', label: 'Rapports', icon: FileText, color: 'text-slate-600' },
 ];
-
-import { CheckCircle2 } from 'lucide-react';
 
 export function AnalyticsLayout({ children, currentSection, onSectionChange }: AnalyticsLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);

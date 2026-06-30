@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Controller } from "react-hook-form";
+import { Controller, type Control, type ControllerProps, type FieldPath, type FieldValues } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 
 const Form = React.forwardRef<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>(
@@ -40,34 +40,37 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
 );
 FormMessage.displayName = "FormMessage";
 
-interface FormFieldProps<T = any> {
-  control?: any;
-  name: string;
-  render: (props: { field: any }) => React.ReactNode;
-  defaultValue?: any;
-  rules?: any;
-  shouldUnregister?: boolean;
-}
+type FormFieldProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = {
+  control?: Control<TFieldValues>;
+  name: TName;
+  render: ControllerProps<TFieldValues, TName>["render"];
+  defaultValue?: ControllerProps<TFieldValues, TName>["defaultValue"];
+  rules?: ControllerProps<TFieldValues, TName>["rules"];
+  shouldUnregister?: ControllerProps<TFieldValues, TName>["shouldUnregister"];
+};
 
-const FormField = React.forwardRef<React.ElementRef<any>, FormFieldProps>(
-  ({ control, name, render, defaultValue, rules, shouldUnregister, ...props }, ref) => {
-    if (!control) {
-      console.warn(`FormField: control prop is missing for field "${name}"`);
-      return null;
-    }
-    return (
-      <Controller
-        name={name}
-        control={control}
-        defaultValue={defaultValue}
-        rules={rules}
-        shouldUnregister={shouldUnregister}
-        render={({ field }) => render({ field })}
-        {...props}
-      />
-    );
+function FormField<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({ control, name, render, defaultValue, rules, shouldUnregister }: FormFieldProps<TFieldValues, TName>) {
+  if (!control) {
+    console.warn(`FormField: control prop is missing for field "${String(name)}"`);
+    return null;
   }
-);
+  return (
+    <Controller
+      name={name}
+      control={control}
+      defaultValue={defaultValue}
+      rules={rules}
+      shouldUnregister={shouldUnregister}
+      render={render}
+    />
+  );
+}
 FormField.displayName = "FormField";
 
 export {

@@ -228,6 +228,15 @@ public class IdentityService {
         return toDto(saved);
     }
 
+    @Transactional
+    public AppUserDto updatePermissions(Long id, List<String> permissions) {
+        // Placeholder for permission management integration.
+        // Currently, permissions are not persisted in this service.
+        log.info("Updating permissions for user {}: {}", id, permissions);
+        // Return the user DTO after (no) changes.
+        return toDto(getRequiredUser(id));
+    }
+
     public List<AppUserDto> usersByRole(String roleName) {
         Role role = parseRole(roleName);
         return userRepository.findByRole(role, sortedUsers()).stream()

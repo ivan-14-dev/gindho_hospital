@@ -35,7 +35,11 @@ export function RegisterPage() {
         nom: formData.nom,
         prenom: formData.prenom,
       });
-      localStorage.setItem('token', response.token);
+      const token = response.accessToken ?? response.token;
+      if (!token) {
+        throw new Error('Token d\'inscription manquant');
+      }
+      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(response.user));
       navigate('/');
     } catch (err) {

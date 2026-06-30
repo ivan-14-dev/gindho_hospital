@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Video, Phone, Clock, Calendar, User, MessageSquare, Pill, Share2 } from 'lucide-react';
+import { Plus, Video, Phone, Clock, Calendar, User, Share2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { createFormResolver } from '@/lib/validations';
 import {
   Form,
   FormControl,
@@ -17,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { apiClient } from '@/lib/api-client';
 import type { Appointment } from '@/types';
@@ -45,7 +44,7 @@ function ScheduleDialog() {
   const [open, setOpen] = useState(false);
 
   const form = useForm<TeleconsultFormData>({
-    resolver: zodResolver(teleconsultSchema),
+    resolver: createFormResolver(teleconsultSchema),
     defaultValues: {
       dureeMinutes: 30,
     },
@@ -169,7 +168,6 @@ function ConsultationCard({ appointment }: { appointment: Appointment }) {
     color: 'bg-gray-100',
     icon: Phone 
   };
-  const Icon = config.icon;
 
   return (
     <Card>

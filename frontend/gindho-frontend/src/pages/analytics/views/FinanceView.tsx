@@ -12,7 +12,7 @@ export function FinanceView() {
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: financeData, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ['finance-data', dateRange, period, filters],
     queryFn: async () => {
       const response = await apiClient.get('/analytics-service/finance', {

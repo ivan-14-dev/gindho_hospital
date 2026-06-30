@@ -32,6 +32,14 @@ interface ChatConversation {
   status?: 'active' | 'archived';
 }
 
+interface ConversationsResponse {
+  data: ChatConversation[];
+}
+
+interface MessagesResponse {
+  data: ChatMessage[];
+}
+
 export default function Chat() {
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,7 +52,7 @@ export default function Chat() {
       const params = new URLSearchParams({
         unreadOnly: filterUnread.toString(),
       });
-      const response = await apiClient.get(`/chat-service/conversations?${params.toString()}`);
+      const response = await apiClient.get<ConversationsResponse>(`/chat-service/conversations?${params.toString()}`);
       return response.data || [];
     },
   });
@@ -53,7 +61,7 @@ export default function Chat() {
     queryKey: ['chat-messages', selectedConversation],
     queryFn: async () => {
       if (!selectedConversation) return [];
-      const response = await apiClient.get(`/chat-service/messages/${selectedConversation}`);
+      const response = await apiClient.get<MessagesResponse>(`/chat-service/messages/${selectedConversation}`);
       return response.data || [];
     },
     enabled: !!selectedConversation,
@@ -77,7 +85,7 @@ export default function Chat() {
 
   const archiveConvMutation = useMutation({
     mutationFn: async (conversationId: string) => {
-      await apiClient.put(`/chat-service/conversations/${conversationId}/archive`);
+      await apiClient.put(`/chat-service/conversations/${conversationId}/archive`, {});
     },
     onSuccess: () => {
       refetchConversations();
@@ -87,18 +95,20 @@ export default function Chat() {
 
   const markAsReadMutation = useMutation({
     mutationFn: async (conversationId: string) => {
-      await apiClient.put(`/chat-service/conversations/${conversationId}/read`);
+      await apiClient.put(`/chat-service/conversations/${conversationId}/read`, {});
     },
     onSuccess: () => {
       refetchConversations();
     },
   });
 
-  const filteredConversations = conversations.filter((conv: ChatConversation) =>
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const filteredConversations = (conversations as ChatConversation[]).filter((conv: ChatConversation) =>
     conv.participantName?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const selectedConv = conversations.find((c: ChatConversation) => c.id === selectedConversation);
+  const selectedConv = (conversations as ChatConversation[]).find((c: ChatConversation) => c.id === selectedConversation);
   const currentMessages = messages as ChatMessage[];
 
   return (
@@ -109,8 +119,8 @@ export default function Chat() {
           <div className="p-4 border-b">
             <h2 className="text-lg font-semibold mb-3">Messages</h2>
             <div className="space-y-3">
-              <div className="flex gap-2">
-                <Search className="h-4 w-4 absolute mt-2.5 ml-2 text-muted-foreground" />
+              <div className="relative">
+                <Search className="h-4 w-4 absolute top-2.5 left-2 text-muted-foreground" />
                 <Input
                   placeholder="Search conversations..."
                   value={searchQuery}
@@ -185,8 +195,8 @@ export default function Chat() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Dialog>
-                    <DialogTrigger asChild>
+                  <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <DialogTrigger>
                       <Button size="sm" variant="outline">
                         <Eye className="h-4 w-4" />
                       </Button>

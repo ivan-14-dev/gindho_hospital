@@ -3,31 +3,6 @@ import { useCallback } from 'react';
 import * as api from '@/services/api.service';
 import type {
   Patient,
-  Appointment,
-  MedicalRecord,
-  LaboratoryTest,
-  ImagingRequest,
-  PharmacyInventory,
-  Admission,
-  Discharge,
-  Ward,
-  Bed,
-  SurgerySchedule,
-  Invoice,
-  Payment,
-  InventoryItem,
-  ProcurementOrder,
-  Employee,
-  Schedule,
-  Leave,
-  AmbulanceRequest,
-  Notification,
-  AuditLog,
-  MedicalRound,
-  QualityIncident,
-  PaginatedResponse,
-  User,
-  AuthResponse,
 } from '@/types';
 
 // ===== CONSTANTS =====
@@ -143,7 +118,7 @@ export const useLogin = () => {
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       api.authApi.login(email, password),
     onSuccess: (data) => {
-      localStorage.setItem('token', data.accessToken || data.token);
+      localStorage.setItem('token', (data.accessToken || data.token) ?? '');
       if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
       queryClient.setQueryData(QUERY_KEYS.AUTH_USER, data.user);
     },
@@ -271,7 +246,7 @@ export const useCreateConsultation = () => {
   
   return useMutation({
     mutationFn: (data: any) => api.medicalRecordsApi.createConsultation(data),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.MEDICAL_RECORDS });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CONSULTATIONS });
     },

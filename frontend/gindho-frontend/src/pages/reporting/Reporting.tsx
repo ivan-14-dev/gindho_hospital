@@ -9,10 +9,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import {
-  FileText, Download, Filter, Plus, Eye, Trash2, Calendar, Settings,
-  BarChart3, PieChart as PieChartIcon, TrendingUp
+  FileText, Download, Plus, Eye, Trash2
 } from 'lucide-react';
 import { apiClient } from '@/lib/api-client';
+import type { ApiResponse } from '@/types';
 
 interface Report {
   id: string;
@@ -33,13 +33,13 @@ export default function Reporting() {
   const [reportType, setReportType] = useState('PATIENT_SUMMARY');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
 
-  const { data: reports = [], isLoading, refetch } = useQuery({
+  const { data: reports = [], isLoading, refetch } = useQuery<Report[]>({
     queryKey: ['reports', filterType],
-    queryFn: async () => {
-      const response = await apiClient.get('/reporting-service/reports', {
+    queryFn: async (): Promise<Report[]> => {
+      const response = await apiClient.get<ApiResponse<Report[]>>('/reporting-service/reports', {
         params: { type: filterType !== 'all' ? filterType : undefined },
       });
-      return response.data || [];
+      return response.data ?? [];
     },
   });
 
@@ -69,10 +69,10 @@ export default function Reporting() {
 
   const downloadReportMutation = useMutation({
     mutationFn: async (report: Report) => {
-      const response = await apiClient.get(`/reporting-service/reports/${report.id}/download`, {
+      const response = await apiClient.get<Blob>(`/reporting-service/reports/${report.id}/download`, {
         responseType: 'blob',
       });
-      const url = window.URL.createObjectURL(response.data);
+      const url = window.URL.createObjectURL(response);
       const link = document.createElement('a');
       link.href = url;
       link.download = `${report.titre}.${report.format}`;

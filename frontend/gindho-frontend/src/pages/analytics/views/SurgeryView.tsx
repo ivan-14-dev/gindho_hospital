@@ -8,12 +8,27 @@ import { apiClient } from '@/lib/api-client';
 import { Heart, Clock, TrendingUp, Users } from 'lucide-react';
 import { useState } from 'react';
 
+interface MetricsData {
+  surgiesThisMonth?: number;
+  surgiestoday?: number;
+  avgDuration?: number;
+  successRate?: number;
+  [key: string]: unknown;
+}
+
+interface ChartData {
+  surgeriesPerDay?: any[];
+  typeDistribution?: any[];
+  surgeryDuration?: any[];
+  [key: string]: any;
+}
+
 export function SurgeryView() {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-06-30' });
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: metrics = {} } = useQuery({
+  const { data: metrics = {} as MetricsData } = useQuery({
     queryKey: ['surgery-metrics', dateRange, period, filters],
     queryFn: async () => {
       const start = String(dateRange.start);
@@ -24,12 +39,12 @@ export function SurgeryView() {
         period: period,
         ...filters,
       });
-      const response = await apiClient.get(`/analytics-service/surgery-metrics?${params.toString()}`);
+      const response = await apiClient.get<{ data?: MetricsData }>(`/analytics-service/surgery-metrics?${params.toString()}`);
       return response.data || {};
     },
   });
 
-  const { data: chartData = {} } = useQuery({
+  const { data: chartData = {} as ChartData } = useQuery({
     queryKey: ['surgery-charts', dateRange],
     queryFn: async () => {
       const start = String(dateRange.start);
@@ -38,7 +53,7 @@ export function SurgeryView() {
         startDate: start,
         endDate: end,
       });
-      const response = await apiClient.get(`/analytics-service/surgery-charts?${params.toString()}`);
+      const response = await apiClient.get<{ data?: ChartData }>(`/analytics-service/surgery-charts?${params.toString()}`);
       return response.data || { surgeriesPerDay: [], typeDistribution: [], surgeryDuration: [] };
     },
   });
@@ -67,9 +82,9 @@ export function SurgeryView() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {chartData.surgeriesPerDay?.length > 0 && (<LineChartComponent title="Chirurgies par Jour" data={chartData.surgeriesPerDay} icon={<Heart className="h-4 w-4 text-red-600" />} height={300} />)}
-        {chartData.typeDistribution?.length > 0 && (<BarChartComponent title="Types de Chirurgies" data={chartData.typeDistribution} icon={<Users className="h-4 w-4 text-green-600" />} height={300} />)}
-        {chartData.surgeryDuration?.length > 0 && (<LineChartComponent title="Durée Chirurgies" data={chartData.surgeryDuration} icon={<Clock className="h-4 w-4 text-orange-600" />} height={300} />)}
+        {chartData.surgeriesPerDay && chartData.surgeriesPerDay.length > 0 && (<LineChartComponent title="Chirurgies par Jour" data={chartData.surgeriesPerDay} icon={<Heart className="h-4 w-4 text-red-600" />} height={300} />)}
+        {chartData.typeDistribution && chartData.typeDistribution.length > 0 && (<BarChartComponent title="Types de Chirurgies" data={chartData.typeDistribution} icon={<Users className="h-4 w-4 text-green-600" />} height={300} />)}
+        {chartData.surgeryDuration && chartData.surgeryDuration.length > 0 && (<LineChartComponent title="Durée Chirurgies" data={chartData.surgeryDuration} icon={<Clock className="h-4 w-4 text-orange-600" />} height={300} />)}
       </div>
     </div>
   );

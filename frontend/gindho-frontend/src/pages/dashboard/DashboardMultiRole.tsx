@@ -1,14 +1,12 @@
-import { useDashboardStats, useAuth, useActiveAdmissions, useQualityIncidents, useNotifications, useInventoryAlerts } from '@/hooks/use-api';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useDashboardStats, useAuth, useQualityIncidents, useInventoryAlerts } from '@/hooks/use-api';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Users, Bed, AlertTriangle, TrendingUp, Clock, FileText, AlertCircle, CheckCircle, Activity } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Users, AlertTriangle, AlertCircle } from 'lucide-react';
 
 function AdminDashboard() {
-  const { data: stats, isLoading } = useDashboardStats();
-  const { data: admissions } = useActiveAdmissions();
+  const { isLoading } = useDashboardStats();
   const { data: incidents } = useQualityIncidents();
   const { data: alerts } = useInventoryAlerts();
 

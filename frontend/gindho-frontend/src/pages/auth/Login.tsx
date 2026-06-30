@@ -21,7 +21,11 @@ export function LoginPage() {
     try {
       // Note: Login returns token and user in a single object
       const loginResult = await loginMutation.mutateAsync({ email, password });
-      localStorage.setItem('token', loginResult.token);
+      const token = loginResult.accessToken ?? loginResult.token;
+      if (!token) {
+        throw new Error('Token de connexion manquant');
+      }
+      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(loginResult.user));
       navigate('/');
     } catch (err) {

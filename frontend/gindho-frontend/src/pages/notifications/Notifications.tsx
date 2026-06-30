@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Trash2, Check, Filter, AlertCircle, Info, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Bell, Trash2, Check, AlertCircle, Info, CheckCircle, AlertTriangle } from 'lucide-react';
 import { apiClient } from '@/lib/api-client';
 
 interface Notification {
@@ -23,17 +23,17 @@ interface Notification {
 
 export default function Notifications() {
   const [filterType, setFilterType] = useState<'all' | 'unread' | 'important'>('all');
-  const [selectedNotif, setSelectedNotif] = useState<Notification | null>(null);
+  const [_selectedNotif, setSelectedNotif] = useState<Notification | null>(null);
 
-  const { data: notifications = [], isLoading, refetch } = useQuery({
+  const { data: notifications = [], isLoading, refetch } = useQuery<Notification[]>({
     queryKey: ['notifications', filterType],
     queryFn: async () => {
       const params = new URLSearchParams({
-        unreadOnly: filterType === 'unread',
-        importantOnly: filterType === 'important',
+        unreadOnly: String(filterType === 'unread'),
+        importantOnly: String(filterType === 'important'),
       });
-      const response = await apiClient.get(`/notification-service/notifications?${params.toString()}`);
-      return response.data || [];
+      const response = await apiClient.get<Notification[]>(`/notification-service/notifications?${params.toString()}`);
+      return response || [];
     },
   });
 

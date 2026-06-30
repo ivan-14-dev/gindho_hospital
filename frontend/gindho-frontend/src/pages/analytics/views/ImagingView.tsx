@@ -1,18 +1,33 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { KPICard } from '../components/KPICard';
-import { LineChartComponent, BarChartComponent, PieChartComponent } from '../components/Charts';
+import { LineChartComponent, PieChartComponent } from '../components/Charts';
 import { FilterBar } from '../components/FilterBar';
 import { apiClient } from '@/lib/api-client';
 import { Camera, Clock, TrendingUp, Users } from 'lucide-react';
 import { useState } from 'react';
+
+interface MetricsData {
+  totalExams?: number;
+  examsToday?: number;
+  avgTurnaround?: number;
+  qualityRate?: number;
+  [key: string]: unknown;
+}
+
+interface ChartData {
+  examsPerDay?: any[];
+  modalityDistribution?: any[];
+  turnaroundTime?: any[];
+  [key: string]: any;
+}
 
 export function ImagingView() {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-06-30' });
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: metrics = {} } = useQuery({
+  const { data: metrics = {} as MetricsData } = useQuery({
     queryKey: ['imaging-metrics', dateRange, period, filters],
     queryFn: async () => {
       const start = String(dateRange.start);
@@ -23,12 +38,12 @@ export function ImagingView() {
         period: period,
         ...filters,
       });
-      const response = await apiClient.get(`/analytics-service/imaging-metrics?${params.toString()}`);
+      const response = await apiClient.get<{ data?: MetricsData }>(`/analytics-service/imaging-metrics?${params.toString()}`);
       return response.data || {};
     },
   });
 
-  const { data: chartData = {} } = useQuery({
+  const { data: chartData = {} as ChartData } = useQuery({
     queryKey: ['imaging-charts', dateRange],
     queryFn: async () => {
       const start = String(dateRange.start);
@@ -37,7 +52,7 @@ export function ImagingView() {
         startDate: start,
         endDate: end,
       });
-      const response = await apiClient.get(`/analytics-service/imaging-charts?${params.toString()}`);
+      const response = await apiClient.get<{ data?: ChartData }>(`/analytics-service/imaging-charts?${params.toString()}`);
       return response.data || { examsPerDay: [], modalityDistribution: [], turnaroundTime: [] };
     },
   });
@@ -55,8 +70,8 @@ export function ImagingView() {
       <FilterBar dateRange={dateRange} onDateRangeChange={setDateRange} period={period} onPeriodChange={setPeriod} filters={filters} onFilterChange={(k, v) => setFilters({ ...filters, [k]: v })} onClearFilters={() => setFilters({})} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">{kpiData.map((kpi, idx) => (<KPICard key={idx} {...kpi} />))}</div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {chartData.examsPerDay?.length > 0 && (<LineChartComponent title="Examens par Jour" data={chartData.examsPerDay} icon={<Camera className="h-4 w-4 text-blue-600" />} height={300} />)}
-        {chartData.modalityDistribution?.length > 0 && (<PieChartComponent title="Types d'Examens" data={chartData.modalityDistribution} icon={<Users className="h-4 w-4 text-green-600" />} height={300} />)}
+        {chartData.examsPerDay && chartData.examsPerDay.length > 0 && (<LineChartComponent title="Examens par Jour" data={chartData.examsPerDay} icon={<Camera className="h-4 w-4 text-blue-600" />} height={300} />)}
+        {chartData.modalityDistribution && chartData.modalityDistribution.length > 0 && (<PieChartComponent title="Types d'Examens" data={chartData.modalityDistribution} icon={<Users className="h-4 w-4 text-green-600" />} height={300} />)}
       </div>
     </div>
   );

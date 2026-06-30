@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertCircle, Plus, Calendar, Clock, User, Scalpel } from 'lucide-react';
+import { AlertCircle, Plus, Calendar, Clock, Scissors } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { SurgerySchedule } from '@/types';
 
 const surgerySchema = z.object({
@@ -186,7 +185,7 @@ function SurgeryDialog() {
 }
 
 function SurgeryCard({ surgery }: { surgery: SurgerySchedule }) {
-  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
+  const [_updatingStatus, setUpdatingStatus] = useState<string | null>(null);
   const updateStatus = useUpdateSurgeryStatus();
 
   const statusConfig = {
@@ -213,7 +212,7 @@ function SurgeryCard({ surgery }: { surgery: SurgerySchedule }) {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Scalpel className="h-5 w-5 text-muted-foreground" />
+            <Scissors className="h-5 w-5 text-muted-foreground" />
             <div>
               <CardTitle>{surgery.typeIntervention}</CardTitle>
               <CardDescription>Patient: {surgery.patientId}</CardDescription>

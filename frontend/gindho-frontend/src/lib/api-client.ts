@@ -23,7 +23,7 @@ class ApiClient {
 
   async request<T>(
     path: string,
-    options: RequestInit & { params?: Record<string, unknown> } = {},
+    options: RequestInit & { params?: Record<string, unknown>; responseType?: 'blob' | 'arraybuffer' } = {},
     retryCount = 0
   ): Promise<T> {
     const token = localStorage.getItem('token');
@@ -107,32 +107,32 @@ class ApiClient {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  get<T>(path: string): Promise<T> {
-    return this.request<T>(path, { method: 'GET' });
+  get<T = Record<string, unknown>>(path: string, options?: { params?: Record<string, unknown>; responseType?: 'blob' | 'arraybuffer' }): Promise<T> {
+    return this.request<T>(path, { method: 'GET', ...options });
   }
 
-  post<T>(path: string, body: unknown): Promise<T> {
+  post<T = Record<string, unknown>>(path: string, body: unknown): Promise<T> {
     return this.request<T>(path, {
       method: 'POST',
       body: JSON.stringify(body),
     });
   }
 
-  put<T>(path: string, body: unknown): Promise<T> {
+  put<T = Record<string, unknown>>(path: string, body?: unknown): Promise<T> {
     return this.request<T>(path, {
       method: 'PUT',
-      body: JSON.stringify(body),
+      body: body !== undefined ? JSON.stringify(body) : undefined,
     });
   }
 
-  patch<T>(path: string, body: unknown): Promise<T> {
+  patch<T = Record<string, unknown>>(path: string, body: unknown): Promise<T> {
     return this.request<T>(path, {
       method: 'PATCH',
       body: JSON.stringify(body),
     });
   }
 
-  delete<T>(path: string): Promise<T> {
+  delete<T = Record<string, unknown>>(path: string): Promise<T> {
     return this.request<T>(path, { method: 'DELETE' });
   }
 }

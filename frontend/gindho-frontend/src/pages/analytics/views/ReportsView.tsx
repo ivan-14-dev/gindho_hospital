@@ -1,22 +1,29 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { KPICard } from '../components/KPICard';
-import { LineChartComponent, BarChartComponent } from '../components/Charts';
 import { FilterBar } from '../components/FilterBar';
 import { Button } from '@/components/ui/button';
 import { apiClient } from '@/lib/api-client';
 import { FileText, Download, Calendar, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 
+interface MetricsData {
+  reportsGenerated?: number;
+  monthlyUsage?: number;
+  scheduledReports?: number;
+  downloads?: number;
+  [key: string]: unknown;
+}
+
 export function ReportsView() {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-06-30' });
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: metrics = {} } = useQuery({
+  const { data: metrics = {} as MetricsData } = useQuery({
     queryKey: ['reports-metrics', dateRange, period, filters],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/reports-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });
+      const response = await apiClient.get<{ data?: MetricsData }>('/analytics-service/reports-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });
       return response.data || {};
     },
   });

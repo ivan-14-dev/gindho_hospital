@@ -1,4 +1,11 @@
 import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { FieldValues, Resolver } from 'react-hook-form';
+
+/** Bridges Zod 4 + react-hook-form resolver typing (coerce fields infer as unknown input). */
+export function createFormResolver<T extends FieldValues>(schema: z.ZodType<T>): Resolver<T> {
+  return zodResolver(schema as never) as unknown as Resolver<T>;
+}
 
 // Schéma de connexion
 export const loginSchema = z.object({

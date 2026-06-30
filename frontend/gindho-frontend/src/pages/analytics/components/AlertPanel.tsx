@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AlertCircle, AlertTriangle, AlertOctagon } from 'lucide-react';
-import { Anomaly, getAnomalyStats } from '../hooks/useAnomalyDetection';
+import { getAnomalyStats, type Anomaly } from '../hooks/useAnomalyDetection';
 
 interface AlertPanelProps {
   anomalies: Anomaly[];

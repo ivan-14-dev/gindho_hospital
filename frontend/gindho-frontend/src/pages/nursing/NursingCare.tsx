@@ -6,10 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Activity, Pill, Clock, AlertCircle, CheckCircle, TrendingUp, Heart } from 'lucide-react';
+import { Plus, Clock, CheckCircle, Heart } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { createFormResolver } from '@/lib/validations';
 import {
   Form,
   FormControl,
@@ -20,7 +20,6 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { apiClient } from '@/lib/api-client';
-import type { Patient, Admission } from '@/types';
 
 const vitalSignSchema = z.object({
   patientId: z.string().min(1, 'Patient requis'),
@@ -72,7 +71,7 @@ function VitalSignDialog() {
   const [open, setOpen] = useState(false);
 
   const form = useForm<VitalSignData>({
-    resolver: zodResolver(vitalSignSchema),
+    resolver: createFormResolver(vitalSignSchema),
   });
 
   async function onSubmit(data: VitalSignData) {
@@ -234,7 +233,7 @@ function CareTaskDialog() {
   const [open, setOpen] = useState(false);
 
   const form = useForm<CareTaskData>({
-    resolver: zodResolver(careTaskSchema),
+    resolver: createFormResolver(careTaskSchema),
     defaultValues: {
       priority: 'medium',
     },
@@ -434,31 +433,31 @@ function CareTaskItem({ task, onToggle }: { task: CareTask; onToggle: (id: strin
 }
 
 export default function NursingCare() {
-  const { data: hospitalizations } = useQuery({
+  const { data: hospitalizations = [] } = useQuery<Array<{ id: string; nom?: string; prenom?: string }>>({
     queryKey: ['nursing-patients'],
     queryFn: async () => {
-      const res = await apiClient.get('/nursing/assigned-patients');
-      return res.data;
+      const res = await apiClient.get<Array<{ id: string; nom?: string; prenom?: string }>>('/nursing/assigned-patients');
+      return res ?? [];
     },
   });
 
   const { data: vitalSigns } = useQuery({
     queryKey: ['vital-signs'],
     queryFn: async () => {
-      const res = await apiClient.get('/nursing/vital-signs');
-      return res.data as VitalSigns[];
+      const res = await apiClient.get<VitalSigns[]>('/nursing/vital-signs');
+      return res ?? [];
     },
   });
 
   const { data: careTasks } = useQuery({
     queryKey: ['care-tasks'],
     queryFn: async () => {
-      const res = await apiClient.get('/nursing/care-tasks');
-      return res.data as CareTask[];
+      const res = await apiClient.get<CareTask[]>('/nursing/care-tasks');
+      return res ?? [];
     },
   });
 
-  const assignedPatients = hospitalizations || [];
+  const assignedPatients = hospitalizations;
   const activeTasks = careTasks?.filter(t => !t.completed) || [];
   const completedTodayCount = careTasks?.filter(t => t.completed).length || 0;
 
@@ -528,7 +527,7 @@ export default function NursingCare() {
                   <CareTaskItem
                     key={task.id}
                     task={task}
-                    onToggle={(id) => {
+                    onToggle={(_id) => {
                       // Handle toggle
                     }}
                   />

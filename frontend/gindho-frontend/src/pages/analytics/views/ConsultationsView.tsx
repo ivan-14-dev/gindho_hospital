@@ -5,15 +5,28 @@ import { KPICard } from '../components/KPICard';
 import { LineChartComponent, BarChartComponent } from '../components/Charts';
 import { FilterBar } from '../components/FilterBar';
 import { apiClient } from '@/lib/api-client';
-import { Stethoscope, Clock, TrendingUp, Users } from 'lucide-react';
+import { Stethoscope, Clock, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
+
+interface ConsultationsMetrics {
+  totalConsultations?: number;
+  todayConsultations?: number;
+  avgWaitTime?: number;
+  utilisationRate?: number;
+}
+
+interface ConsultationsChartData {
+  consultsPerDay?: unknown[];
+  specialityDistribution?: unknown[];
+  waitTimes?: unknown[];
+}
 
 export function ConsultationsView() {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-06-30' });
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: metrics = {} } = useQuery({
+  const { data: metrics = {} as ConsultationsMetrics } = useQuery<ConsultationsMetrics>({
     queryKey: ['consultations-metrics', dateRange, period, filters],
     queryFn: async () => {
       const response = await apiClient.get('/analytics-service/consultations-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });
@@ -21,7 +34,7 @@ export function ConsultationsView() {
     },
   });
 
-  const { data: chartData = {} } = useQuery({
+  const { data: chartData = {} as ConsultationsChartData } = useQuery<ConsultationsChartData>({
     queryKey: ['consultations-charts', dateRange],
     queryFn: async () => {
       const response = await apiClient.get('/analytics-service/consultations-charts', { params: { startDate: dateRange.start, endDate: dateRange.end } });
@@ -53,9 +66,9 @@ export function ConsultationsView() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {chartData.consultsPerDay?.length > 0 && (<LineChartComponent title="Consultations par Jour" data={chartData.consultsPerDay} icon={<Clock className="h-4 w-4 text-blue-600" />} height={300} />)}
-        {chartData.specialityDistribution?.length > 0 && (<BarChartComponent title="Distribution par Spécialité" data={chartData.specialityDistribution} icon={<Stethoscope className="h-4 w-4 text-green-600" />} height={300} />)}
-        {chartData.waitTimes?.length > 0 && (<LineChartComponent title="Temps d'Attente" data={chartData.waitTimes} icon={<TrendingUp className="h-4 w-4 text-orange-600" />} height={300} />)}
+        {(chartData.consultsPerDay?.length ?? 0) > 0 && (<LineChartComponent title="Consultations par Jour" data={chartData.consultsPerDay!} icon={<Clock className="h-4 w-4 text-blue-600" />} height={300} />)}
+        {(chartData.specialityDistribution?.length ?? 0) > 0 && (<BarChartComponent title="Distribution par Spécialité" data={chartData.specialityDistribution!} icon={<Stethoscope className="h-4 w-4 text-green-600" />} height={300} />)}
+        {(chartData.waitTimes?.length ?? 0) > 0 && (<LineChartComponent title="Temps d'Attente" data={chartData.waitTimes!} icon={<TrendingUp className="h-4 w-4 text-orange-600" />} height={300} />)}
       </div>
     </div>
   );

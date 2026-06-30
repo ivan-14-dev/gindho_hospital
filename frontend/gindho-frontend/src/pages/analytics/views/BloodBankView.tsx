@@ -1,18 +1,24 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { KPICard } from '../components/KPICard';
-import { LineChartComponent, BarChartComponent, PieChartComponent } from '../components/Charts';
 import { FilterBar } from '../components/FilterBar';
 import { apiClient } from '@/lib/api-client';
-import { Droplet, AlertCircle, TrendingUp, Package } from 'lucide-react';
+import { Droplet, AlertCircle, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
+
+interface BloodBankMetrics {
+  totalStock?: number;
+  transfusionsMonth?: number;
+  criticalStock?: number;
+  usageRate?: number;
+}
 
 export function BloodBankView() {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-06-30' });
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: metrics = {} } = useQuery({
+  const { data: metrics = {} as BloodBankMetrics } = useQuery<BloodBankMetrics>({
     queryKey: ['bloodbank-metrics', dateRange, period, filters],
     queryFn: async () => {
       const response = await apiClient.get('/analytics-service/bloodbank-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });

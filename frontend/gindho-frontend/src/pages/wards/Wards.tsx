@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useWards, useBedsByWard } from '@/hooks/use-api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertCircle, Users, Bed, Wind, Zap } from 'lucide-react';
-import type { Ward, Bed } from '@/types';
+import { AlertCircle, Users, Wind, Zap, Bed } from 'lucide-react';
+import type { Ward, Bed as BedType } from '@/types';
 
 function BedStatusIcon({ status }: { status: string }) {
   switch (status) {
@@ -22,7 +20,7 @@ function BedStatusIcon({ status }: { status: string }) {
   }
 }
 
-function BedCard({ bed }: { bed: Bed }) {
+function BedCard({ bed }: { bed: BedType }) {
   const statusConfig = {
     available: { label: 'Disponible', color: 'bg-green-100 text-green-800' },
     occupied: { label: 'Occupé', color: 'bg-red-100 text-red-800' },

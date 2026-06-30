@@ -8,23 +8,38 @@ import { apiClient } from '@/lib/api-client';
 import { Bed, TrendingUp, Clock, Users } from 'lucide-react';
 import { useState } from 'react';
 
+interface MetricsData {
+  currentlyHospitalized?: number;
+  admissionsToday?: number;
+  avgStay?: number;
+  occupancyRate?: number;
+  [key: string]: unknown;
+}
+
+interface ChartData {
+  occupancyTrend?: any[];
+  lengthOfStay?: any[];
+  bedAvailability?: any[];
+  [key: string]: any;
+}
+
 export function HospitalizationsView() {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-06-30' });
   const [period, setPeriod] = useState<'day' | 'week' | 'month' | 'year' | 'custom'>('month');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const { data: metrics = {} } = useQuery({
+  const { data: metrics = {} as MetricsData } = useQuery({
     queryKey: ['hospitalizations-metrics', dateRange, period, filters],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/hospitalizations-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });
+      const response = await apiClient.get<{ data?: MetricsData }>('/analytics-service/hospitalizations-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });
       return response.data || {};
     },
   });
 
-  const { data: chartData = {} } = useQuery({
+  const { data: chartData = {} as ChartData } = useQuery({
     queryKey: ['hospitalizations-charts', dateRange],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/hospitalizations-charts', { params: { startDate: dateRange.start, endDate: dateRange.end } });
+      const response = await apiClient.get<{ data?: ChartData }>('/analytics-service/hospitalizations-charts', { params: { startDate: dateRange.start, endDate: dateRange.end } });
       return response.data || { occupancyTrend: [], lengthOfStay: [], bedAvailability: [] };
     },
   });
@@ -53,9 +68,9 @@ export function HospitalizationsView() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {chartData.occupancyTrend?.length > 0 && (<AreaChartComponent title="Tendance Occupation" data={chartData.occupancyTrend} icon={<Bed className="h-4 w-4 text-blue-600" />} height={300} />)}
-        {chartData.lengthOfStay?.length > 0 && (<BarChartComponent title="Durée de Séjour" data={chartData.lengthOfStay} icon={<Clock className="h-4 w-4 text-green-600" />} height={300} />)}
-        {chartData.bedAvailability?.length > 0 && (<LineChartComponent title="Disponibilité Lits" data={chartData.bedAvailability} icon={<TrendingUp className="h-4 w-4 text-orange-600" />} height={300} />)}
+        {(chartData.occupancyTrend?.length ?? 0) > 0 && (<AreaChartComponent title="Tendance Occupation" data={chartData.occupancyTrend!} icon={<Bed className="h-4 w-4 text-blue-600" />} height={300} />)}
+        {(chartData.lengthOfStay?.length ?? 0) > 0 && (<BarChartComponent title="Durée de Séjour" data={chartData.lengthOfStay!} icon={<Clock className="h-4 w-4 text-green-600" />} height={300} />)}
+        {(chartData.bedAvailability?.length ?? 0) > 0 && (<LineChartComponent title="Disponibilité Lits" data={chartData.bedAvailability!} icon={<TrendingUp className="h-4 w-4 text-orange-600" />} height={300} />)}
       </div>
     </div>
   );

@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Package, Wrench, TrendingDown, AlertTriangle, CheckCircle, Calendar } from 'lucide-react';
+import { Plus, Package, Wrench, AlertTriangle, Calendar } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { createFormResolver } from '@/lib/validations';
 import {
   Form,
   FormControl,
@@ -63,11 +63,19 @@ interface MaintenanceLog {
   technician?: string;
 }
 
+interface AssetsResponse {
+  data: Asset[];
+}
+
+interface MaintenanceResponse {
+  data: MaintenanceLog[];
+}
+
 function AddAssetDialog() {
   const [open, setOpen] = useState(false);
 
   const form = useForm<AssetFormData>({
-    resolver: zodResolver(assetSchema),
+    resolver: createFormResolver(assetSchema),
   });
 
   async function onSubmit(data: AssetFormData) {
@@ -190,7 +198,7 @@ function ScheduleMaintenanceDialog({ assetId }: { assetId: string }) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<MaintenanceFormData>({
-    resolver: zodResolver(maintenanceSchema),
+    resolver: createFormResolver(maintenanceSchema),
     defaultValues: { assetId },
   });
 
@@ -279,7 +287,7 @@ function ScheduleMaintenanceDialog({ assetId }: { assetId: string }) {
 }
 
 function AssetCard({ asset }: { asset: Asset }) {
-  const statusConfig = {
+  const statusConfig: Record<string, { label: string; color: string }> = {
     active: { label: 'Actif', color: 'bg-green-100 text-green-800' },
     maintenance: { label: 'Maintenance', color: 'bg-yellow-100 text-yellow-800' },
     retired: { label: 'Retraité', color: 'bg-gray-100 text-gray-800' },
@@ -350,7 +358,7 @@ export default function AssetManagement() {
   const { data: assets } = useQuery({
     queryKey: ['assets'],
     queryFn: async () => {
-      const res = await apiClient.get('/assets');
+      const res = await apiClient.get<AssetsResponse>('/assets');
       return res.data as Asset[];
     },
   });
@@ -358,7 +366,7 @@ export default function AssetManagement() {
   const { data: maintenanceLogs } = useQuery({
     queryKey: ['maintenance-logs'],
     queryFn: async () => {
-      const res = await apiClient.get('/assets/maintenance');
+      const res = await apiClient.get<MaintenanceResponse>('/assets/maintenance');
       return res.data as MaintenanceLog[];
     },
   });

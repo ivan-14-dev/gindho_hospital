@@ -15,9 +15,15 @@ export function LaboratoryView() {
   const { data: labData, isLoading } = useQuery({
     queryKey: ['lab-data', dateRange, period, filters],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/laboratory', {
-        params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters },
+      const start = String(dateRange.start);
+      const end = String(dateRange.end);
+      const params = new URLSearchParams({
+        startDate: start,
+        endDate: end,
+        period: period,
+        ...filters,
       });
+      const response = await apiClient.get(`/analytics-service/laboratory?${params.toString()}`);
       return response.data || {};
     },
   });

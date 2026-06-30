@@ -291,7 +291,7 @@ services:
       - name: prometheus
 
   # ================================================================
-  # 8️⃣ HUMAN RESOURCES
+  # HUMAN RESOURCES
   # ================================================================
   - name: hr-service
     url: http://hr-service:9024
@@ -306,7 +306,7 @@ services:
       - name: prometheus
 
   # ================================================================
-  # 9️⃣ NOTIFICATIONS & EVENTS
+  # NOTIFICATIONS & EVENTS
   # ================================================================
   - name: notification-service
     url: http://notification-service:9027
@@ -355,7 +355,7 @@ services:
       - name: prometheus
 
   # ================================================================
-  # 1️⃣1️⃣ INVENTORY & PROCUREMENT
+  # INVENTORY & PROCUREMENT
   # ================================================================
   - name: inventory-service
     url: http://inventory-service:9020
@@ -394,7 +394,7 @@ services:
       - name: prometheus
 
   # ================================================================
-  # 1️⃣2️⃣ SURGERY & ROUNDS
+  #  SURGERY & ROUNDS
   # ================================================================
   - name: surgery-service
     url: http://surgery-service:9012

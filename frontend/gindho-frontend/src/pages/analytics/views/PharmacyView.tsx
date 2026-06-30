@@ -15,9 +15,15 @@ export function PharmacyView() {
   const { data: pharmacyData, isLoading } = useQuery({
     queryKey: ['pharmacy-data', dateRange, period, filters],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/pharmacy', {
-        params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters },
+      const start = String(dateRange.start);
+      const end = String(dateRange.end);
+      const params = new URLSearchParams({
+        startDate: start,
+        endDate: end,
+        period: period,
+        ...filters,
       });
+      const response = await apiClient.get(`/analytics-service/pharmacy?${params.toString()}`);
       return response.data || {};
     },
   });

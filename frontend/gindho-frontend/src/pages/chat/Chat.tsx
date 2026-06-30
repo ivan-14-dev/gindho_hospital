@@ -41,9 +41,10 @@ export default function Chat() {
   const { data: conversations = [], isLoading: conversationsLoading, refetch: refetchConversations } = useQuery({
     queryKey: ['chat-conversations', filterUnread],
     queryFn: async () => {
-      const response = await apiClient.get('/chat-service/conversations', {
-        params: { unreadOnly: filterUnread },
+      const params = new URLSearchParams({
+        unreadOnly: filterUnread.toString(),
       });
+      const response = await apiClient.get(`/chat-service/conversations?${params.toString()}`);
       return response.data || [];
     },
   });

@@ -55,7 +55,7 @@ export function useLogout() {
 
 export function hasPermission(userPermissions: Permission[], requiredPermission: string): boolean {
   return userPermissions.some(
-    (p) => p.permission === requiredPermission ||
+    (p) => p.name === requiredPermission ||
       (p.ressource && p.action && `${p.ressource}:${p.action}` === requiredPermission)
   );
 }

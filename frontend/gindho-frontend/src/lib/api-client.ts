@@ -23,7 +23,7 @@ class ApiClient {
 
   async request<T>(
     path: string,
-    options: RequestInit = {},
+    options: RequestInit & { params?: Record<string, unknown> } = {},
     retryCount = 0
   ): Promise<T> {
     const token = localStorage.getItem('token');
@@ -33,11 +33,26 @@ class ApiClient {
       ...options.headers,
     };
 
+    // Handle query parameters
+    let requestPath = path;
+    if (options.params) {
+      const searchParams = new URLSearchParams();
+      Object.entries(options.params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          searchParams.append(key, String(value));
+        }
+      });
+      const queryString = searchParams.toString();
+      if (queryString) {
+        requestPath += `?${queryString}`;
+      }
+    }
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT);
 
     try {
-      const response = await fetch(`${this.baseUrl}${path}`, {
+      const response = await fetch(`${this.baseUrl}${requestPath}`, {
         ...options,
         headers,
         signal: controller.signal,
@@ -60,6 +75,14 @@ class ApiClient {
         throw new Error(error.message || error.error || `HTTP ${response.status}`);
       }
 
+      // Handle different response types
+      const responseType = options.responseType;
+      if (responseType === 'blob') {
+        return response.blob() as unknown as T;
+      } else if (responseType === 'arraybuffer') {
+        return response.arrayBuffer() as unknown as T;
+      }
+      // Default to JSON parsing
       return response.json();
     } catch (error) {
       clearTimeout(timeoutId);

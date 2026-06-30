@@ -19,9 +19,10 @@ export function LoginPage() {
     setError('');
 
     try {
-      const response = await loginMutation.mutateAsync({ email, password });
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      // Note: Login returns token and user in a single object
+      const loginResult = await loginMutation.mutateAsync({ email, password });
+      localStorage.setItem('token', loginResult.token);
+      localStorage.setItem('user', JSON.stringify(loginResult.user));
       navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur de connexion');

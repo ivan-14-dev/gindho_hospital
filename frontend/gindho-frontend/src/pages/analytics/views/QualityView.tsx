@@ -15,7 +15,15 @@ export function QualityView() {
   const { data: metrics = {} } = useQuery({
     queryKey: ['quality-metrics', dateRange, period, filters],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/quality-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });
+      const start = String(dateRange.start);
+      const end = String(dateRange.end);
+      const params = new URLSearchParams({
+        startDate: start,
+        endDate: end,
+        period: period,
+        ...filters,
+      });
+      const response = await apiClient.get(`/analytics-service/quality-metrics?${params.toString()}`);
       return response.data || {};
     },
   });

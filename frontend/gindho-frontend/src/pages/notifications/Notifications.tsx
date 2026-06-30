@@ -28,12 +28,11 @@ export default function Notifications() {
   const { data: notifications = [], isLoading, refetch } = useQuery({
     queryKey: ['notifications', filterType],
     queryFn: async () => {
-      const response = await apiClient.get('/notification-service/notifications', {
-        params: {
-          unreadOnly: filterType === 'unread',
-          importantOnly: filterType === 'important',
-        },
+      const params = new URLSearchParams({
+        unreadOnly: filterType === 'unread',
+        importantOnly: filterType === 'important',
       });
+      const response = await apiClient.get(`/notification-service/notifications?${params.toString()}`);
       return response.data || [];
     },
   });

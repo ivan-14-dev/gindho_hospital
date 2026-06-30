@@ -16,9 +16,15 @@ export function PatientsView() {
   const { data: metrics = {} } = useQuery({
     queryKey: ['patients-metrics', dateRange, period, filters],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/patients-metrics', {
-        params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters },
+      const start = String(dateRange.start);
+      const end = String(dateRange.end);
+      const params = new URLSearchParams({
+        startDate: start,
+        endDate: end,
+        period: period,
+        ...filters,
       });
+      const response = await apiClient.get(`/analytics-service/patients-metrics?${params.toString()}`);
       return response.data || {};
     },
   });
@@ -26,9 +32,17 @@ export function PatientsView() {
   const { data: chartData = {} } = useQuery({
     queryKey: ['patients-charts', dateRange],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/patients-charts', {
-        params: { startDate: dateRange.start, endDate: dateRange.end },
+      const start = String(dateRange.start);
+      const end = String(dateRange.end);
+      const params = new URLSearchParams({
+        startDate: start,
+        endDate: end,
       });
+      const response = await apiClient.get(`/analytics-service/patients-charts?${params.toString()}`);
+      return response.data || { ageDistribution: [], genderDistribution: [], admissionTrend: [] };
+    },
+  });
+      const response = await apiClient.get(`/analytics-service/patients-charts?${params.toString()}`);
       return response.data || { ageDistribution: [], genderDistribution: [], admissionTrend: [] };
     },
   });

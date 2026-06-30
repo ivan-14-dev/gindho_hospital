@@ -15,7 +15,15 @@ export function ImagingView() {
   const { data: metrics = {} } = useQuery({
     queryKey: ['imaging-metrics', dateRange, period, filters],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/imaging-metrics', { params: { startDate: dateRange.start, endDate: dateRange.end, period, ...filters } });
+      const start = String(dateRange.start);
+      const end = String(dateRange.end);
+      const params = new URLSearchParams({
+        startDate: start,
+        endDate: end,
+        period: period,
+        ...filters,
+      });
+      const response = await apiClient.get(`/analytics-service/imaging-metrics?${params.toString()}`);
       return response.data || {};
     },
   });
@@ -23,7 +31,13 @@ export function ImagingView() {
   const { data: chartData = {} } = useQuery({
     queryKey: ['imaging-charts', dateRange],
     queryFn: async () => {
-      const response = await apiClient.get('/analytics-service/imaging-charts', { params: { startDate: dateRange.start, endDate: dateRange.end } });
+      const start = String(dateRange.start);
+      const end = String(dateRange.end);
+      const params = new URLSearchParams({
+        startDate: start,
+        endDate: end,
+      });
+      const response = await apiClient.get(`/analytics-service/imaging-charts?${params.toString()}`);
       return response.data || { examsPerDay: [], modalityDistribution: [], turnaroundTime: [] };
     },
   });

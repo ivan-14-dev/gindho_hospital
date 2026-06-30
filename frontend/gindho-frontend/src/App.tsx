@@ -31,11 +31,13 @@ const MedicalRecordsPage = lazy(() => import('@/pages/medical-records/MedicalRec
 const LaboratoryPage = lazy(() => import('@/pages/laboratory/Laboratory').then(m => ({ default: m.LaboratoryPage })));
 const PharmacyPage = lazy(() => import('@/pages/pharmacy/Pharmacy').then(m => ({ default: m.PharmacyPage })));
 const PaymentsPage = lazy(() => import('@/pages/payments/Payments').then(m => ({ default: m.PaymentsPage })));
-const AIAssistantPage = lazy(() => import('@/pages/ai/AIAssistant').then(m => ({ default: m.AIAssistantPage })));
-const AnalyticsPage = lazy(() => import('@/pages/analytics/Analytics').then(m => ({ default: m.AnalyticsPage })));
+
+const AIAssistantPage = lazy(() => import('@/pages/ai/AIAssistant').then(m => ({ default: m.AIAssistantPage as React.ComponentType<object> })));
+const AnalyticsPage = lazy(() => import('@/pages/analytics/Analytics').then(m => ({ default: m.AnalyticsPage as React.ComponentType<object> })));
+const ChatPage = lazy(() => import('@/pages/chat/Chat').then(m => ({ default: m.ChatPage as React.ComponentType<object> })));
+
 const EmergencyPage = lazy(() => import('@/pages/emergency/Emergency').then(m => ({ default: m.EmergencyPage as React.ComponentType<object> })));
-const ImagingPage = lazy(() => import('@/pages/imaging/Imaging').then(m => ({ default: m.ImagingPage })));
-const ChatPage = lazy(() => import('@/pages/chat/Chat').then(m => ({ default: m.ChatPage })));
+const ImagingPage = lazy(() => import('@/pages/imaging/Imaging').then(m => ({ default: m.ImagingPage as React.ComponentType<object> })));
 
 const PageLoader = () => (
   <div className="flex items-center justify-center h-screen">
@@ -53,6 +55,7 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
+
 
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 }

@@ -1,5 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Controller } from "react-hook-form";
+import { Label } from "@/components/ui/label";
 
 const Form = React.forwardRef<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>(
   ({ className, ...props }, ref) => (
@@ -15,12 +17,7 @@ const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 );
 FormItem.displayName = "FormItem";
 
-const FormLabel = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<HTMLLabelElement>>(
-  ({ className, ...props }, ref) => (
-    <label ref={ref} className={cn("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70", className)} {...props} />
-  )
-);
-FormLabel.displayName = "FormLabel";
+const FormLabel = Label;
 
 const FormControl = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -43,4 +40,42 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
 );
 FormMessage.displayName = "FormMessage";
 
-export { Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage };
+interface FormFieldProps<T = any> {
+  control?: any;
+  name: string;
+  render: (props: { field: any }) => React.ReactNode;
+  defaultValue?: any;
+  rules?: any;
+  shouldUnregister?: boolean;
+}
+
+const FormField = React.forwardRef<React.ElementRef<any>, FormFieldProps>(
+  ({ control, name, render, defaultValue, rules, shouldUnregister, ...props }, ref) => {
+    if (!control) {
+      console.warn(`FormField: control prop is missing for field "${name}"`);
+      return null;
+    }
+    return (
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={defaultValue}
+        rules={rules}
+        shouldUnregister={shouldUnregister}
+        render={({ field }) => render({ field })}
+        {...props}
+      />
+    );
+  }
+);
+FormField.displayName = "FormField";
+
+export {
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  FormField,
+};

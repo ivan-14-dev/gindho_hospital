@@ -1,43 +1,12 @@
-import { apiClient } from '@/lib/api-client';
-import type { AuthResponse, User } from '@/types';
-
 export const authService = {
   async login(email: string, password: string): Promise<AuthResponse> {
-    const response = await apiClient.post<any>('/api/auth/login', { email, password });
-    return {
-      token: response.data.token,
-      refreshToken: response.data.refreshToken,
-      user: {
-        id: response.data.userId,
-        email: response.data.email,
-        nom: response.data.nom || '',
-        prenom: response.data.prenom || '',
-        role: response.data.role || 'PATIENT',
-        actif: response.data.actif || true,
-        permissions: response.data.permissions || [],
-        dateCreation: response.data.dateCreation,
-        dateModification: response.data.dateModification
-      }
-    } as AuthResponse;
+    const response = await apiClient.post<{ data: AuthResponse }>('/api/auth/login', { email, password });
+    return response.data;
   },
 
   async register(data: { email: string; password: string; nom: string; prenom: string; role?: string }): Promise<AuthResponse> {
-    const response = await apiClient.post<any>('/api/auth/register', data);
-    return {
-      token: response.data.token,
-      refreshToken: response.data.refreshToken,
-      user: {
-        id: response.data.userId,
-        email: response.data.email,
-        nom: data.nom,
-        prenom: data.prenom,
-        role: data.role || 'PATIENT',
-        actif: true,
-        permissions: [],
-        dateCreation: null,
-        dateModification: null
-      }
-    } as AuthResponse;
+    const response = await apiClient.post<{ data: AuthResponse }>('/api/auth/register', data);
+    return response.data;
   },
 
   async forgotPassword(email: string): Promise<void> {
@@ -49,29 +18,12 @@ export const authService = {
   },
 
   async getCurrentUser(): Promise<User> {
-    const response = await apiClient.get<any>('/api/auth/me');
-    return {
-      id: response.data.userId,
-      email: response.data.email,
-      nom: response.data.nom,
-      prenom: response.data.prenom,
-      role: response.data.role,
-      actif: response.data.actif,
-      permissions: response.data.permissions,
-      dateCreation: response.data.dateCreation,
-      dateModification: response.data.dateModification
-    };
+    const response = await apiClient.get<{ data: User }>('/api/auth/me');
+    return response.data;
   },
 
   async getPermissions(): Promise<string[]> {
-    const response = await apiClient.get<any>('/api/auth/me-authorities');
-    return response.data.authorities || [];
-  },
-};
-  },
-
-  async getPermissions(): Promise<string[]> {
-    const response = await apiClient.get<any>('/api/auth/me-authorities');
-    return response.data.authorities || [];
+    const response = await apiClient.get<{ data: string[] }>('/api/auth/me-authorities');
+    return response.data;
   },
 };

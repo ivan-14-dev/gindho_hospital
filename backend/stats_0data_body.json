@@ -1,1 +1,0 @@
-{"timestamp":"2026-05-21T09:42:52.666158879Z","status":405,"error":"Method not allowed","message":"Request method 'POST' is not supported","path":"/api/dashboard/admin/stats/query"}

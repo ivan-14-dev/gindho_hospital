@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gindho.identity.dto.UserPermissionsUpdateRequest;
+
 import java.util.List;
 
 @RestController
@@ -97,9 +99,17 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.ok("Rôle mis à jour", identityService.updateRole(id, request)));
     }
 
+    @PutMapping("/{id}/permissions")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    public ResponseEntity<ApiResponse<AppUserDto>> updatePermissions(
+            @PathVariable Long id,
+            @Valid @RequestBody UserPermissionsUpdateRequest request
+    ) {
+        return ResponseEntity.ok(ApiResponse.ok("Permissions mises à jour", identityService.updatePermissions(id, request.getPermissions())));
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<ApiResponse<AppUserDto>> deleteUser(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok("Utilisateur supprimé", identityService.deleteUser(id)));
-    }
-}
+    }}

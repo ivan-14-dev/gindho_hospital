@@ -219,7 +219,7 @@ export default function AIAssistant() {
           <div className="p-4 border-t space-y-2">
             <div className="flex gap-2">
               <Textarea
-                placeholder="Posez votre question à l'IA..."
+                placeholder="Tapez votre message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {

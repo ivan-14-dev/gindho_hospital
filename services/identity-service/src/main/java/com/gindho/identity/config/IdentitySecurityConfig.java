@@ -25,6 +25,5 @@ public class IdentitySecurityConfig {
                         .jwt(jwt -> jwt
                                 .decoder(JwtDecoders.fromIssuerUri("http://localhost:8080/realms/gindho"))));
         return http.build();
-    }
 }
 }

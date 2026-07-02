@@ -27,6 +27,10 @@ public class SigneVitauxService {
         return repository.findByHospitalisationIdOrderByDateReleveDesc(hospitalisationId).stream().map(this::toDto).toList();
     }
 
+    public List<SigneVitauxDto> listAll() {
+        return repository.findAll().stream().map(this::toDto).toList();
+    }
+
     @Transactional
     public SigneVitauxDto create(SigneVitauxDto dto) {
         SigneVitaux signe = new SigneVitaux();

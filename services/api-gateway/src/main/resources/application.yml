@@ -77,3 +77,4 @@ service:
     authorization-service: http://localhost:9030
     setup-service: http://localhost:9002
     teleconsultation-service: http://localhost:9031
+    chat-service: http://localhost:9033

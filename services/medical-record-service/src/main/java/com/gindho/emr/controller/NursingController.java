@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -35,6 +38,11 @@ public class NursingController {
     @GetMapping("/signes-vitaux/hospitalisation/{hospitalisationId}")
     public ResponseEntity<ApiResponse<Object>> listSignesVitauxHospitalisation(@PathVariable Long hospitalisationId) {
         return ResponseEntity.ok(ApiResponse.of(signeVitauxService.listByHospitalisation(hospitalisationId)));
+    }
+
+    @GetMapping("/signes-vitaux")
+    public ResponseEntity<ApiResponse<Object>> listAllSignesVitaux() {
+        return ResponseEntity.ok(ApiResponse.okList(signeVitauxService.listAll()));
     }
 
     @PostMapping("/signes-vitaux")
@@ -58,6 +66,11 @@ public class NursingController {
         return ResponseEntity.ok(ApiResponse.of(planSoinService.listByHospitalisation(hospitalisationId)));
     }
 
+    @GetMapping("/plans-soins")
+    public ResponseEntity<ApiResponse<Object>> listAllPlansSoins() {
+        return ResponseEntity.ok(ApiResponse.okList(planSoinService.listAll()));
+    }
+
     @PostMapping("/plans-soins")
     public ResponseEntity<ApiResponse<PlanSoinDto>> createPlanSoin(@RequestBody PlanSoinDto dto) {
         return ResponseEntity.ok(ApiResponse.of(planSoinService.create(dto)));
@@ -74,6 +87,11 @@ public class NursingController {
     public ResponseEntity<ApiResponse<Void>> deletePlanSoin(@PathVariable Long id) {
         planSoinService.delete(id);
         return ResponseEntity.ok(ApiResponse.ok("Plan de soin supprimé", null));
+    }
+
+    @GetMapping("/nursing/assigned-patients")
+    public ResponseEntity<ApiResponse<List<Map<String, Object>>>> assignedPatients() {
+        return ResponseEntity.ok(ApiResponse.okList(List.of()));
     }
 
     @GetMapping("/administrations-medicaments/patient/{patientId}")

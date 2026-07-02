@@ -48,6 +48,7 @@
         <module>services/nursing-service</module>
         <module>services/quality-service</module>
         <module>services/teleconsultation-service</module>
+        <module>services/chat-service</module>
     </modules>
     <properties>
         <java.version>21</java.version>

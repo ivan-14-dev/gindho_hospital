@@ -147,7 +147,7 @@ function PatientAssessmentDialog({ roundId }: { roundId: string }) {
 
   async function onSubmit(data: AssessmentData) {
     try {
-      await apiClient.post(`/rounds/${roundId}/assessments`, data);
+      await apiClient.post(`/api/rounds/${roundId}/assessments`, data);
       form.reset();
       setOpen(false);
     } catch (error) {
@@ -357,7 +357,7 @@ export default function MedicalRounds() {
   const { data: assessments } = useQuery({
     queryKey: ['round-assessments'],
     queryFn: async () => {
-      const res = await apiClient.get('/rounds/assessments');
+      const res = await apiClient.get('/api/rounds/assessments');
       return res.data as PatientAssessment[];
     },
   });

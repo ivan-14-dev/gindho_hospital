@@ -241,7 +241,7 @@ function CareTaskDialog() {
 
   async function onSubmit(data: CareTaskData) {
     try {
-      await apiClient.post('/nursing/care-tasks', data);
+      await apiClient.post('/api/plans-soins', data);
       form.reset();
       setOpen(false);
     } catch (error) {
@@ -436,7 +436,7 @@ export default function NursingCare() {
   const { data: hospitalizations = [] } = useQuery<Array<{ id: string; nom?: string; prenom?: string }>>({
     queryKey: ['nursing-patients'],
     queryFn: async () => {
-      const res = await apiClient.get<Array<{ id: string; nom?: string; prenom?: string }>>('/nursing/assigned-patients');
+      const res = await apiClient.get<Array<{ id: string; nom?: string; prenom?: string }>>('/api/nursing/assigned-patients');
       return res ?? [];
     },
   });
@@ -444,7 +444,7 @@ export default function NursingCare() {
   const { data: vitalSigns } = useQuery({
     queryKey: ['vital-signs'],
     queryFn: async () => {
-      const res = await apiClient.get<VitalSigns[]>('/nursing/vital-signs');
+      const res = await apiClient.get<VitalSigns[]>('/api/signes-vitaux');
       return res ?? [];
     },
   });
@@ -452,7 +452,7 @@ export default function NursingCare() {
   const { data: careTasks } = useQuery({
     queryKey: ['care-tasks'],
     queryFn: async () => {
-      const res = await apiClient.get<CareTask[]>('/nursing/care-tasks');
+      const res = await apiClient.get<CareTask[]>('/api/plans-soins');
       return res ?? [];
     },
   });

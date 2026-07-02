@@ -279,7 +279,7 @@ export default function Teleconsultation() {
   const { data: appointments, isLoading } = useQuery({
     queryKey: ['teleconsultations'],
     queryFn: async () => {
-      const res = await apiClient.get('/teleconsultation/appointments');
+      const res = await apiClient.get('/api/teleconsultations');
       return res.data as Appointment[];
     },
   });

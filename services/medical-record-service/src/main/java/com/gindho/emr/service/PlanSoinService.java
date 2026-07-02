@@ -27,6 +27,10 @@ public class PlanSoinService {
         return repository.findByHospitalisationIdOrderByDatePrevuAsc(hospitalisationId).stream().map(this::toDto).toList();
     }
 
+    public List<PlanSoinDto> listAll() {
+        return repository.findAll().stream().map(this::toDto).toList();
+    }
+
     @Transactional
     public PlanSoinDto create(PlanSoinDto dto) {
         PlanSoin plan = new PlanSoin();

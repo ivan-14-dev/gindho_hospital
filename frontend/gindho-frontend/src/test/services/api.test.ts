@@ -11,14 +11,15 @@ describe('API Services', () => {
 
   describe('authApi', () => {
     it('login calls correct endpoint', async () => {
-      const mockResponse = { token: 'test-token', user: { id: '1', email: 'test@test.com' } };
+      const mockResponse = { token: 'test-token', email: 'test@test.com', role: 'ADMIN', userId: 1 };
       (globalThis as any).fetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: async () => ({ data: mockResponse }),
       });
 
       const result = await authApi.login('test@test.com', 'password');
-      expect(result).toEqual(mockResponse);
+      expect(result.token).toBe('test-token');
+      expect(result.user.email).toBe('test@test.com');
       expect((globalThis as any).fetch).toHaveBeenCalledWith(
         expect.stringContaining('/api/auth/login'),
         expect.objectContaining({
@@ -29,14 +30,15 @@ describe('API Services', () => {
     });
 
     it('getCurrentUser calls correct endpoint', async () => {
-      const mockUser = { id: '1', email: 'test@test.com', nom: 'Test', prenom: 'User' };
+      const mockUser = { userId: 1, email: 'test@test.com', role: 'ADMIN', authorities: ['ROLE_ADMIN'] };
       (globalThis as any).fetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => mockUser,
+        json: async () => ({ data: mockUser }),
       });
 
       const result = await authApi.getCurrentUser();
-      expect(result).toEqual(mockUser);
+      expect(result.email).toBe('test@test.com');
+      expect(result.role).toBe('ADMIN');
     });
   });
 

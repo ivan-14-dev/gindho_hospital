@@ -36,7 +36,7 @@ export default function Reporting() {
   const { data: reports = [], isLoading, refetch } = useQuery<Report[]>({
     queryKey: ['reports', filterType],
     queryFn: async (): Promise<Report[]> => {
-      const response = await apiClient.get<ApiResponse<Report[]>>('/reporting-service/reports', {
+      const response = await apiClient.get<ApiResponse<Report[]>>('/api/reports', {
         params: { type: filterType !== 'all' ? filterType : undefined },
       });
       return response.data ?? [];
@@ -45,7 +45,7 @@ export default function Reporting() {
 
   const generateReportMutation = useMutation({
     mutationFn: async (params: any) => {
-      const response = await apiClient.post('/reporting-service/reports/generate', {
+      const response = await apiClient.post('/api/reports', {
         type: reportType,
         format: 'pdf',
         dateDebut: dateRange.start,
@@ -62,17 +62,17 @@ export default function Reporting() {
 
   const deleteReportMutation = useMutation({
     mutationFn: async (reportId: string) => {
-      await apiClient.delete(`/reporting-service/reports/${reportId}`);
+      await apiClient.delete(`/api/reports/${reportId}`);
     },
     onSuccess: () => refetch(),
   });
 
   const downloadReportMutation = useMutation({
     mutationFn: async (report: Report) => {
-      const response = await apiClient.get<Blob>(`/reporting-service/reports/${report.id}/download`, {
+      await apiClient.get<Blob>(`/api/reports/${report.id}/download`, {
         responseType: 'blob',
       });
-      const url = window.URL.createObjectURL(response);
+      const url = window.URL.createObjectURL(await apiClient.get<Blob>(`/api/reports/${report.id}/download`, { responseType: 'blob' }));
       const link = document.createElement('a');
       link.href = url;
       link.download = `${report.titre}.${report.format}`;

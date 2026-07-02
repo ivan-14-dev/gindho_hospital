@@ -9,11 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class TeleconsultationController {
 
     private final TeleconsultationService teleconsultationService;
+
+    @GetMapping("/api/teleconsultations")
+    public ResponseEntity<ApiResponse<List<Teleconsultation>>> list() {
+        return ResponseEntity.ok(ApiResponse.okList(teleconsultationService.findAll()));
+    }
 
     @PostMapping("/api/teleconsultations")
     public ResponseEntity<ApiResponse<Teleconsultation>> create(@Valid @RequestBody Teleconsultation teleconsultation) {

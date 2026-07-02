@@ -14,8 +14,10 @@ plugins:
   - name: cors
     config:
       origins:
-        - http://localhost:9300    # React dev
+        - http://localhost
+        - http://localhost:80
         - http://localhost:5173    # Vite dev
+        - http://localhost:9300    # Grafana/react dev
         - http://localhost:9041    # Kong Proxy
         - https://*.gindho.com
       methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]

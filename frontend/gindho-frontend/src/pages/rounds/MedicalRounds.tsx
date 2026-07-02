@@ -58,7 +58,7 @@ function ScheduleRoundDialog() {
 
   async function onSubmit(data: RoundFormData) {
     try {
-      await apiClient.post('/rounds/schedule', {
+      await apiClient.post('/api/rondes', {
         ...data,
         status: 'scheduled',
       });

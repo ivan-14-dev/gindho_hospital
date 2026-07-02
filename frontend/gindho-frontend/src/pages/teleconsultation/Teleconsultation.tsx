@@ -52,7 +52,7 @@ function ScheduleDialog() {
 
   async function onSubmit(data: TeleconsultFormData) {
     try {
-      await apiClient.post('/teleconsultation/schedule', {
+      await apiClient.post('/api/teleconsultations', {
         ...data,
         type: 'TELECONSULTATION',
         status: 'SCHEDULED',

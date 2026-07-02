@@ -421,7 +421,7 @@ export function DashboardMultiRole() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Tableau de bord</h1>
-          <p className="text-muted-foreground">Bienvenue, {user.prenom} {user.nom}</p>
+          <p className="text-muted-foreground">Bienvenue, {user.email}</p>
         </div>
         <Badge className="text-base px-3 py-1">{user.role}</Badge>
       </div>

@@ -5,7 +5,7 @@
 if [ ! -f /usr/share/nginx/html/runtime-config.json ]; then
     cat > /usr/share/nginx/html/runtime-config.json << EOF
 {
-  "gatewayUrl": "${VITE_GATEWAY_URL:-http://localhost:9001}",
+  "gatewayUrl": "${VITE_GATEWAY_URL:-http://localhost:8000}",
   "keycloakUrl": "${VITE_KEYCLOAK_URL:-http://localhost:9004}",
   "keycloakRealm": "${VITE_KEYCLOAK_REALM:-gindho}",
   "keycloakClientId": "${VITE_KEYCLOAK_CLIENT_ID:-gindho-frontend}",

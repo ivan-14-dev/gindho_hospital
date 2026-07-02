@@ -45,7 +45,7 @@ function CreatePODialog() {
 
   async function onSubmit(data: POFormData) {
     try {
-      await apiClient.post('/procurement/orders', {
+      await apiClient.post('/api/procurement/orders', {
         ...data,
         status: 'draft',
         items: [],

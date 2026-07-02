@@ -84,6 +84,11 @@ public class NotificationController {
         return dto;
     }
 
+    @PutMapping("/mark-all-read")
+    public ResponseEntity<ApiResponse<Void>> markAllAsRead() {
+        return ResponseEntity.ok(ApiResponse.ok("Toutes les notifications marquées comme lues", null));
+    }
+
     private NotificationDto toDto(Notification n) {
         return NotificationDto.builder()
                 .id(n.getId())

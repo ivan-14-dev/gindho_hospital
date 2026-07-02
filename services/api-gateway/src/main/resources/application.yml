@@ -76,3 +76,4 @@ service:
     audit-service: http://localhost:9029
     authorization-service: http://localhost:9030
     setup-service: http://localhost:9002
+    teleconsultation-service: http://localhost:9031

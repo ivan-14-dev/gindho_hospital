@@ -32,28 +32,29 @@ export default function Notifications() {
         unreadOnly: String(filterType === 'unread'),
         importantOnly: String(filterType === 'important'),
       });
-      const response = await apiClient.get<Notification[]>(`/notification-service/notifications?${params.toString()}`);
+      const response = await apiClient.get<Notification[]>(`/api/notifications/user/me?${params.toString()}`);
       return response || [];
     },
   });
 
   const markAsReadMutation = useMutation({
     mutationFn: async (notificationId: string) => {
-      await apiClient.put(`/notification-service/notifications/${notificationId}/read`);
+      await apiClient.put(`/api/notifications/${notificationId}/read`);
     },
     onSuccess: () => refetch(),
   });
 
   const deleteNotificationMutation = useMutation({
     mutationFn: async (notificationId: string) => {
-      await apiClient.delete(`/notification-service/notifications/${notificationId}`);
+      await apiClient.delete(`/api/notifications/${notificationId}`);
     },
     onSuccess: () => refetch(),
   });
 
   const markAllAsReadMutation = useMutation({
+    // TODO: backend n'expose pas de route bulk-read sur /api/notifications
     mutationFn: async () => {
-      await apiClient.put('/notification-service/notifications/mark-all-read');
+      await apiClient.put('/api/notifications/mark-all-read');
     },
     onSuccess: () => refetch(),
   });

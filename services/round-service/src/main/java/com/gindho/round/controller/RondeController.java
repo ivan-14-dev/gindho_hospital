@@ -2,7 +2,7 @@ package com.gindho.round.controller;
 import com.gindho.round.model.*; import com.gindho.round.service.RondeService;
 import com.gindho.base.ApiResponse; import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity; import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate; import java.util.List;
+import java.time.LocalDate; import java.util.List; import java.util.Map;
 @RestController @RequestMapping("/api/rounds") @RequiredArgsConstructor
 public class RondeController {
     private final RondeService rondeService;
@@ -15,5 +15,21 @@ public class RondeController {
     @GetMapping("/patient/{patientId}") public ResponseEntity<ApiResponse<List<Ronde>>> getByPatient(@PathVariable Long patientId) { return ResponseEntity.ok(ApiResponse.of(rondeService.getByPatient(patientId))); }
     @GetMapping("/medecin/{medecinId}") public ResponseEntity<ApiResponse<List<Ronde>>> getByMedecin(@PathVariable Long medecinId, @RequestParam(required=false) String date) {
         return ResponseEntity.ok(ApiResponse.of(rondeService.getByMedecin(medecinId, LocalDate.now())));
+    }
+
+    @PostMapping("/{id}/assessments")
+    public ResponseEntity<ApiResponse<CompteRenduRonde>> createAssessment(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        String contenu = body.getOrDefault("contenu", body.getOrDefault("compteRendu", ""));
+        return ResponseEntity.ok(ApiResponse.of(rondeService.createAssessment(id, contenu)));
+    }
+
+    @GetMapping("/assessments")
+    public ResponseEntity<ApiResponse<List<CompteRenduRonde>>> listAssessments() {
+        return ResponseEntity.ok(ApiResponse.okList(rondeService.listAssessments()));
+    }
+
+    @GetMapping("/{id}/assessments")
+    public ResponseEntity<ApiResponse<List<CompteRenduRonde>>> getAssessmentsByRonde(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.okList(rondeService.getAssessmentsByRonde(id)));
     }
 }

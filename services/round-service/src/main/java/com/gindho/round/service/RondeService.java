@@ -31,4 +31,20 @@ public class RondeService {
     @Transactional(readOnly=true) public List<Ronde> getByMedecin(Long medId, LocalDate date) {
         return rondeRepo.findByMedecinResponsableIdAndDateRondeBetween(medId, date.atStartOfDay(), date.atTime(23, 59));
     }
+
+    public CompteRenduRonde createAssessment(Long rondeId, String contenu) {
+        CompteRenduRonde cr = new CompteRenduRonde();
+        cr.setRondeId(rondeId);
+        cr.setContenu(contenu);
+        cr.setStatut(StatutCompteRendu.TERMINE);
+        return crRepo.save(cr);
+    }
+
+    @Transactional(readOnly=true) public List<CompteRenduRonde> listAssessments() {
+        return crRepo.findAll();
+    }
+
+    @Transactional(readOnly=true) public List<CompteRenduRonde> getAssessmentsByRonde(Long rondeId) {
+        return crRepo.findByRondeId(rondeId).map(List::of).orElseGet(List::of);
+    }
 }

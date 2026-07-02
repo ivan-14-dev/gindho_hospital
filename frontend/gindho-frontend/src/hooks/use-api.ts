@@ -118,8 +118,7 @@ export const useLogin = () => {
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       api.authApi.login(email, password),
     onSuccess: (data) => {
-      localStorage.setItem('token', (data.accessToken || data.token) ?? '');
-      if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
+      localStorage.setItem('token', data.token);
       queryClient.setQueryData(QUERY_KEYS.AUTH_USER, data.user);
     },
   });

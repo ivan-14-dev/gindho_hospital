@@ -15,6 +15,7 @@
     "test:security": "npm run typecheck",
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test --project=chromium",
+    "verify:apis": "npx tsx src/scripts/verify-apis.ts",
     "audit:unused": "ts-prune --noEval --ignore '@ Vite' --ignore 'vite/client'",
     "preview": "vite preview"
   },

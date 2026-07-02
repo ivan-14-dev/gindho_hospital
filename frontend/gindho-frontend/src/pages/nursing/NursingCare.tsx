@@ -76,7 +76,7 @@ function VitalSignDialog() {
 
   async function onSubmit(data: VitalSignData) {
     try {
-      await apiClient.post('/nursing/vital-signs', {
+      await apiClient.post('/api/signes-vitaux', {
         ...data,
         timestamp: new Date().toISOString(),
       });

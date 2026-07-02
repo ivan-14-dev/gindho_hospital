@@ -472,6 +472,31 @@ services:
       retries: 3
       start_period: 40s
 
+  teleconsultation-service:
+    build:
+      context: ../services/teleconsultation-service
+      dockerfile: Dockerfile
+    container_name: gindho-teleconsultation-service
+    profiles: [services, all]
+    ports: ["9030:9030"]
+    environment:
+      - SERVER_PORT=9030
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/teleconsultation_service
+      - DB_USERNAME=${DB_USERNAME:-gindho}
+      - DB_PASSWORD=${DB_PASSWORD:-gindho123}
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - JWT_SECRET=${JWT_SECRET:-mySecretKeyForJWTTokenGeneration1234567890}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      postgres: { condition: service_healthy }
+      kafka: { condition: service_started }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9030/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
   round-service:
     build:
       context: ../services/round-service
